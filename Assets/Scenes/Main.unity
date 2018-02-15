@@ -123,6 +123,8 @@ GameObject:
   - component: {fileID: 1027163974}
   - component: {fileID: 1027163973}
   - component: {fileID: 1027163972}
+  - component: {fileID: 1027163975}
+  - component: {fileID: 1027163976}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -198,12 +200,44 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1027163971}
   m_LocalRotation: {x: 0, y: -0, z: -0.011080687, w: 0.9999386}
-  m_LocalPosition: {x: -1.3674756, y: 0.276568, z: 0}
+  m_LocalPosition: {x: -1.388, y: 0.259, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.2700001}
+--- !u!114 &1027163975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1027163971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b89be9028517740894adcdec8915de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 10
+--- !u!50 &1027163976
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1027163971}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1761966980
 GameObject:
   m_ObjectHideFlags: 0
