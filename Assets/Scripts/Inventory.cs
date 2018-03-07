@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: setup save / load system for items.
+// This could be trivially:
+// itemID,numItems
 public class Inventory : MonoBehaviour {
 
 	GameObject inventoryPanel; // Holds slot panel
@@ -35,6 +38,10 @@ public class Inventory : MonoBehaviour {
 			allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
 		}
 
+		// Load ID's and add items here
+
+
+		// This is just here to show off the functionality of the inventory...
 		addItem (0);
 		addItem (1);
 		addItem (2);
@@ -42,6 +49,7 @@ public class Inventory : MonoBehaviour {
 		addItem (4);
 		addItem (5);
 
+		inventoryPanel.SetActive (false);
 	}
 
 	public void addItem(int id) {
@@ -81,6 +89,14 @@ public class Inventory : MonoBehaviour {
 		}
 		return false;
 		// Otherwise return -1(bad item id)
+	}
+
+	public void toggleActive() {
+		inventoryPanel.SetActive (!inventoryPanel.activeSelf);
+
+		// Shut down the tooltip too, if it is active
+		GetComponent<ToolTip>().deactivate();
+
 	}
 
 	// Update is called once per frame

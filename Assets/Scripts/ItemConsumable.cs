@@ -14,7 +14,7 @@ public class ItemConsumable : AdventureItem {
 
 	public override string getDataStr()
 	{
-		return base.getDataStr () + "HP restored: " + HpRestored;
+		return base.getDataStr () + "\nHP restored: " + HpRestored;
 	}
 
 	public override string dbStr()

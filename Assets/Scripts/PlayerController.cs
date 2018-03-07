@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour {
 
     Animator anim;
     Rigidbody2D rb2d;
-    
+	Inventory inv;
+	bool isInvOpen; // Used to block input to player while inventory is open
 
     // Use this for initialization
     void Start () {
@@ -16,11 +17,25 @@ public class PlayerController : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
         anim.SetInteger("direction", 3);
         anim.SetBool("moving", false);
+		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
+		isInvOpen = false; // Assume the inventory is closed upon loading
+	}
 
+	void Update() {
+		// Toggle the inventory
+		if (Input.GetKeyDown (KeyCode.I)) {
+			inv.toggleActive ();
+			isInvOpen = !isInvOpen;
+		}
 	}
 	
-	// Update is called once per frame
+	// Fixed Update is called once per frame
 	void FixedUpdate () {
+
+		// Block input while inentory is open
+		if (isInvOpen) {
+			return;
+		}
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
