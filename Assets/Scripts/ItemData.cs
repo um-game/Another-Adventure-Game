@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
-public class ItemData : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
 	public AdventureItem item;
@@ -56,9 +56,9 @@ public class ItemData : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDr
 		tooltip.deactivate ();
 	}
 
-	// These next few methods define moft of the 'drag and drop' behavior
-	public void OnPointerDown(PointerEventData eventData)
-	{
+	// These next few methods define most of the 'drag and drop' behavior
+	public void OnBeginDrag(PointerEventData eventData) {
+
 		// If we click an item, grab it.
 		if (item != null) {
 			this.transform.SetParent(this.transform.parent.parent); // Change parent to canvas so item is rendered on top of slots
