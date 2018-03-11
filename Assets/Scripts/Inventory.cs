@@ -79,12 +79,31 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
+	public void removeItem(AdventureItem itemToRemove) {
+		
+
+		for(int i = 0; i < allItems.Count; i++) {
+			
+			if (itemToRemove.ID == allItems[i].ID) {
+				
+				ItemData currData = allSlots [i].transform.GetChild (0).GetComponent<ItemData> ();
+				currData.decreaseAmt (1);
+				if(currData.amt == 0) {
+					currData.removeItem ();
+					allSlots [i].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
+					allSlots[i].transform.DetachChildren();
+					allItems [i] = new AdventureItem ();
+				}
+			}
+		}
+	}
+
 	bool itemAlreadyExists(AdventureItem item) {
 
 		for (int i = 0; i < allItems.Count; i++) {
 			if (allItems [i].ID == item.ID) {
 				return true;
-				// Return index instead, then use that, this circumvents redundantly looping thrrough the items again
+				// Return index instead, then use that, this circumvents redundantly looping through the items again
 			}
 		}
 		return false;
@@ -94,9 +113,9 @@ public class Inventory : MonoBehaviour {
 	public void toggleActive() {
 		inventoryPanel.SetActive (!inventoryPanel.activeSelf);
 
-		// Shut down the tooltip too, if it is active
+		// Shut down the tooltip and itemMenu too, if it is active
 		GetComponent<ToolTip>().deactivate();
-
+		GetComponent<ItemMenu> ().deactivate ();
 	}
 
 	// Update is called once per frame

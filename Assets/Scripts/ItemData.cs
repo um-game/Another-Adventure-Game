@@ -5,20 +5,22 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
-public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
 	public AdventureItem item;
-	public int amt;
+	public int amt { get; set; }
 	public int slotId; // Keep track of which slot we are in
 
 	ToolTip tooltip;
 	Inventory inv;
+	ItemMenu itemMenu;
 
 	// Use this for initialization
 	void Start () {
 		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
 		tooltip = inv.GetComponent<ToolTip> ();
+		itemMenu = inv.GetComponent<ItemMenu> ();
 	}
 	
 	// Update is called once per frame
@@ -44,7 +46,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		this.amt -= amt;
 		this.transform.GetChild(0).GetComponent<Text> ().text = this.amt.ToString(); // Update label to reflect change in amount
 	}
-
+		
 	// OnPointerEnter/Exit are fired when the pointer hovers over / moves off of the entity this script is attatched to
 	public void OnPointerEnter(PointerEventData eventData)
 	{
@@ -54,6 +56,15 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void OnPointerExit(PointerEventData eventData)
 	{
 		tooltip.deactivate ();
+	}
+
+	public void OnPointerClick(PointerEventData evenData) {
+		if (item != null) {
+			itemMenu.activate (item);
+		} else {
+			itemMenu.deactivate (); // Deactivate if player clicks elsehwere?
+		}
+
 	}
 
 	// These next few methods define most of the 'drag and drop' behavior
