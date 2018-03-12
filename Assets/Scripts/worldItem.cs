@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class worldItem : MonoBehaviour {
 
+	public int id { get; set; }
+	public Sprite sprite { get; set; }
+
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	void onTriggerEnter(Collider other){
-		Debug.Log ("triggered");
+		id = 5;
 	}
 }

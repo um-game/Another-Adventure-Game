@@ -71,9 +71,10 @@ public class Inventory : MonoBehaviour {
 
 				itemObject.GetComponent<ItemData>().init(itemToAdd, i); // Initialize itemData
 				itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
-				itemObject.transform.position = Vector2.zero; // Center item in slot
+				itemObject.transform.localPosition = Vector2.zero; // Center item in slot
 				itemObject.GetComponent<Image>().sprite = itemToAdd.Sprite; // Replace default sprite w/ item sprite
 				itemObject.name = itemToAdd.Title; // Set name of prefab to name of item(for convenience)
+				printSlots();
 				return;
 			}
 		}
@@ -120,4 +121,17 @@ public class Inventory : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {}
+
+	private void printInv() {
+		foreach (AdventureItem item in allItems) {
+			Debug.Log (item.getDataStr());
+		}
+	}
+
+	private void printSlots() {
+
+		foreach (GameObject obj in allSlots) {
+			Debug.Log(obj.transform.childCount);
+		}
+	}
 }
