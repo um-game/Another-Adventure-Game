@@ -93,7 +93,7 @@ public class Player: MonoBehaviour {
 			menuOpen = true;
 		}
 	}
-
+		
 	private void toggleInventory () {
 		inv.toggleActive ();
 		isInvOpen = !isInvOpen;
