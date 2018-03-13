@@ -7,7 +7,11 @@ public class Player: MonoBehaviour {
     public float maxSpeed;
 
     Animator anim;
-    Rigidbody2D rb2d;
+	Rigidbody2D rb2d;
+	Inventory inv;
+	bool isInvOpen; // Used to block input to player while inventory is open
+	bool menuOpen;
+	PickupMenu pickupMenu;
     
 
     // Use this for initialization
@@ -17,10 +21,28 @@ public class Player: MonoBehaviour {
         anim.SetInteger("direction", 3);
         anim.SetBool("moving", false);
 
+		pickupMenu = GetComponent<PickupMenu> ();
+
+		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
+		isInvOpen = false; // Assume the inventory is closed upon loading
+		menuOpen = false;
+
+	}
+
+	void Update() {
+		// Toggle the inventory(if aother menu isnt already open
+		if (!menuOpen && Input.GetKeyDown (KeyCode.I) ) {
+			toggleInventory ();
+		}
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
+		// Block input while inentory is open
+		if (menuOpen || isInvOpen) {
+			return;
+		}
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -54,8 +76,39 @@ public class Player: MonoBehaviour {
         else {
             anim.SetBool("moving", false);
             rb2d.velocity = new Vector2(0, 0);
-        }
-        
-        
+        }   
     }
+
+	// This method is fired whenever the Player's collider passes through an 'isTrigger' collider
+	void OnTriggerEnter2D(Collider2D other){
+
+		// Check if trigger is world item
+		worldItem itemDat = other.gameObject.GetComponent<worldItem> ();
+		if (itemDat != null) {
+			// Stop player
+			anim.SetBool("moving", false);
+			rb2d.velocity = new Vector2(0, 0);
+
+			pickupMenu.activate (itemDat.id, other.gameObject);
+			menuOpen = true;
+		}
+	}
+
+	private void toggleInventory () {
+		inv.toggleActive ();
+		isInvOpen = !isInvOpen;
+
+		// Stop player
+		anim.SetBool("moving", false);
+		rb2d.velocity = new Vector2(0, 0);
+	}
+
+	public void addItemToInv(int id) {
+		inv.addItem (id);
+		menuOpen = false;
+	}
+
+	public void closeMenu() {
+		menuOpen = false;
+	}
 }
