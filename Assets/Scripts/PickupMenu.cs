@@ -17,16 +17,14 @@ public class PickupMenu : MonoBehaviour {
 		player = GetComponent<Player> ();
 		buttons = pickupMenu.GetComponentsInChildren<Button> ();
 		pickupMenu.SetActive (false);
+		buttons [0].onClick.AddListener (pickupAction);
+		buttons [1].onClick.AddListener (cancelAction);
 	}
 
 	public void activate(int itemId, GameObject obj) {
 
 		pickupMenu.SetActive (true);
-
-
-		buttons [0].onClick.AddListener (pickupAction);
-		buttons [1].onClick.AddListener (cancelAction);
-
+	
 		this.itemId = itemId;
 		this.obj = obj;
 	}
