@@ -18,8 +18,12 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collision) {
 		this.gameObject.SetActive (false);
-		Instantiate (item);
-		//item.transform.position = new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y + 1, 0);
 		Destroy (this.gameObject);
 	}
+
+    private void OnDestroy()
+    {
+        Instantiate(item, transform.position, item.transform.rotation);
+        //item.transform.position = new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y + 1, 0);
+    }
 }
