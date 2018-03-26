@@ -81,7 +81,7 @@ public class Inventory : MonoBehaviour {
 
 	public void removeItem(AdventureItem itemToRemove) {
 		
-
+		Debug.Log ("Removing " + itemToRemove.dbStr ());
 		for(int i = 0; i < allItems.Count; i++) {
 			
 			if (itemToRemove.ID == allItems[i].ID) {
@@ -93,6 +93,7 @@ public class Inventory : MonoBehaviour {
 					allSlots [i].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
 					allSlots[i].transform.DetachChildren();
 					allItems [i] = new AdventureItem ();
+					return;
 				}
 			}
 		}

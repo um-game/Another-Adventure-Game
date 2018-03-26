@@ -13,15 +13,14 @@ public class ItemMenu : MonoBehaviour {
 	void Start () {
 		itemMenu = GameObject.Find ("itemMenu");
 		buttons = itemMenu.GetComponentsInChildren<Button> ();
+		buttons [0].onClick.AddListener (useAction);
+		buttons [1].onClick.AddListener (removeAction);
 		itemMenu.SetActive(false);
 	}
 
 	public void activate(AdventureItem item) {
 
 		itemMenu.SetActive (true);
-
-		buttons [0].onClick.AddListener (useAction);
-		buttons [1].onClick.AddListener (removeAction);
 
 		this.item = item;
 	}
