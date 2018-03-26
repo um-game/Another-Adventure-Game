@@ -9,13 +9,17 @@ public class ItemMenu : MonoBehaviour {
 	Button[] buttons;
 	AdventureItem item;
 
+	Player player;
+
 	// Use this for initialization
 	void Start () {
 		itemMenu = GameObject.Find ("itemMenu");
 		buttons = itemMenu.GetComponentsInChildren<Button> ();
 		buttons [0].onClick.AddListener (useAction);
-		buttons [1].onClick.AddListener (removeAction);
+		buttons [1].onClick.AddListener (dropAction);
+		buttons [2].onClick.AddListener (cancelAction);
 		itemMenu.SetActive(false);
+		player = GameObject.Find ("player").GetComponent<Player> ();
 	}
 
 	public void activate(AdventureItem item) {
@@ -29,23 +33,21 @@ public class ItemMenu : MonoBehaviour {
 		itemMenu.SetActive (false);
 	}
 
-	// Update is called once per frame
-	void Update () {
-
-
-	}
-		
-
 	void useAction(){
 
 		Debug.Log ("clicked use button");
-
+		player.useItem (item);
+		player.printStats ();
 		itemMenu.SetActive (false);
 	}
 
-	void removeAction(){
+	void dropAction(){
 		Debug.Log ("clicked remove button");
 		GetComponent<Inventory> ().removeItem (item);
 		itemMenu.SetActive (false);
+	}
+
+	void cancelAction(){
+		deactivate ();
 	}
 }
