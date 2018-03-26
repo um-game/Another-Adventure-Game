@@ -42,13 +42,15 @@ public class AdventureItem
 		ID = -1;
 	}
 
-	virtual public string getDataStr() {
-
+	virtual public string getDataStr() 
+	{
 		return "Name: " + Title + "\nValue: " + Value + "\nRarity: " + Rarity; 
-
 	}
 
-	virtual public string dbStr() {
+	virtual public string dbStr() 
+	{
 		return "Name: " + Title + " Value: " + Value + " Rarity: " + Rarity + " sprite name: " + this.Sprite.name;
 	}
+
+	public virtual void use (Player player){}
 }

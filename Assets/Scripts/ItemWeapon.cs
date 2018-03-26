@@ -21,4 +21,9 @@ public class ItemWeapon : AdventureItem {
 	{
 		return base.dbStr() + " Atttack: " + Atk;
 	}
+
+	public override void use(Player player)
+	{
+		player.setWeapon (this);
+	}
 }

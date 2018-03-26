@@ -21,4 +21,9 @@ public class ItemConsumable : AdventureItem {
 	{
 		return base.dbStr() + " Hp Restored: " + HpRestored;
 	}
+
+	public override void use(Player player)
+	{
+		player.health += HpRestored;
+	}
 }

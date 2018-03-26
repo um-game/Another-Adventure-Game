@@ -23,4 +23,9 @@ public class ItemArmor : AdventureItem {
 	{
 		return base.dbStr() + " Defense: " + Def;
 	}
+
+	public override void use(Player player)
+	{
+		player.setArmor (this);
+	}
 }
