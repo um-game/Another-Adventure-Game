@@ -12,7 +12,13 @@ public class Player: MonoBehaviour {
 	bool isInvOpen; // Used to block input to player while inventory is open
 	bool menuOpen;
 	PickupMenu pickupMenu;
+	int attack;
+	int defense;
     
+	public int health { get; set; }
+
+	ItemWeapon weapon;
+	ItemArmor armor;
 
     // Use this for initialization
     void Start () {
@@ -27,6 +33,9 @@ public class Player: MonoBehaviour {
 		isInvOpen = false; // Assume the inventory is closed upon loading
 		menuOpen = false;
 
+		health = 100;
+		attack = 10; // Base attack
+		weapon = new ItemWeapon();
 	}
 
 	void Update() {
@@ -110,5 +119,42 @@ public class Player: MonoBehaviour {
 
 	public void closeMenu() {
 		menuOpen = false;
+	}
+
+	public void setWeapon(ItemWeapon newWeapon) {
+
+		// If we did not have anything equipped, don't reduce attack
+		if (this.weapon.ID != -1) {
+			attack -= this.weapon.Atk;
+		}
+		attack += newWeapon.Atk;
+
+		this.weapon = newWeapon;
+	}
+
+	public void setArmor(ItemArmor newArmor){
+		if (this.armor.ID != -1) {
+			this.defense -= this.armor.Def;
+		}
+
+		this.defense += newArmor.Def;
+
+		this.armor = newArmor;
+	}
+
+	public void useItem(AdventureItem item) {
+
+		// Can check type and act accordingly or create use function and pass player
+
+		Debug.Log(item.GetType ().ToString ());
+
+		item.use (this);
+		inv.removeItem (item);
+	}
+
+	public void printStats()
+	{
+		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "Weapon: " 
+			+ weapon.Title + "\nArmor: " + armor.Title);
 	}
 }
