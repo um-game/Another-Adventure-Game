@@ -8,20 +8,11 @@
 			"stackable": true, 
 			"rarity": 1,
 			"def": 10
-		},
-		{
-			"id": 1,
-			"title": "Shield",
-			"value": 543,
-			"slug": "shieldd",
-			"stackable": false,
-			"rarity": 5,
-			"def": 15
 		}
 	], 
 	"weapon" : [
 		{
-			"id": 2,
+			"id": 1,
 			"title": "Sword",
 			"value": 543,
 			"slug": "sword",
@@ -30,13 +21,22 @@
 			"atk": 20
 		}, 
 		{
-			"id": 3,
+			"id": 2,
 			"title": "Steel Sword",
 			"value": 543,
 			"slug": "steel_sword",
 			"stackable": false,
 			"rarity": 2,
 			"atk": 25
+		},
+		{
+			"id": 3,
+			"title": "Shield",
+			"value": 543,
+			"slug": "shieldd",
+			"stackable": false,
+			"rarity": 5,
+			"atk": 0
 		}
 	], 
 	"consumable" : [
