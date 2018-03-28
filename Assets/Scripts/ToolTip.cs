@@ -15,25 +15,19 @@ public class ToolTip : MonoBehaviour {
 		tooltip.SetActive(false); // Do not want it to pop up on game load
 	}
 	
-	// Update is called once per frame
-	void Update () {}
-
 	public void activate(AdventureItem item)
 	{
 		this.item = item;
 		constructDataStr ();
+		tooltip.transform.position = Input.mousePosition + new Vector3 (10.0f, 60.0f, 0.0f);
 		tooltip.SetActive(true);
-
 	}
-
-
+		
 	public void deactivate()
 	{
 		tooltip.SetActive (false);
 	}
-
-
-
+		
 	public void constructDataStr()
 	{
 		// Change the tooltip text to match item data
