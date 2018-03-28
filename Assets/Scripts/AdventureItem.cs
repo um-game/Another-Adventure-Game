@@ -4,6 +4,8 @@ using UnityEngine;
 
 // Regular old classes can be used at will throughout the project as long as they are located within Unity's Assets folder
 
+// These enumerated types correspond to their respective slots in the equipment window
+public enum ItemType {head, weapon, chest, shield, pants}; 
 
 // This class will be the base class for all items.
 public class AdventureItem 
@@ -17,6 +19,8 @@ public class AdventureItem
 	public bool IsStackable { get; set; }
 
 	public int Rarity { get; set; }
+
+	public  ItemType itemType { get; set; }
 
 	// This is used to get the sprite associiated with this particular item
 	// As such, it should match the filename of the sprite(

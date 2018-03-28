@@ -10,6 +10,12 @@ public class ItemArmor : AdventureItem {
 
 	public ItemArmor(int id, string title, int value, bool isStackable, string slug, int rarity, Sprite sprite, int def) : base(id, title, value, isStackable, slug, rarity, sprite)  {
 		this.Def = def;
+
+		if(title.Contains("chest")) {
+			this.itemType = ItemType.chest;
+		} else {
+			this.itemType = ItemType.head;
+		}
 	}
 
 	public ItemArmor() : base(){}
