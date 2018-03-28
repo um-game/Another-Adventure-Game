@@ -9,6 +9,7 @@ public class Player: MonoBehaviour {
     Animator anim;
 	Rigidbody2D rb2d;
 	Inventory inv;
+	Equipment equip;
 	bool isInvOpen; // Used to block input to player while inventory is open
 	bool menuOpen;
 	PickupMenu pickupMenu;
@@ -18,6 +19,7 @@ public class Player: MonoBehaviour {
 	public int health { get; set; }
 
 	ItemWeapon weapon;
+	ItemWeapon shield;
 	ItemArmor armor;
 
     // Use this for initialization
@@ -29,6 +31,7 @@ public class Player: MonoBehaviour {
 
 		pickupMenu = GetComponent<PickupMenu> ();
 
+		equip = GameObject.Find ("Equipment").GetComponent<Equipment>();
 		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
 		isInvOpen = false; // Assume the inventory is closed upon loading
 		menuOpen = false;
@@ -106,7 +109,10 @@ public class Player: MonoBehaviour {
 	}
 		
 	private void toggleInventory () {
+
+		// Toggle inventory and equipment
 		inv.toggleActive ();
+		equip.toggleActive ();
 		isInvOpen = !isInvOpen;
 
 		// Stop player
@@ -125,13 +131,23 @@ public class Player: MonoBehaviour {
 
 	public void setWeapon(ItemWeapon newWeapon) {
 
-		// If we did not have anything equipped, don't reduce attack
-		if (this.weapon.ID != -1) {
+
+		// If we did not have anything equipped and not shield, don't reduce attack
+		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
 			attack -= this.weapon.Atk;
 		}
+
+		// Add new new weapon's attack
 		attack += newWeapon.Atk;
 
-		this.weapon = newWeapon;
+		if (newWeapon.itemType == ItemType.weapon) {
+			this.weapon = newWeapon;
+		} else {
+			this.shield = newWeapon;
+		}
+
+		// Put in equipment
+		equip.addItem (newWeapon.ID);
 	}
 
 	public void setArmor(ItemArmor newArmor){
@@ -142,21 +158,21 @@ public class Player: MonoBehaviour {
 		this.defense += newArmor.Def;
 
 		this.armor = newArmor;
+
+		// Put in equipment
+		equip.addItem (newArmor.ID);
 	}
 
 	public void useItem(AdventureItem item) {
 
 		// Can check type and act accordingly or create use function and pass player
-
-		Debug.Log(item.GetType ().ToString ());
-
 		item.use (this);
 		inv.removeItem (item);
 	}
 
 	public void printStats()
 	{
-		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "Weapon: " 
+		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
 			+ weapon.Title + "\nArmor: " + armor.Title);
 	}
 }
