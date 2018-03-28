@@ -9,7 +9,7 @@ public class ItemWeapon : AdventureItem {
 	public ItemWeapon(int id, string title, int value, bool isStackable, string slug, int rarity, Sprite sprite, int atk) : base(id, title, value, isStackable, slug, rarity, sprite)  {
 		this.Atk = atk;
 
-		if(title.Contains("shield")){
+		if(title.ToLowerInvariant().Contains("shield")){
 			this.itemType = ItemType.shield;
 		} else {
 			this.itemType = ItemType.weapon;
