@@ -33,9 +33,11 @@ public class Player: MonoBehaviour {
 		isInvOpen = false; // Assume the inventory is closed upon loading
 		menuOpen = false;
 
-		health = 100;
+		health = 100; // Full health
 		attack = 10; // Base attack
+		defense = 10; // Base defense
 		weapon = new ItemWeapon();
+		armor = new ItemArmor ();
 	}
 
 	void Update() {
