@@ -25,5 +25,12 @@ public class ItemConsumable : AdventureItem {
 	public override void use(Player player)
 	{
 		player.health += HpRestored;
+
+		// If we go over, simply set it back
+		if (player.health > 100) {
+			player.health = 100;
+		}
 	}
+
+
 }
