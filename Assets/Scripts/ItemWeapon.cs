@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemWeapon : AdventureItem {
 
+	// TODO: add defense for shield?
 	public int Atk { get; set; }
 
 	public ItemWeapon(int id, string title, int value, bool isStackable, string slug, int rarity, Sprite sprite, int atk) : base(id, title, value, isStackable, slug, rarity, sprite)  {
