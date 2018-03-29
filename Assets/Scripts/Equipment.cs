@@ -34,11 +34,10 @@ public class Equipment : MonoBehaviour {
 		equipmentPanel = GameObject.Find ("equipmentPanel");
 		slotPanel = equipmentPanel.transform.Find ("slotPanel").gameObject;
 
-		numSlots = 4;
+		numSlots = 5;
 		for (int i = 0; i < numSlots; i++) {
 			allItems.Add (new AdventureItem ()); // Add empty item
-			allSlots.Add (Instantiate (inventorySlot)); // Create instance of slot prefab
-			allSlots [i].transform.SetParent (slotPanel.transform); // Set correct parent
+			allSlots.Add(slotPanel.transform.GetChild(i).gameObject);
 			allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
 		}
 			
@@ -46,8 +45,7 @@ public class Equipment : MonoBehaviour {
 
 		equipmentPanel.SetActive (false);
 	}
-
-	// TODO:If equipment alredy there, swap
+		
 	public void addItem(int id) {
 		AdventureItem itemToAdd = itemDB.getItem (id);
 
@@ -57,12 +55,13 @@ public class Equipment : MonoBehaviour {
 			// If item equipped, put back into inventory 
 			AdventureItem currentItem = allItems [slotI];
 			GameObject.Find ("Inventory").GetComponent<Inventory> ().addItem (currentItem.ID); // Put back in inventory
+			removeItem(currentItem);
 		}
 
 		// Assign current slot
 		allItems [slotI] = itemToAdd; // Assign empty slot to new item
-		GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
 
+		GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
 		itemObject.GetComponent<ItemData> ().init (itemToAdd, slotI); // Initialize itemData
 		itemObject.transform.SetParent (allSlots [slotI].transform); // Set correct parent
 		itemObject.transform.localPosition = Vector2.zero; // Center item in slot
@@ -81,7 +80,6 @@ public class Equipment : MonoBehaviour {
 		allSlots [itemToRmI].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
 		allSlots[itemToRmI].transform.DetachChildren();
 		allItems [itemToRmI] = new AdventureItem ();
-
 	}
 
 	public void toggleActive() {
