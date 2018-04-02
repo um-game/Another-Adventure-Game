@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player: MonoBehaviour {
 
@@ -8,16 +9,21 @@ public class Player: MonoBehaviour {
 
     Animator anim;
 	Rigidbody2D rb2d;
-	Inventory inv;
+    Renderer rend;
+
+	public Inventory inv;
 	bool isInvOpen; // Used to block input to player while inventory is open
 	bool menuOpen;
-	PickupMenu pickupMenu;
+	public PickupMenu pickupMenu;
+
+    public static Player myPlayer;
     
 
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
+        rend = GetComponent<Renderer>();
         anim.SetInteger("direction", 3);
         anim.SetBool("moving", false);
 
@@ -26,6 +32,20 @@ public class Player: MonoBehaviour {
 		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
 		isInvOpen = false; // Assume the inventory is closed upon loading
 		menuOpen = false;
+
+        /*
+        if (myPlayer == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            myPlayer = this;
+        }
+        else if (myPlayer != this)
+        {
+            
+            rend.enabled = false;
+        }
+        */
+        
 
 	}
 
@@ -84,7 +104,11 @@ public class Player: MonoBehaviour {
 
 		// Check if trigger is world item
 		worldItem itemDat = other.gameObject.GetComponent<worldItem> ();
-		if (itemDat != null) {
+
+        // Debug.Log("Touched:" + other.gameObject.tag);
+
+
+        if (itemDat != null) {
 			// Stop player
 			anim.SetBool("moving", false);
 			rb2d.velocity = new Vector2(0, 0);
@@ -92,7 +116,29 @@ public class Player: MonoBehaviour {
 			pickupMenu.activate (itemDat.id, other.gameObject);
 			menuOpen = true;
 		}
-	}
+
+        else if (other.gameObject.tag == "warp")
+        {
+            Warp myWarp = other.gameObject.GetComponent<Warp>();
+            
+
+            // Debug.Log("Going to level: " + index);
+            Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
+            SceneManager.LoadScene(myWarp.dest);
+
+            transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
+            
+        }
+    }
+
+    /*
+     IEnumerator ChangeLevel(int index)
+    {
+        float fadeTime = GameObject.Find("EventSystem").GetComponent<Fading>().BeginFade(1);
+        yield return new WaitForSeconds(fadeTime);
+        SceneManager.LoadScene(index);
+    }
+    */
 		
 	private void toggleInventory () {
 		inv.toggleActive ();

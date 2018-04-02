@@ -50,7 +50,8 @@ public class Inventory : MonoBehaviour {
 		addItem (5);
 
 		inventoryPanel.SetActive (false);
-	}
+
+    }
 
 	public void addItem(int id) {
 		AdventureItem itemToAdd = itemDB.getItem (id);
