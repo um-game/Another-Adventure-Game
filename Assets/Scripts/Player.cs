@@ -21,30 +21,29 @@ public class Player: MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        anim = GetComponent<Animator>();
-        rb2d = GetComponent<Rigidbody2D>();
-        rend = GetComponent<Renderer>();
-        anim.SetInteger("direction", 3);
-        anim.SetBool("moving", false);
-
-		pickupMenu = GetComponent<PickupMenu> ();
-
-		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
-		isInvOpen = false; // Assume the inventory is closed upon loading
-		menuOpen = false;
-
-        /*
+       
         if (myPlayer == null)
         {
+            anim = GetComponent<Animator>();
+            rb2d = GetComponent<Rigidbody2D>();
+            rend = GetComponent<Renderer>();
+            anim.SetInteger("direction", 3);
+            anim.SetBool("moving", false);
+
+            pickupMenu = GetComponent<PickupMenu>();
+
+            inv = GameObject.Find("Inventory").GetComponent<Inventory>();
+            isInvOpen = false; // Assume the inventory is closed upon loading
+            menuOpen = false;
+
             DontDestroyOnLoad(gameObject);
             myPlayer = this;
         }
         else if (myPlayer != this)
         {
-            
-            rend.enabled = false;
+            Destroy(gameObject);
         }
-        */
+        
         
 
 	}

@@ -8,6 +8,8 @@ public class GlobalControl : MonoBehaviour
 
     public Inventory inv;
     public PickupMenu pickupMenu;
+    public Player myPlayer;
+    public ItemDatabase itemDB;
 
     void Awake()
     {
@@ -15,13 +17,19 @@ public class GlobalControl : MonoBehaviour
         {
             pickupMenu = GetComponent<PickupMenu>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
+            myPlayer = GameObject.Find("player").GetComponent<Player>();
+            itemDB = GetComponent<ItemDatabase>();
 
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(myPlayer);
+            DontDestroyOnLoad(inv);
+            DontDestroyOnLoad(itemDB);
+            DontDestroyOnLoad(GetComponent<ToolTip>());
+            DontDestroyOnLoad(GetComponent<ItemMenu>());
             Instance = this;
         }
         else if (Instance != this)
         {
-            Destroy(gameObject);
         }
     }
 }

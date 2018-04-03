@@ -27,7 +27,8 @@ public class ItemMenu : MonoBehaviour {
 	}
 
 	public void deactivate() {
-		itemMenu.SetActive (false);
+        if (itemMenu != null)
+		    itemMenu.SetActive (false);
 	}
 
 	// Update is called once per frame

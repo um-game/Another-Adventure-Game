@@ -29,8 +29,10 @@ public class Inventory : MonoBehaviour {
 
 		inventoryPanel = GameObject.Find ("inventoryPanel");
 		slotPanel = inventoryPanel.transform.Find ("slotPanel").gameObject;
+        DontDestroyOnLoad(inventoryPanel.transform.root.gameObject);
+        DontDestroyOnLoad(slotPanel.transform.root.gameObject);
 
-		numSlots = 20;
+        numSlots = 20;
 		for (int i = 0; i < numSlots; i++) {
 			allItems.Add (new AdventureItem ()); // Add empty item
 			allSlots.Add (Instantiate (inventorySlot)); // Create instance of slot prefab
@@ -112,11 +114,14 @@ public class Inventory : MonoBehaviour {
 	}
 
 	public void toggleActive() {
-		inventoryPanel.SetActive (!inventoryPanel.activeSelf);
+        
+        // NULL?
+        inventoryPanel.SetActive (!inventoryPanel.activeSelf);
 
 		// Shut down the tooltip and itemMenu too, if it is active
 		GetComponent<ToolTip>().deactivate();
 		GetComponent<ItemMenu> ().deactivate ();
+        
 	}
 
 	// Update is called once per frame

@@ -12,6 +12,7 @@ public class ToolTip : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		tooltip = GameObject.Find ("Tooltip");
+        DontDestroyOnLoad(tooltip.transform.root.gameObject);
 		tooltip.SetActive(false); // Do not want it to pop up on game load
 	}
 	
@@ -29,6 +30,7 @@ public class ToolTip : MonoBehaviour {
 
 	public void deactivate()
 	{
+        // NULL?
 		tooltip.SetActive (false);
 	}
 
