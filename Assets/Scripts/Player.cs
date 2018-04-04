@@ -12,12 +12,21 @@ public class Player: MonoBehaviour {
     Renderer rend;
 
 	public Inventory inv;
+	Equipment equip;
 	bool isInvOpen; // Used to block input to player while inventory is open
 	bool menuOpen;
 	public PickupMenu pickupMenu;
+	int attack;
+	int defense;
 
     public static Player myPlayer;
     
+
+	public int health { get; set; }
+
+	ItemWeapon weapon;
+	ItemWeapon shield;
+	ItemArmor armor;
 
     // Use this for initialization
     void Start () {
@@ -32,9 +41,16 @@ public class Player: MonoBehaviour {
 
             pickupMenu = GetComponent<PickupMenu>();
 
+			equip = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             isInvOpen = false; // Assume the inventory is closed upon loading
             menuOpen = false;
+
+			health = 100; // Full health
+			attack = 10; // Base attack
+			defense = 10; // Base defense
+			weapon = new ItemWeapon();
+			armor = new ItemArmor ();
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -143,6 +159,7 @@ public class Player: MonoBehaviour {
 		
 	private void toggleInventory () {
 		inv.toggleActive ();
+		equip.toggleActive ();
 		isInvOpen = !isInvOpen;
 
 		// Stop player
@@ -157,5 +174,52 @@ public class Player: MonoBehaviour {
 
 	public void closeMenu() {
 		menuOpen = false;
+	}
+
+	public void setWeapon(ItemWeapon newWeapon) {
+
+
+		// If we did not have anything equipped and not shield, don't reduce attack
+		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
+			attack -= this.weapon.Atk;
+		}
+
+		// Add new new weapon's attack
+		attack += newWeapon.Atk;
+
+		if (newWeapon.itemType == ItemType.weapon) {
+			this.weapon = newWeapon;
+		} else {
+			this.shield = newWeapon;
+		}
+
+		// Put in equipment
+		equip.addItem (newWeapon.ID);
+	}
+
+	public void setArmor(ItemArmor newArmor){
+		if (this.armor.ID != -1) {
+			this.defense -= this.armor.Def;
+		}
+
+		this.defense += newArmor.Def;
+
+		this.armor = newArmor;
+
+		// Put in equipment
+		equip.addItem (newArmor.ID);
+	}
+
+	public void useItem(AdventureItem item) {
+
+		// Can check type and act accordingly or create use function and pass player
+		item.use (this);
+		inv.removeItem (item);
+	}
+
+	public void printStats()
+	{
+		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
+			+ weapon.Title + "\nArmor: " + armor.Title);
 	}
 }

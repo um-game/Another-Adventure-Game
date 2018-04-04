@@ -9,6 +9,8 @@ public class ItemMenu : MonoBehaviour {
 	Button[] buttons;
 	AdventureItem item;
 
+	Player player;
+
     public static ItemMenu myItemMenu;
 
 	// Use this for initialization
@@ -18,6 +20,7 @@ public class ItemMenu : MonoBehaviour {
             itemMenu = GameObject.Find("itemMenu");
             buttons = itemMenu.GetComponentsInChildren<Button>();
             itemMenu.SetActive(false);
+			player = GameObject.Find ("player").GetComponent<Player> ();
 
             myItemMenu = this;
             DontDestroyOnLoad(myItemMenu);
@@ -53,7 +56,8 @@ public class ItemMenu : MonoBehaviour {
 	void useAction(){
 
 		Debug.Log ("clicked use button");
-
+		player.useItem (item);
+		player.printStats ();
 		itemMenu.SetActive (false);
 	}
 
