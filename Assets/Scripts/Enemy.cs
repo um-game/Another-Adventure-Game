@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour {
 		rb2d = GetComponent<Rigidbody2D> ();
 		p = GameObject.Find ("player").transform;
 
-		range = 10;
+		range = 2;
 	}
 	
 	// Update is called once per frame
@@ -27,24 +27,10 @@ public class Enemy : MonoBehaviour {
 		Vector3 diff = p.transform.position - this.transform.position; // Get difference in position
 
 		if (diff.magnitude < range) {
-
-			if (diff.x > diff.y) {
-				diff.Normalize ();
-				// Move towards player
-				rb2d.velocity = new Vector2 (diff.x * maxSpeed, 0);
-
-			} else if (diff.y > diff.x) {
-				diff.Normalize ();
-				// Move towards player
-				rb2d.velocity = new Vector2 (0, diff.y * maxSpeed);
-			} else {
-				diff.Normalize ();
-				rb2d.velocity = new Vector2 (diff.x * (maxSpeed + 1), diff.y * (maxSpeed + 1));
-
-			}
-
+			diff.Normalize ();
+	
 			// Move towards player
-			//rb2d.velocity = new Vector2 (diff.x * maxSpeed, diff.y * maxSpeed);
+			rb2d.velocity = new Vector2 (diff.x * maxSpeed, diff.y * maxSpeed);
 
 		} else {
 			rb2d.velocity = new Vector2 (0, 0); // Otherwse we stop moving
