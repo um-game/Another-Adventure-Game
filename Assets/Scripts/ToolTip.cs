@@ -34,6 +34,7 @@ public class ToolTip : MonoBehaviour {
 	{
 		this.item = item;
 		constructDataStr ();
+		tooltip.transform.position = Input.mousePosition + new Vector3 (10.0f, 60.0f, 0.0f);
 		tooltip.SetActive(true);
 
 	}
