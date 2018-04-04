@@ -10,6 +10,7 @@ public class GlobalControl : MonoBehaviour
     public static PickupMenu pickupMenu;
     public static Player myPlayer;
     public static ItemDatabase itemDB;
+	public static Equipment equip;
 
     void Awake()
     {
@@ -17,11 +18,14 @@ public class GlobalControl : MonoBehaviour
         {
             pickupMenu = GameObject.Find("Canvas").GetComponent<PickupMenu>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
-            myPlayer = GameObject.Find("player").GetComponent<Player>();
+			equip = GameObject.Find("Equipment").GetComponent<Equipment>();
+			myPlayer = GameObject.Find("player").GetComponent<Player>();
             itemDB = GetComponent<ItemDatabase>();
+
             
             DontDestroyOnLoad(myPlayer);
             DontDestroyOnLoad(inv);
+			DontDestroyOnLoad (equip);
             /*
             DontDestroyOnLoad(itemDB);
             DontDestroyOnLoad(GetComponent<ToolTip>());
