@@ -36,7 +36,7 @@ public class Player: MonoBehaviour {
             isInvOpen = false; // Assume the inventory is closed upon loading
             menuOpen = false;
 
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
             myPlayer = this;
         }
         else if (myPlayer != this)
@@ -52,6 +52,7 @@ public class Player: MonoBehaviour {
 		// Toggle the inventory(if aother menu isnt already open
 		if (!menuOpen && Input.GetKeyDown (KeyCode.I) ) {
 			toggleInventory ();
+            Debug.Log("OPEN INVENTORY");
 		}
 	}
 	
@@ -111,7 +112,7 @@ public class Player: MonoBehaviour {
 			// Stop player
 			anim.SetBool("moving", false);
 			rb2d.velocity = new Vector2(0, 0);
-
+            
 			pickupMenu.activate (itemDat.id, other.gameObject);
 			menuOpen = true;
 		}
@@ -124,8 +125,9 @@ public class Player: MonoBehaviour {
             // Debug.Log("Going to level: " + index);
             Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
             SceneManager.LoadScene(myWarp.dest);
-
+            
             transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
+            
             
         }
     }

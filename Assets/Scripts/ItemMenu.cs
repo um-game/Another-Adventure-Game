@@ -9,11 +9,23 @@ public class ItemMenu : MonoBehaviour {
 	Button[] buttons;
 	AdventureItem item;
 
+    public static ItemMenu myItemMenu;
+
 	// Use this for initialization
 	void Start () {
-		itemMenu = GameObject.Find ("itemMenu");
-		buttons = itemMenu.GetComponentsInChildren<Button> ();
-		itemMenu.SetActive(false);
+        if (myItemMenu == null)
+        {
+            itemMenu = GameObject.Find("itemMenu");
+            buttons = itemMenu.GetComponentsInChildren<Button>();
+            itemMenu.SetActive(false);
+
+            myItemMenu = this;
+            DontDestroyOnLoad(myItemMenu);
+        }
+		else if (myItemMenu != this)
+        {
+            Destroy(transform.root.gameObject);
+        }
 	}
 
 	public void activate(AdventureItem item) {

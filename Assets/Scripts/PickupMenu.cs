@@ -7,24 +7,41 @@ public class PickupMenu : MonoBehaviour {
 
 	int itemId; // Id of the item currently being examined
 	Player player;
-	GameObject pickupMenu;
+	public static GameObject pickupMenu;
 	GameObject obj; // Game object representing item
 	Button[] buttons;
 
+    public static PickupMenu myPickupMenu;
+
 	// Use this for initialization
 	void Start () {
-		pickupMenu = GameObject.Find ("pickupMenu");
-        DontDestroyOnLoad(pickupMenu.transform.root.gameObject);
-		player = GetComponent<Player> ();
-		buttons = pickupMenu.GetComponentsInChildren<Button> ();
-        pickupMenu.SetActive (false);
-		buttons [0].onClick.AddListener (pickupAction);
-		buttons [1].onClick.AddListener (cancelAction);
+        if (myPickupMenu == null)
+        {
+            pickupMenu = GameObject.Find("pickupMenu");
+            player = GetComponent<Player>();
+            buttons = pickupMenu.GetComponentsInChildren<Button>();
+            pickupMenu.SetActive(false);
+            buttons[0].onClick.AddListener(pickupAction);
+            buttons[1].onClick.AddListener(cancelAction);
+
+            // DontDestroyOnLoad(gameObject);
+            myPickupMenu = this;
+        }
+        else if (myPickupMenu != this)
+        {
+            
+            GameObject pickupCopy = GameObject.Find("pickupMenu");
+            Destroy(pickupCopy.transform.root.gameObject);
+
+            Debug.Log("DESTROY");
+        }
+
+		
 	}
 
 	public void activate(int itemId, GameObject obj) {
         // NULL?
-		pickupMenu.SetActive (true);
+        pickupMenu.SetActive (true);
 	
 		this.itemId = itemId;
 		this.obj = obj;
@@ -39,6 +56,7 @@ public class PickupMenu : MonoBehaviour {
 		player.addItemToInv (itemId);
 		Destroy (obj);
 		pickupMenu.SetActive (false);
+        player.closeMenu();
 	}
 
 	void cancelAction(){

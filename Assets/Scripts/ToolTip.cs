@@ -9,11 +9,22 @@ public class ToolTip : MonoBehaviour {
 	AdventureItem item; // Item we are currently displaying info about
 	GameObject tooltip;
 
+    public static ToolTip myTooltip;
+
 	// Use this for initialization
 	void Start () {
-		tooltip = GameObject.Find ("Tooltip");
-        DontDestroyOnLoad(tooltip.transform.root.gameObject);
-		tooltip.SetActive(false); // Do not want it to pop up on game load
+        if (myTooltip == null)
+        {
+            tooltip = GameObject.Find("Tooltip");
+            tooltip.SetActive(false); // Do not want it to pop up on game load
+
+            myTooltip = this;
+            DontDestroyOnLoad(myTooltip);
+        }
+        else if (myTooltip != this)
+        {
+            Destroy(transform.root.gameObject);
+        }
 	}
 	
 	// Update is called once per frame

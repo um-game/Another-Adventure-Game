@@ -20,38 +20,50 @@ public class Inventory : MonoBehaviour {
 
 	ItemDatabase itemDB;
 
+    public static Inventory myInventory;
+
 	// Use this for initialization
 	void Start () {
 	
-		allItems = new List<AdventureItem> ();
-		allSlots = new List<GameObject> ();
-		itemDB = GetComponent<ItemDatabase>();
+        if (myInventory == null)
+        {
+            allItems = new List<AdventureItem>();
+            allSlots = new List<GameObject>();
+            itemDB = GetComponent<ItemDatabase>();
 
-		inventoryPanel = GameObject.Find ("inventoryPanel");
-		slotPanel = inventoryPanel.transform.Find ("slotPanel").gameObject;
-        DontDestroyOnLoad(inventoryPanel.transform.root.gameObject);
-        DontDestroyOnLoad(slotPanel.transform.root.gameObject);
+            inventoryPanel = GameObject.Find("inventoryPanel");
+            slotPanel = inventoryPanel.transform.Find("slotPanel").gameObject;
+            DontDestroyOnLoad(inventoryPanel.transform.root.gameObject);
+            DontDestroyOnLoad(slotPanel.transform.root.gameObject);
 
-        numSlots = 20;
-		for (int i = 0; i < numSlots; i++) {
-			allItems.Add (new AdventureItem ()); // Add empty item
-			allSlots.Add (Instantiate (inventorySlot)); // Create instance of slot prefab
-			allSlots [i].transform.SetParent (slotPanel.transform); // Set correct parent
-			allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
-		}
+            numSlots = 20;
+            for (int i = 0; i < numSlots; i++)
+            {
+                allItems.Add(new AdventureItem()); // Add empty item
+                allSlots.Add(Instantiate(inventorySlot)); // Create instance of slot prefab
+                allSlots[i].transform.SetParent(slotPanel.transform); // Set correct parent
+                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
+            }
 
-		// Load ID's and add items here
+            // Load ID's and add items here
 
 
-		// This is just here to show off the functionality of the inventory...
-		addItem (0);
-		addItem (1);
-		addItem (2);
-		addItem (3);
-		addItem (4);
-		addItem (5);
+            // This is just here to show off the functionality of the inventory...
+            addItem(0);
+            addItem(1);
+            addItem(2);
+            addItem(3);
+            addItem(4);
+            addItem(5);
 
-		inventoryPanel.SetActive (false);
+            inventoryPanel.SetActive(false);
+
+            myInventory = this;
+        }
+		else if (myInventory != this)
+        {
+            Destroy(gameObject);
+        }
 
     }
 
