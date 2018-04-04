@@ -14,12 +14,14 @@ public class PickupMenu : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		pickupMenu = GameObject.Find ("pickupMenu");
-        DontDestroyOnLoad(pickupMenu.transform.root.gameObject);
-		player = GetComponent<Player> ();
-		buttons = pickupMenu.GetComponentsInChildren<Button> ();
-        pickupMenu.SetActive (false);
-		buttons [0].onClick.AddListener (pickupAction);
-		buttons [1].onClick.AddListener (cancelAction);
+
+		if (pickupMenu != null) {
+			player = GetComponent<Player> ();
+			buttons = pickupMenu.GetComponentsInChildren<Button> ();
+			pickupMenu.SetActive (false);
+			buttons [0].onClick.AddListener (pickupAction);
+			buttons [1].onClick.AddListener (cancelAction);
+		}
 	}
 
 	public void activate(int itemId, GameObject obj) {
