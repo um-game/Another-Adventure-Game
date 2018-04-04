@@ -39,13 +39,14 @@ public class Slot : MonoBehaviour, IDropHandler {
 			item.transform.SetParent (inv.allSlots [droppedItem.slotId].transform); // Set parent to new slot
 			item.transform.position = inv.allSlots [droppedItem.slotId].transform.position;
 
+			// Swap the items in the list(before re-assigning droppedItem's slot ID
+			inv.allItems [droppedItem.slotId] = item.GetComponent<ItemData> ().item;
+			inv.allItems [this.ID] = droppedItem.item;
+
+			// Move item currrently in slot to 'old' slot
 			droppedItem.slotId = this.ID;
 			droppedItem.transform.SetParent (this.transform);
 			droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
-
-			// Swap the items in the list
-			inv.allItems [droppedItem.slotId] = item.GetComponent<ItemData> ().item;
-			inv.allItems [this.ID] = droppedItem.item;
 		}
 			
 	}
