@@ -4509,9 +4509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4076eb7f0a696d84580759e199fb0d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlot: {fileID: 1778231505854072, guid: 856f1f35a96df154288d66ec9f39ce79,
+  inventorySlot: {fileID: 1645714881266876, guid: 3d08088007076ba4d98ad501e8c88175,
     type: 2}
-  inventoryItem: {fileID: 1645714881266876, guid: 3d08088007076ba4d98ad501e8c88175,
+  inventoryItem: {fileID: 1778231505854072, guid: 856f1f35a96df154288d66ec9f39ce79,
     type: 2}
   allSlots: []
 --- !u!1 &1275118781
@@ -4867,7 +4867,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 330, y: 44.929993}
+  m_AnchoredPosition: {x: 631, y: 40.77}
   m_SizeDelta: {x: 280, y: 232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1689980152
