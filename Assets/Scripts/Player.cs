@@ -13,8 +13,6 @@ public class Player: MonoBehaviour {
 
 	public Inventory inv;
 	Equipment equip;
-	bool isInvOpen; // Used to block input to player while inventory is open
-	bool menuOpen;
 	public PickupMenu pickupMenu;
 	int attack;
 	int defense;
@@ -43,8 +41,6 @@ public class Player: MonoBehaviour {
 
 			equip = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
-            isInvOpen = false; // Assume the inventory is closed upon loading
-            menuOpen = false;
 
 			health = 100; // Full health
 			attack = 10; // Base attack
@@ -66,7 +62,7 @@ public class Player: MonoBehaviour {
 
 	void Update() {
 		// Toggle the inventory(if aother menu isnt already open
-		if (!menuOpen && Input.GetKeyDown (KeyCode.I) ) {
+		if (Input.GetKeyDown (KeyCode.I)) {
 			toggleInventory ();
             Debug.Log("OPEN INVENTORY");
 		}
@@ -74,11 +70,6 @@ public class Player: MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
-		// Block input while inentory is open
-		if (menuOpen || isInvOpen) {
-			return;
-		}
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -130,7 +121,6 @@ public class Player: MonoBehaviour {
 			rb2d.velocity = new Vector2(0, 0);
             
 			pickupMenu.activate (itemDat.id, other.gameObject);
-			menuOpen = true;
 		}
 
         else if (other.gameObject.tag == "warp")
@@ -160,8 +150,7 @@ public class Player: MonoBehaviour {
 	private void toggleInventory () {
 		inv.toggleActive ();
 		equip.toggleActive ();
-		isInvOpen = !isInvOpen;
-
+		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
 		rb2d.velocity = new Vector2(0, 0);
@@ -169,15 +158,9 @@ public class Player: MonoBehaviour {
 
 	public void addItemToInv(int id) {
 		inv.addItem (id);
-		menuOpen = false;
 	}
-
-	public void closeMenu() {
-		menuOpen = false;
-	}
-
+		
 	public void setWeapon(ItemWeapon newWeapon) {
-
 
 		// If we did not have anything equipped and not shield, don't reduce attack
 		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
@@ -221,5 +204,33 @@ public class Player: MonoBehaviour {
 	{
 		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
 			+ weapon.Title + "\nArmor: " + armor.Title);
+	}
+		
+	// Pauses / unpauses the game by essentially 'stopping time'
+	public void   PauseGameFeature()
+	{
+		// If not paused, pause
+		if(Time.timeScale == 1)
+		{
+			Pause();
+		}
+		// Else unpause
+		else
+		{
+			UnPause();
+		}   
+	}
+
+	public void Pause()
+	{
+		Time.timeScale = 0;
+		Debug.Log ("PAUSE");
+
+
+	}
+	public void UnPause()
+	{
+		Time.timeScale = 1;
+		Debug.Log("UNPAUSE");
 	}
 }

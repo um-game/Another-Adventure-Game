@@ -56,13 +56,11 @@ public class PickupMenu : MonoBehaviour {
 		player.addItemToInv (itemId);
 		Destroy (obj);
 		pickupMenu.SetActive (false);
-        player.closeMenu();
 	}
 
 	void cancelAction(){
 		Debug.Log ("clicked cancel button");
 		this.itemId = -2;
 		pickupMenu.SetActive (false);
-		player.closeMenu ();
 	}
 }
