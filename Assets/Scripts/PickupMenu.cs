@@ -49,18 +49,19 @@ public class PickupMenu : MonoBehaviour {
 
 	public void deactivate() {
 		pickupMenu.SetActive (false);
+        player.UnPause();
 	}
 
 	void pickupAction(){
 		Debug.Log ("clicked pickup button");
 		player.addItemToInv (itemId);
 		Destroy (obj);
-		pickupMenu.SetActive (false);
+        deactivate();
 	}
 
 	void cancelAction(){
 		Debug.Log ("clicked cancel button");
 		this.itemId = -2;
-		pickupMenu.SetActive (false);
+        deactivate();
 	}
 }

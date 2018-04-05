@@ -119,6 +119,8 @@ public class Player: MonoBehaviour {
 			// Stop player
 			anim.SetBool("moving", false);
 			rb2d.velocity = new Vector2(0, 0);
+
+            Pause();
             
 			pickupMenu.activate (itemDat.id, other.gameObject);
 		}
