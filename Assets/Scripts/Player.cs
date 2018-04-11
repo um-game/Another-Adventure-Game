@@ -12,12 +12,20 @@ public class Player: MonoBehaviour {
     Renderer rend;
 
 	public Inventory inv;
-	bool isInvOpen; // Used to block input to player while inventory is open
-	bool menuOpen;
+	public Equipment equipment;
 	public PickupMenu pickupMenu;
+//	public EquipMenu equipMenu;
+	int attack;
+	int defense;
 
     public static Player myPlayer;
     
+	public int health { get; set; }
+
+	ItemWeapon weapon;
+	ItemWeapon shield;
+	ItemArmor chestArmor;
+	ItemArmor headArmor;
 
     // Use this for initialization
     void Start () {
@@ -30,11 +38,20 @@ public class Player: MonoBehaviour {
             anim.SetInteger("direction", 3);
             anim.SetBool("moving", false);
 
-            pickupMenu = GetComponent<PickupMenu>();
+			pickupMenu = GetComponent<PickupMenu>();
 
+			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
-            isInvOpen = false; // Assume the inventory is closed upon loading
-            menuOpen = false;
+
+			health = 100; // Full health
+			attack = 10; // Base attack
+			defense = 10; // Base defense
+
+			weapon = new ItemWeapon();
+			shield = new ItemWeapon ();
+			chestArmor = new ItemArmor ();
+			headArmor = new ItemArmor ();
+
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -50,19 +67,19 @@ public class Player: MonoBehaviour {
 
 	void Update() {
 		// Toggle the inventory(if aother menu isnt already open
-		if (!menuOpen && Input.GetKeyDown (KeyCode.I) ) {
+		if (Input.GetKeyDown (KeyCode.I)) {
 			toggleInventory ();
             Debug.Log("OPEN INVENTORY");
+		}
+
+		if (Input.GetMouseButtonDown(0) && !GetComponent<EquipMenu>().isActiveAndEnabled) {
+			GetComponent<EquipMenu> ().deactivate ();
+			inv.GetComponent<ItemMenu> ().deactivate ();
 		}
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
-		// Block input while inentory is open
-		if (menuOpen || isInvOpen) {
-			return;
-		}
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -112,9 +129,10 @@ public class Player: MonoBehaviour {
 			// Stop player
 			anim.SetBool("moving", false);
 			rb2d.velocity = new Vector2(0, 0);
+
+            Pause();
             
 			pickupMenu.activate (itemDat.id, other.gameObject);
-			menuOpen = true;
 		}
 
         else if (other.gameObject.tag == "warp")
@@ -143,8 +161,8 @@ public class Player: MonoBehaviour {
 		
 	private void toggleInventory () {
 		inv.toggleActive ();
-		isInvOpen = !isInvOpen;
-
+		equipment.toggleActive ();
+		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
 		rb2d.velocity = new Vector2(0, 0);
@@ -152,10 +170,123 @@ public class Player: MonoBehaviour {
 
 	public void addItemToInv(int id) {
 		inv.addItem (id);
-		menuOpen = false;
+	}
+		
+	public void setWeapon(ItemWeapon newWeapon) {
+
+		// If we did not have anything equipped and not shield, don't reduce attack
+		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
+			attack -= this.weapon.Atk;
+		}
+
+		// Add new new weapon's attack
+		attack += newWeapon.Atk;
+
+		if (newWeapon.itemType == ItemType.weapon) {
+			this.weapon = newWeapon;
+		} else {
+			this.shield = newWeapon;
+		}
+
+		// Put in equipment
+		equipment.addItem (newWeapon.ID);
 	}
 
-	public void closeMenu() {
-		menuOpen = false;
+	public void setArmor(ItemArmor newArmor){
+
+		// Check if there is something equipped
+		if (this.chestArmor.ID != -1) {
+			this.defense -= this.chestArmor.Def;
+		}
+
+		this.defense += newArmor.Def;
+
+		// Determine weather head or chest
+		if (newArmor.itemType == ItemType.chest) {
+
+			this.chestArmor = newArmor;
+		} else {
+			this.headArmor = newArmor;
+		}
+
+
+		// Put in equipment
+		equipment.addItem (newArmor.ID);
+	}
+
+	public void useItem(AdventureItem item) {
+
+		// Can check type and act accordingly or create use function and pass player
+		item.use (this);
+		inv.removeItem (item);
+		printStats ();
+	}
+
+	public void printStats()
+	{
+		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
+			+ weapon.Title + "\nArmor: " + chestArmor.Title);
+	}
+		
+	// Pauses / unpauses the game by essentially 'stopping time'
+	public void   PauseGameFeature()
+	{
+		// If not paused, pause
+		if(Time.timeScale == 1)
+		{
+			Pause();
+		}
+		// Else unpause
+		else
+		{
+			UnPause();
+		}   
+	}
+
+	public void Pause()
+	{
+		Time.timeScale = 0;
+		Debug.Log ("PAUSE");
+
+	}
+	public void UnPause()
+	{
+		Time.timeScale = 1;
+		Debug.Log("UNPAUSE");
+	}
+
+	public void unEquip(AdventureItem item) {
+
+		item.equipped = false;
+		equipment.removeItem (item);
+
+//		Debug.Log ("Unequipping: " + item.itemType);
+
+		// Un-equipping sword
+		if (item.itemType == ItemType.weapon) {
+			ItemWeapon weapon = (ItemWeapon)item;
+			attack -= weapon.Atk;
+			this.weapon = new ItemWeapon (); // Set to bad ID
+
+		// Un-equipping shield
+		} else if (item.itemType == ItemType.shield) {
+			this.shield = new ItemWeapon();
+
+		// Un-equipping chest piece
+		} else if (item.itemType == ItemType.chest) {
+			ItemArmor armor = (ItemArmor)item;
+			defense -= armor.Def;
+			this.chestArmor = new ItemArmor();
+
+		// Un-equipping head piece
+		} else if (item.itemType == ItemType.head) {
+			ItemArmor armor = (ItemArmor)item;
+			defense -= armor.Def;
+			this.headArmor = new ItemArmor();
+		}
+
+//		equipment.printEquipment();
+
+		printStats ();
 	}
 }

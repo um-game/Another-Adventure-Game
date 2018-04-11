@@ -15,12 +15,14 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	ToolTip tooltip;
 	Inventory inv;
 	ItemMenu itemMenu;
+	EquipMenu equipMenu;
 
 	// Use this for initialization
 	void Start () {
 		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
 		tooltip = inv.GetComponent<ToolTip> ();
 		itemMenu = inv.GetComponent<ItemMenu> ();
+		equipMenu = GameObject.Find("player").GetComponent<EquipMenu> ();
 	}
 	
 	// Update is called once per frame
@@ -58,18 +60,24 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		tooltip.deactivate ();
 	}
 
-	public void OnPointerClick(PointerEventData evenData) {
-		if (item != null) {
-			itemMenu.activate (item);
-		} else {
-			itemMenu.deactivate (); // Deactivate if player clicks elsehwere?
-		}
+	public void OnPointerClick(PointerEventData eventData) {
 
+		// This little block determines what happens when an item is clicked on
+		if (item != null && !item.equipped) {
+			itemMenu.activate (item, this.gameObject);
+			equipMenu.deactivate ();
+		} else if(item.equipped) {
+			itemMenu.deactivate ();
+			equipMenu.activate (item, this.gameObject);
+		}
 	}
 
 	// These next few methods define most of the 'drag and drop' behavior
 	public void OnBeginDrag(PointerEventData eventData) {
+		// Prevents equipped item from bieng grabbed
+		if(item.equipped){ return; }
 
+		Debug.Log (item.equipped);
 		// If we click an item, grab it.
 		if (item != null) {
 			this.transform.SetParent(this.transform.parent.parent); // Change parent to canvas so item is rendered on top of slots
@@ -80,6 +88,9 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnDrag(PointerEventData eventData)
 	{
+		// Prevents equipped item from bieng drug
+		if(item.equipped){ return; }
+
 		// Update position of item transform
 		if (item != null) {
 			this.transform.position = eventData.position;
@@ -88,6 +99,10 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
+		// Prevents equipped item from bieng 'dropped'
+		if(item.equipped){return;}
+
+		
 		this.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		this.transform.SetParent(inv.allSlots[slotId].transform);
 		this.transform.localPosition = new Vector3 (0, 0, 0);
