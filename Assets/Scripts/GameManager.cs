@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
 	{
 		doingSetup = true;
 
-		boardScript.SetupScene (0);//TODO: random?
+		//boardScript.SetupScene (0);//TODO: random?
 	}
 
 	public void GameOver()

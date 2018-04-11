@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4404245655588770}
   - component: {fileID: 212888941852411458}
   - component: {fileID: 65182603513714488}
-  m_Layer: 0
-  m_Name: BladeTrap
+  m_Layer: 10
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
