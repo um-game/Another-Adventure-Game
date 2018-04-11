@@ -8,7 +8,7 @@ TextureImporter:
     21300002: silver_ring
     21300004: obsidian_ring
     21300006: roguelikeitems_3
-    21300008: roguelikeitems_4
+    21300008: bronze_ring
     21300010: roguelikeitems_5
     21300012: roguelikeitems_6
     21300014: roguelikeitems_7
@@ -82,7 +82,7 @@ TextureImporter:
     21300150: roguelikeitems_75
     21300152: roguelikeitems_76
     21300154: roguelikeitems_77
-    21300156: roguelikeitems_78
+    21300156: steel_head
     21300158: roguelikeitems_79
     21300160: roguelikeitems_80
     21300162: roguelikeitems_81
@@ -167,6 +167,7 @@ TextureImporter:
     21300320: roguelikeitems_160
     21300322: steel_ring
     21300324: roguelikeitems_38
+    21300326: royal_shield
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -299,7 +300,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_4
+      name: bronze_ring
       rect:
         serializedVersion: 2
         x: 66
@@ -1335,7 +1336,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_78
+      name: steel_head
       rect:
         serializedVersion: 2
         x: 1
@@ -2492,6 +2493,20 @@ TextureImporter:
         height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: royal_shield
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 49
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

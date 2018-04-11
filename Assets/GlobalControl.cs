@@ -7,7 +7,7 @@ public class GlobalControl : MonoBehaviour
     public static GlobalControl Instance;
 
     public static Inventory inv;
-    public static PickupMenu pickupMenu;
+    public static EquipMenu pickupMenu;
     public static Player myPlayer;
     public static ItemDatabase itemDB;
 	public static Equipment equip;
@@ -16,7 +16,7 @@ public class GlobalControl : MonoBehaviour
     {
         if (Instance == null)
         {
-            pickupMenu = GameObject.Find("Canvas").GetComponent<PickupMenu>();
+            pickupMenu = GameObject.Find("Canvas").GetComponent<EquipMenu>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 			equip = GameObject.Find("Equipment").GetComponent<Equipment>();
 			myPlayer = GameObject.Find("player").GetComponent<Player>();

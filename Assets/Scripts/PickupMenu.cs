@@ -36,7 +36,7 @@ public class PickupMenu : MonoBehaviour {
             Debug.Log("DESTROY");
         }
 
-		
+
 	}
 
 	public void activate(int itemId, GameObject obj) {

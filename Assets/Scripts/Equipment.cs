@@ -63,13 +63,17 @@ public class Equipment : MonoBehaviour {
 		
 	public void addItem(int id) {
 		AdventureItem itemToAdd = itemDB.getItem (id);
+		itemToAdd.equipped = true;
 
 		int slotI = (int)itemToAdd.itemType;
 
 		if (allItems [slotI].ID != -1) { // Check for 'non - empty' slot
 			// If item equipped, put back into inventory 
+
+//			return;
 			AdventureItem currentItem = allItems [slotI];
 			GameObject.Find ("Inventory").GetComponent<Inventory> ().addItem (currentItem.ID); // Put back in inventory
+			currentItem.equipped = false;
 			removeItem(currentItem);
 		}
 
@@ -86,8 +90,6 @@ public class Equipment : MonoBehaviour {
 		
 	public void removeItem(AdventureItem itemToRemove) {
 
-		Debug.Log ("Removing " + itemToRemove.dbStr ());
-
 		int itemToRmI = (int)itemToRemove.itemType;
 
 		ItemData currData = allSlots [itemToRmI].transform.GetChild (0).GetComponent<ItemData> ();
@@ -101,7 +103,7 @@ public class Equipment : MonoBehaviour {
 		equipmentPanel.SetActive (!equipmentPanel.activeSelf);
 	}
 		
-	private void printEquipment() {
+	public void printEquipment() {
 		foreach (AdventureItem item in allItems) {
 			Debug.Log (item.getDataStr());
 		}

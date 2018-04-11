@@ -9,6 +9,5 @@ public class worldItem : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		id = 5;
 	}
 }

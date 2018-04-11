@@ -16,7 +16,9 @@ public class ItemWeapon : AdventureItem {
 		}
 	}
 
-	public ItemWeapon() : base(){}
+	public ItemWeapon(): base() {
+//		ID = -1;
+	}
 
 	public override string getDataStr()
 	{

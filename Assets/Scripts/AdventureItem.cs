@@ -30,6 +30,8 @@ public class AdventureItem
 
 	public Sprite Sprite { get; set; }
 
+	public bool equipped { get; set; }
+
 	public AdventureItem(int id, string title, int value, bool isStackable, string slug, int rarity, Sprite sprite) {
 		this.ID = id;
 		this.Title = title;
@@ -38,6 +40,7 @@ public class AdventureItem
 		this.IsStackable = isStackable;
 		this.Rarity = rarity;
 		this.Sprite = sprite;
+		equipped = false;
 	}
 
 	// We may use this to represent an 'empty' item

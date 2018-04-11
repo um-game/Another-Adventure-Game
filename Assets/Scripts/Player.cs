@@ -12,19 +12,20 @@ public class Player: MonoBehaviour {
     Renderer rend;
 
 	public Inventory inv;
-	Equipment equip;
+	public Equipment equipment;
 	public PickupMenu pickupMenu;
+//	public EquipMenu equipMenu;
 	int attack;
 	int defense;
 
     public static Player myPlayer;
     
-
 	public int health { get; set; }
 
 	ItemWeapon weapon;
 	ItemWeapon shield;
-	ItemArmor armor;
+	ItemArmor chestArmor;
+	ItemArmor headArmor;
 
     // Use this for initialization
     void Start () {
@@ -37,16 +38,20 @@ public class Player: MonoBehaviour {
             anim.SetInteger("direction", 3);
             anim.SetBool("moving", false);
 
-            pickupMenu = GetComponent<PickupMenu>();
+			pickupMenu = GetComponent<PickupMenu>();
 
-			equip = GameObject.Find ("Equipment").GetComponent<Equipment>();
+			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 
 			health = 100; // Full health
 			attack = 10; // Base attack
 			defense = 10; // Base defense
+
 			weapon = new ItemWeapon();
-			armor = new ItemArmor ();
+			shield = new ItemWeapon ();
+			chestArmor = new ItemArmor ();
+			headArmor = new ItemArmor ();
+
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -65,6 +70,11 @@ public class Player: MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.I)) {
 			toggleInventory ();
             Debug.Log("OPEN INVENTORY");
+		}
+
+		if (Input.GetMouseButtonDown(0) && !GetComponent<EquipMenu>().isActiveAndEnabled) {
+			GetComponent<EquipMenu> ().deactivate ();
+			inv.GetComponent<ItemMenu> ().deactivate ();
 		}
 	}
 	
@@ -151,7 +161,7 @@ public class Player: MonoBehaviour {
 		
 	private void toggleInventory () {
 		inv.toggleActive ();
-		equip.toggleActive ();
+		equipment.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
@@ -179,20 +189,29 @@ public class Player: MonoBehaviour {
 		}
 
 		// Put in equipment
-		equip.addItem (newWeapon.ID);
+		equipment.addItem (newWeapon.ID);
 	}
 
 	public void setArmor(ItemArmor newArmor){
-		if (this.armor.ID != -1) {
-			this.defense -= this.armor.Def;
+
+		// Check if there is something equipped
+		if (this.chestArmor.ID != -1) {
+			this.defense -= this.chestArmor.Def;
 		}
 
 		this.defense += newArmor.Def;
 
-		this.armor = newArmor;
+		// Determine weather head or chest
+		if (newArmor.itemType == ItemType.chest) {
+
+			this.chestArmor = newArmor;
+		} else {
+			this.headArmor = newArmor;
+		}
+
 
 		// Put in equipment
-		equip.addItem (newArmor.ID);
+		equipment.addItem (newArmor.ID);
 	}
 
 	public void useItem(AdventureItem item) {
@@ -200,12 +219,13 @@ public class Player: MonoBehaviour {
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
 		inv.removeItem (item);
+		printStats ();
 	}
 
 	public void printStats()
 	{
 		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
-			+ weapon.Title + "\nArmor: " + armor.Title);
+			+ weapon.Title + "\nArmor: " + chestArmor.Title);
 	}
 		
 	// Pauses / unpauses the game by essentially 'stopping time'
@@ -228,11 +248,45 @@ public class Player: MonoBehaviour {
 		Time.timeScale = 0;
 		Debug.Log ("PAUSE");
 
-
 	}
 	public void UnPause()
 	{
 		Time.timeScale = 1;
 		Debug.Log("UNPAUSE");
+	}
+
+	public void unEquip(AdventureItem item) {
+
+		item.equipped = false;
+		equipment.removeItem (item);
+
+//		Debug.Log ("Unequipping: " + item.itemType);
+
+		// Un-equipping sword
+		if (item.itemType == ItemType.weapon) {
+			ItemWeapon weapon = (ItemWeapon)item;
+			attack -= weapon.Atk;
+			this.weapon = new ItemWeapon (); // Set to bad ID
+
+		// Un-equipping shield
+		} else if (item.itemType == ItemType.shield) {
+			this.shield = new ItemWeapon();
+
+		// Un-equipping chest piece
+		} else if (item.itemType == ItemType.chest) {
+			ItemArmor armor = (ItemArmor)item;
+			defense -= armor.Def;
+			this.chestArmor = new ItemArmor();
+
+		// Un-equipping head piece
+		} else if (item.itemType == ItemType.head) {
+			ItemArmor armor = (ItemArmor)item;
+			defense -= armor.Def;
+			this.headArmor = new ItemArmor();
+		}
+
+//		equipment.printEquipment();
+
+		printStats ();
 	}
 }

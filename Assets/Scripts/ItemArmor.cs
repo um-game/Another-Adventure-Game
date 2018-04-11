@@ -18,7 +18,9 @@ public class ItemArmor : AdventureItem {
 		}
 	}
 
-	public ItemArmor() : base(){}
+	public ItemArmor() : base(){
+		
+	}
 
 	public override string getDataStr()
 	{
