@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-	public BoardManager boardScript;
 
 	private bool doingSetup;
 
@@ -18,7 +17,6 @@ public class GameManager : MonoBehaviour {
 			Destroy (gameObject);
 
 		DontDestroyOnLoad (gameObject);
-		boardScript = GetComponent<BoardManager> ();
 		InitGame ();
 	}
 
@@ -30,8 +28,6 @@ public class GameManager : MonoBehaviour {
 	void InitGame()
 	{
 		doingSetup = true;
-
-		//boardScript.SetupScene (0);//TODO: random?
 	}
 
 	public void GameOver()
