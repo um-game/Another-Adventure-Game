@@ -8,8 +8,14 @@ public class Enemy : MonoBehaviour {
 	public worldItem item; // Type of item enemy will drop
     bool dying = false;
 
+	Dictionary<int, float> dt;
+
 	// Use this for initialization
 	void Start () {
+
+		dt = new Dictionary<int, float> ();
+
+
 	}
 	
 	// Update is called once per frame
