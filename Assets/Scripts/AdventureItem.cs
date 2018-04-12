@@ -4,6 +4,8 @@ using UnityEngine;
 
 // Regular old classes can be used at will throughout the project as long as they are located within Unity's Assets folder
 
+// These enumerated types correspond to their respective slots in the equipment window
+public enum ItemType {head, weapon, chest, shield, pants}; 
 
 // This class will be the base class for all items.
 public class AdventureItem 
@@ -18,6 +20,8 @@ public class AdventureItem
 
 	public int Rarity { get; set; }
 
+	public  ItemType itemType { get; set; }
+
 	// This is used to get the sprite associiated with this particular item
 	// As such, it should match the filename of the sprite(
 	// e.g. if the sprite is named 'steel_ring.png' then Slug should be 'steel_ring'
@@ -25,6 +29,8 @@ public class AdventureItem
 	public string Slug { get; set; }
 
 	public Sprite Sprite { get; set; }
+
+	public bool equipped { get; set; }
 
 	public AdventureItem(int id, string title, int value, bool isStackable, string slug, int rarity, Sprite sprite) {
 		this.ID = id;
@@ -34,6 +40,7 @@ public class AdventureItem
 		this.IsStackable = isStackable;
 		this.Rarity = rarity;
 		this.Sprite = sprite;
+		equipped = false;
 	}
 
 	// We may use this to represent an 'empty' item
@@ -47,8 +54,10 @@ public class AdventureItem
 		return "Name: " + Title + "\nValue: " + Value + "\nRarity: " + Rarity; 
 
 	}
-
+		
 	virtual public string dbStr() {
 		return "Name: " + Title + " Value: " + Value + " Rarity: " + Rarity + " sprite name: " + this.Sprite.name;
 	}
+
+	public virtual void use (Player player){}
 }

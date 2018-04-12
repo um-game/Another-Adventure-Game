@@ -10,9 +10,17 @@ public class ItemArmor : AdventureItem {
 
 	public ItemArmor(int id, string title, int value, bool isStackable, string slug, int rarity, Sprite sprite, int def) : base(id, title, value, isStackable, slug, rarity, sprite)  {
 		this.Def = def;
+
+		if(title.ToUpperInvariant().Contains("CHEST")) {
+			this.itemType = ItemType.chest;
+		} else {
+			this.itemType = ItemType.head;
+		}
 	}
 
-	public ItemArmor() : base(){}
+	public ItemArmor() : base(){
+		
+	}
 
 	public override string getDataStr()
 	{
@@ -22,5 +30,10 @@ public class ItemArmor : AdventureItem {
 	public override string dbStr()
 	{
 		return base.dbStr() + " Defense: " + Def;
+	}
+
+	public override void use(Player player)
+	{
+		player.setArmor (this);
 	}
 }

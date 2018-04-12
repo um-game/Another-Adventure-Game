@@ -1,0 +1,62 @@
+{
+	"armor": [
+		{
+			"id":0,
+			"title": "Steel Ring",
+			"value": 6,
+			"slug": "steel_ring",
+			"stackable": true, 
+			"rarity": 1,
+			"def": 10
+		}
+	], 
+	"weapon" : [
+		{
+			"id": 1,
+			"title": "Sword",
+			"value": 543,
+			"slug": "sword",
+			"stackable": false,
+			"rarity": 4, 
+			"atk": 20
+		}, 
+		{
+			"id": 2,
+			"title": "Steel Sword",
+			"value": 543,
+			"slug": "steel_sword",
+			"stackable": false,
+			"rarity": 2,
+			"atk": 25
+		},
+		{
+			"id": 3,
+			"title": "Shield",
+			"value": 543,
+			"slug": "shieldd",
+			"stackable": false,
+			"rarity": 5,
+			"atk": 0
+		}
+	], 
+	"consumable" : [
+		{
+			"id": 4,
+			"title": "Health Potion",
+			"value": 10,
+			"slug": "health_potion",
+			"stackable": false,
+			"rarity": 1,
+			"hp": 10
+		},
+		{
+			"id": 5,
+			"title": "Big Health Potion",
+			"value": 100,
+			"slug": "big_health_potion",
+			"stackable": false,
+			"rarity": 7,
+			"hp": 20
+		}
+	]
+}

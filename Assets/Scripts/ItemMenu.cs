@@ -8,6 +8,9 @@ public class ItemMenu : MonoBehaviour {
 	GameObject itemMenu;
 	Button[] buttons;
 	AdventureItem item;
+	GameObject obj;
+
+	Player player;
 
     public static ItemMenu myItemMenu;
 
@@ -18,6 +21,11 @@ public class ItemMenu : MonoBehaviour {
             itemMenu = GameObject.Find("itemMenu");
             buttons = itemMenu.GetComponentsInChildren<Button>();
             itemMenu.SetActive(false);
+			player = GameObject.Find ("player").GetComponent<Player> ();
+
+			buttons [0].onClick.AddListener (useAction);
+			buttons [1].onClick.AddListener (removeAction);
+			buttons [2].onClick.AddListener (cancelAction);
 
             myItemMenu = this;
             DontDestroyOnLoad(myItemMenu);
@@ -28,13 +36,15 @@ public class ItemMenu : MonoBehaviour {
         }
 	}
 
-	public void activate(AdventureItem item) {
+	public void activate(AdventureItem item, GameObject obj) {
 
 		itemMenu.SetActive (true);
 
-		buttons [0].onClick.AddListener (useAction);
-		buttons [1].onClick.AddListener (removeAction);
 
+//		if (player.equipment.allItems [item.itemType] != -1) {
+//		}
+
+		this.obj = obj;
 		this.item = item;
 	}
 
@@ -53,13 +63,20 @@ public class ItemMenu : MonoBehaviour {
 	void useAction(){
 
 		Debug.Log ("clicked use button");
-
+		player.useItem (item);
+		Destroy (obj);
+//		player.printStats ();
 		itemMenu.SetActive (false);
 	}
 
 	void removeAction(){
 		Debug.Log ("clicked remove button");
 		GetComponent<Inventory> ().removeItem (item);
+		Destroy (obj);
+		itemMenu.SetActive (false);
+	}
+
+	void cancelAction(){ 
 		itemMenu.SetActive (false);
 	}
 }
