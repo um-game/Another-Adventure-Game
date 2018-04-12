@@ -83,7 +83,8 @@ public class Equipment : MonoBehaviour {
 		GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
 		itemObject.GetComponent<ItemData> ().init (itemToAdd, slotI); // Initialize itemData
 		itemObject.transform.SetParent (allSlots [slotI].transform); // Set correct parent
-		itemObject.transform.localPosition = Vector2.zero; // Center item in slot
+        itemObject.transform.localScale = itemObject.transform.root.transform.localScale;
+        itemObject.transform.localPosition = Vector2.zero; // Center item in slot
 		itemObject.GetComponent<Image> ().sprite = itemToAdd.Sprite; // Replace default sprite w/ item sprite
 		itemObject.name = itemToAdd.Title; // Set name of prefab to name of item(for convenience)
 	}
