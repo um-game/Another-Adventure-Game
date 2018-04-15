@@ -12,6 +12,7 @@ public class GlobalControl : MonoBehaviour
     public static ItemDatabase itemDB;
 	public static Equipment equip;
 	public static EquipMenu equipMenu;
+	public static Synergy syn;
 
     void Awake()
     {
@@ -22,12 +23,14 @@ public class GlobalControl : MonoBehaviour
 
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 			equip = GameObject.Find("Equipment").GetComponent<Equipment>();
+			syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
 			myPlayer = GameObject.Find("player").GetComponent<Player>();
             itemDB = GetComponent<ItemDatabase>();
 
             DontDestroyOnLoad(myPlayer);
             DontDestroyOnLoad(inv);
 			DontDestroyOnLoad (equip);
+			DontDestroyOnLoad (syn);
             /*
             DontDestroyOnLoad(itemDB);
             DontDestroyOnLoad(GetComponent<ToolTip>());

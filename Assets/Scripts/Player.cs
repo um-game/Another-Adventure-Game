@@ -13,6 +13,7 @@ public class Player: MonoBehaviour {
 
 	public Inventory inv;
 	public Equipment equipment;
+	public Synergy syn;
 	public PickupMenu pickupMenu;
 //	public EquipMenu equipMenu;
 	int attack;
@@ -42,6 +43,7 @@ public class Player: MonoBehaviour {
 
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
+			syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
 
 			health = 100; // Full health
 			attack = 10; // Base attack
@@ -51,7 +53,6 @@ public class Player: MonoBehaviour {
 			shield = new ItemWeapon ();
 			chestArmor = new ItemArmor ();
 			headArmor = new ItemArmor ();
-
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -162,6 +163,7 @@ public class Player: MonoBehaviour {
 	private void toggleInventory () {
 		inv.toggleActive ();
 		equipment.toggleActive ();
+		syn.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
