@@ -140,8 +140,6 @@ public class Player: MonoBehaviour {
             SceneManager.LoadScene(myWarp.dest);
             
             transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
-            
-            
         }
     }
 
@@ -263,8 +261,6 @@ public class Player: MonoBehaviour {
 
 			equipment.removeItem (item);
 
-	//		Debug.Log ("Unequipping: " + item.itemType);
-
 			// Un-equipping sword
 			if (item.itemType == ItemType.weapon) {
 				ItemWeapon weapon = (ItemWeapon)item;
@@ -288,8 +284,6 @@ public class Player: MonoBehaviour {
 				this.headArmor = new ItemArmor();
 			}
 		}
-//		equipment.printEquipment();
-
 		printStats ();
 	}
 
