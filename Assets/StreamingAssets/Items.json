@@ -67,5 +67,16 @@
 			"rarity": 7,
 			"hp": 20
 		}
+	], 
+	"synergy" : [
+		{
+			"id": 7,
+			"title": "Red Synergy",
+			"value": 10,
+			"slug": "red_synergy",
+			"stackable": false,
+			"rarity": 1
+		}
+
 	]
 }

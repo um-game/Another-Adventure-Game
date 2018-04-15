@@ -15,7 +15,6 @@ public class Player: MonoBehaviour {
 	public Equipment equipment;
 	public Synergy syn;
 	public PickupMenu pickupMenu;
-//	public EquipMenu equipMenu;
 	int attack;
 	int defense;
 
@@ -61,9 +60,6 @@ public class Player: MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        
-        
-
 	}
 
 	void Update() {
@@ -125,7 +121,6 @@ public class Player: MonoBehaviour {
 
         // Debug.Log("Touched:" + other.gameObject.tag);
 
-
         if (itemDat != null) {
 			// Stop player
 			anim.SetBool("moving", false);
@@ -140,7 +135,6 @@ public class Player: MonoBehaviour {
         {
             Warp myWarp = other.gameObject.GetComponent<Warp>();
             
-
             // Debug.Log("Going to level: " + index);
             Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
             SceneManager.LoadScene(myWarp.dest);
@@ -260,35 +254,46 @@ public class Player: MonoBehaviour {
 	public void unEquip(AdventureItem item) {
 
 		item.equipped = false;
-		equipment.removeItem (item);
 
-//		Debug.Log ("Unequipping: " + item.itemType);
+		if(item.GetType() == typeof(ItemSynergy)) {
 
-		// Un-equipping sword
-		if (item.itemType == ItemType.weapon) {
-			ItemWeapon weapon = (ItemWeapon)item;
-			attack -= weapon.Atk;
-			this.weapon = new ItemWeapon (); // Set to bad ID
+			syn.removeItem (item);
 
-		// Un-equipping shield
-		} else if (item.itemType == ItemType.shield) {
-			this.shield = new ItemWeapon();
+		} else {
 
-		// Un-equipping chest piece
-		} else if (item.itemType == ItemType.chest) {
-			ItemArmor armor = (ItemArmor)item;
-			defense -= armor.Def;
-			this.chestArmor = new ItemArmor();
+			equipment.removeItem (item);
 
-		// Un-equipping head piece
-		} else if (item.itemType == ItemType.head) {
-			ItemArmor armor = (ItemArmor)item;
-			defense -= armor.Def;
-			this.headArmor = new ItemArmor();
+	//		Debug.Log ("Unequipping: " + item.itemType);
+
+			// Un-equipping sword
+			if (item.itemType == ItemType.weapon) {
+				ItemWeapon weapon = (ItemWeapon)item;
+				attack -= weapon.Atk;
+				this.weapon = new ItemWeapon (); // Set to bad ID
+
+			// Un-equipping shield
+			} else if (item.itemType == ItemType.shield) {
+				this.shield = new ItemWeapon();
+
+			// Un-equipping chest piece
+			} else if (item.itemType == ItemType.chest) {
+				ItemArmor armor = (ItemArmor)item;
+				defense -= armor.Def;
+				this.chestArmor = new ItemArmor();
+
+			// Un-equipping head piece
+			} else if (item.itemType == ItemType.head) {
+				ItemArmor armor = (ItemArmor)item;
+				defense -= armor.Def;
+				this.headArmor = new ItemArmor();
+			}
 		}
-
 //		equipment.printEquipment();
 
 		printStats ();
+	}
+
+	public void equipSynItem(ItemSynergy synItem) {
+		syn.addItem (synItem.ID);
 	}
 }

@@ -33,11 +33,11 @@ TextureImporter:
     21300052: roguelikeitems_26
     21300054: roguelikeitems_27
     21300056: roguelikeitems_28
-    21300058: roguelikeitems_29
-    21300060: roguelikeitems_30
-    21300062: roguelikeitems_31
-    21300064: roguelikeitems_32
-    21300066: roguelikeitems_33
+    21300058: blue_synergy
+    21300060: green_synergy
+    21300062: red_synergy
+    21300064: purple_synergy
+    21300066: white_synergy
     21300068: roguelikeitems_34
     21300070: roguelikeitems_35
     21300072: roguelikeitems_36
@@ -650,7 +650,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_29
+      name: blue_synergy
       rect:
         serializedVersion: 2
         x: 18
@@ -664,7 +664,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_30
+      name: green_synergy
       rect:
         serializedVersion: 2
         x: 33
@@ -678,7 +678,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_31
+      name: red_synergy
       rect:
         serializedVersion: 2
         x: 49
@@ -692,7 +692,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_32
+      name: purple_synergy
       rect:
         serializedVersion: 2
         x: 65
@@ -706,7 +706,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_33
+      name: white_synergy
       rect:
         serializedVersion: 2
         x: 80
@@ -2506,7 +2506,7 @@ TextureImporter:
         width: 14
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

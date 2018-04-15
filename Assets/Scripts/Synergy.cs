@@ -42,20 +42,12 @@ public class Synergy : MonoBehaviour {
 				allItems.Add(new AdventureItem()); // Add empty item
 				allSlots.Add(Instantiate(inventorySlot)); // Create instance of slot prefab
 				allSlots[i].transform.SetParent(slotPanel.transform); // Set correct parent
-				allSlots[i].transform.localScale = new Vector3(1,1,1);
+				allSlots[i].transform.localScale = new Vector3(1, 1, 1);
 				allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
 			}
 
 			// Load ID's and add items here
 
-
-			// This is just here to show off the functionality of the inventory...
-			addItem(0);
-//			addItem(1);
-//			addItem(2);
-//			addItem(3);
-//			addItem(4);
-//			addItem(5);
 
 			inventoryPanel.SetActive(false);
 
@@ -70,6 +62,7 @@ public class Synergy : MonoBehaviour {
 
 	public void addItem(int id) {
 		AdventureItem itemToAdd = itemDB.getItem (id);
+		itemToAdd.equipped = true;
 
 		if (itemToAdd.IsStackable && itemAlreadyExists(itemToAdd)) {
 			for (int i = 0; i < allItems.Count; i++) {
