@@ -64,15 +64,6 @@ public class Synergy : MonoBehaviour {
 		AdventureItem itemToAdd = itemDB.getItem (id);
 		itemToAdd.equipped = true;
 
-		if (itemToAdd.IsStackable && itemAlreadyExists(itemToAdd)) {
-			for (int i = 0; i < allItems.Count; i++) {
-				if (allItems [i].ID == id) {
-					allSlots [i].transform.GetChild (0).GetComponent<ItemData> ().increaseAmt(1); // Update associated item data
-					return;
-				}
-			}
-		}
-
 		for (int i = 0; i < allItems.Count; i++) {
 			if (allItems [i].ID == -1) { // Check for 'empty slot'
 				allItems [i] = itemToAdd; // Assign empty slot to new item
