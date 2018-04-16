@@ -57,6 +57,9 @@ public class Inventory : MonoBehaviour {
             addItem(4);
             addItem(5);
 			addItem (7);
+			addItem (18);
+			addItem (19);
+			addItem (20);
 
             inventoryPanel.SetActive(false);
 
