@@ -330,7 +330,7 @@ MonoBehaviour:
   floorTiles:
   - {fileID: 1799599574732020, guid: f235b76353808c041910960239290348, type: 2}
   wallTiles:
-  - {fileID: 1964518843730508, guid: 8d09c92b15f8a994a8d9e1bdc8fb8fef, type: 2}
+  - {fileID: 1021683896116822, guid: dfffc38e76b4a9f4fa13b3ee21fcfac8, type: 2}
   outerWallTiles:
   - {fileID: 1021683896116822, guid: dfffc38e76b4a9f4fa13b3ee21fcfac8, type: 2}
   player: {fileID: 472342119}
