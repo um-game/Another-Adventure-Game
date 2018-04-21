@@ -50,16 +50,19 @@ public class Inventory : MonoBehaviour {
 
 
             // This is just here to show off the functionality of the inventory...
-            addItem(0);
-            addItem(1);
-            addItem(2);
-            addItem(3);
             addItem(4);
-            addItem(5);
-			addItem (7);
+			addItem (5);
+            addItem(7);
+            addItem(9);
+            addItem(14);
+			addItem (6);
+			addItem (16);
+			addItem (17);
 			addItem (18);
 			addItem (19);
 			addItem (20);
+			addItem (21);
+			addItem (22);
 
             inventoryPanel.SetActive(false);
 
