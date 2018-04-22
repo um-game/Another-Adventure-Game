@@ -373,15 +373,17 @@ public class Player: MonoBehaviour {
 			Debug.Log ("ATK BUFF");
 
 			// Accounts for turning buff on while item equipped
-			if (attack == (baseAttack + weapon.Atk)) {
+			if (attack == (baseAttack + weapon.Atk) && weapon.ID != -1) {
 				attack += 20;
 			}
 
 		} else if (attackBuff) {
 			attackBuff = false;
 
-			// This accounts for the situation where something is equipped
-			attack -= 20; 
+			if (weapon.ID != -1) {
+				// This accounts for the situation where something is equipped
+				attack -= 20; 
+			}
 			Debug.Log ("ATK DEBUFF");
 		}
 	}
