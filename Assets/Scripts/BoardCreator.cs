@@ -32,6 +32,8 @@ public class BoardCreator : MonoBehaviour
         // Create the board holder.
         boardHolder = new GameObject("BoardHolder");
 
+        player = GameObject.Find("player");
+
         SetupTilesArray ();
 
         CreateRoomsAndCorridors ();
