@@ -145,26 +145,29 @@ public class Player: MonoBehaviour {
         else if (other.gameObject.tag == "warp")
         {
             Warp myWarp = other.gameObject.GetComponent<Warp>();
-            
 
-            // Debug.Log("Going to level: " + index);
+            /*
             Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
             SceneManager.LoadScene(myWarp.dest);
             
-            transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
             
-            
+            */
+
+            StartCoroutine(ChangeLevel(myWarp.dest, myWarp.warpX, myWarp.warpY, 0));
+
+
+            //transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
         }
     }
+    
 
-    /*
-     IEnumerator ChangeLevel(int index)
+     IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
     {
         float fadeTime = GameObject.Find("EventSystem").GetComponent<Fading>().BeginFade(1);
         yield return new WaitForSeconds(fadeTime);
+        transform.position = new Vector3(warpX, warpY, warpZ);
         SceneManager.LoadScene(index);
     }
-    */
 		
 	private void toggleInventory () {
 		inv.toggleActive ();
