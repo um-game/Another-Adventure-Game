@@ -7,15 +7,28 @@ public class Enemy : MonoBehaviour {
 
 	public worldItem item; // Type of item enemy will drop
     bool dying = false;
+	RandomNumberGenerator rng;
+
+	int difficulty;
 
 	Dictionary<int, float> dt;
 
 	// Use this for initialization
 	void Start () {
 
-		dt = new Dictionary<int, float> ();
+		// TODO: Setup enemy database?
 
+		// TODO: Populate from file?
+		dt = new Dictionary<int, float> () { { 0, 0.2f}, { 1, 0.3f}, {2, 0.5f} }; 
+		difficulty = 1;
 
+		float[] probs = new float[dt.Count];
+
+		for (int i =0; i < dt.Count; i++) {
+			probs [i] = dt [i];
+		}
+
+		rng = new RandomNumberGenerator(probs); 
 	}
 	
 	// Update is called once per frame
@@ -35,12 +48,22 @@ public class Enemy : MonoBehaviour {
 			item = Instantiate (item, this.transform.position, item.transform.rotation);
 			item.transform.position = this.transform.position;
 
-			int rand = Random.Range (0, 7); // Generate random item
+			ItemDatabase itemDB = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ();
+
+			// Get all items that correspond to this enemmy's difficulty
+			List<AdventureItem> possibleDrop = itemDB.getItemByRarity (difficulty);
+
+			int rand = rng.next ();// Generate random item
 
 			// Replace 'one' with whatever comes out of drop table
-			AdventureItem it = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ().getItem (rand);	
+			AdventureItem it = possibleDrop[rand];	
 			item.GetComponent<SpriteRenderer> ().sprite = it.Sprite;
-			item.id = rand; // Make sure this matches the random number too...
+			item.id = it.ID; // Make sure this matches the random number too...
+
 		}
     }
+
 }
+
+
+
