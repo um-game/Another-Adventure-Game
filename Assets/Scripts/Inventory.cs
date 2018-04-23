@@ -50,12 +50,19 @@ public class Inventory : MonoBehaviour {
 
 
             // This is just here to show off the functionality of the inventory...
-            addItem(0);
-            addItem(1);
-            addItem(2);
-            addItem(3);
-            addItem(4);
-            addItem(5);
+			addItem(4);
+			addItem (5);
+			addItem(7);
+			addItem(9);
+			addItem(14);
+			addItem (6);
+			addItem (16);
+			addItem (17);
+			addItem (18);
+			addItem (19);
+			addItem (20);
+			addItem (21);
+			addItem (22);
 
             inventoryPanel.SetActive(false);
 
@@ -107,8 +114,9 @@ public class Inventory : MonoBehaviour {
 				currData.decreaseAmt (1);
 				if(currData.amt == 0) {
 					currData.removeItem ();
-					allSlots [i].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
-					allSlots[i].transform.DetachChildren();
+
+					GameObject item = allSlots [i].transform.GetChild (0).transform.gameObject;
+					Destroy (item);
 					allItems [i] = new AdventureItem ();
 					return;
 				}

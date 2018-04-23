@@ -95,8 +95,11 @@ public class Equipment : MonoBehaviour {
 
 		ItemData currData = allSlots [itemToRmI].transform.GetChild (0).GetComponent<ItemData> ();
 		currData.removeItem ();
-		allSlots [itemToRmI].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
-		allSlots[itemToRmI].transform.DetachChildren();
+
+		GameObject item = allSlots [itemToRmI].transform.GetChild (0).transform.gameObject;
+		Destroy (item);
+//		allSlots [itemToRmI].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
+//		allSlots[itemToRmI].transform.DetachChildren();
 		allItems [itemToRmI] = new AdventureItem ();
 	}
 

@@ -58,6 +58,11 @@ public class ItemDatabase : MonoBehaviour {
 		foreach (JsonData consumable in jsonItemData["consumable"]) {
 			itemList.Add (new ItemConsumable ((int)consumable ["id"], consumable ["title"].ToString (), (int)consumable ["value"], (bool)consumable ["stackable"], consumable ["slug"].ToString (), (int)consumable ["rarity"], getSpriteByName (consumable ["slug"].ToString ()), (int)consumable ["hp"]));
 		}
+
+		// Read in all the synergy items
+		foreach (JsonData synergy in jsonItemData["synergy"]) {
+			itemList.Add (new ItemSynergy ((int)synergy ["id"], synergy ["title"].ToString (), (int)synergy["value"], (bool)synergy["stackable"], synergy ["slug"].ToString (), (int)synergy["rarity"], getSpriteByName (synergy["slug"].ToString())));
+		}
 	}
 
 	public AdventureItem getItem(int id) {

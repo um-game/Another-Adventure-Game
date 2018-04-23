@@ -7,6 +7,7 @@ public class GlobalControl : MonoBehaviour
     public static GlobalControl Instance;
 
     public static Inventory inv;
+	public static Synergy syn;
 	public static PickupMenu pickupMenu;
     public static Player myPlayer;
     public static ItemDatabase itemDB;
@@ -21,6 +22,7 @@ public class GlobalControl : MonoBehaviour
 			equipMenu = GameObject.Find("PopupCanvas").GetComponent<EquipMenu>();
 
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
+			syn = GameObject.Find("Synergy").GetComponent<Synergy>();
 			equip = GameObject.Find("Equipment").GetComponent<Equipment>();
 			myPlayer = GameObject.Find("player").GetComponent<Player>();
             itemDB = GetComponent<ItemDatabase>();
@@ -28,6 +30,8 @@ public class GlobalControl : MonoBehaviour
             DontDestroyOnLoad(myPlayer);
             DontDestroyOnLoad(inv);
 			DontDestroyOnLoad (equip);
+			DontDestroyOnLoad(syn);
+
             /*
             DontDestroyOnLoad(itemDB);
             DontDestroyOnLoad(GetComponent<ToolTip>());
