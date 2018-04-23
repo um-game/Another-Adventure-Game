@@ -42,6 +42,7 @@ public class Inventory : MonoBehaviour {
                 allItems.Add(new AdventureItem()); // Add empty item
                 allSlots.Add(Instantiate(inventorySlot)); // Create instance of slot prefab
                 allSlots[i].transform.SetParent(slotPanel.transform); // Set correct parent
+                allSlots[i].transform.localScale = new Vector3(1,1,1);
                 allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
             }
 
@@ -86,8 +87,9 @@ public class Inventory : MonoBehaviour {
 
 				itemObject.GetComponent<ItemData>().init(itemToAdd, i); // Initialize itemData
 				itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
-				itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
-				itemObject.GetComponent<Image>().sprite = itemToAdd.Sprite; // Replace default sprite w/ item sprite
+                itemObject.transform.localScale = new Vector3(1,1,1);
+                itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
+                itemObject.GetComponent<Image>().sprite = itemToAdd.Sprite; // Replace default sprite w/ item sprite
 				itemObject.name = itemToAdd.Title; // Set name of prefab to name of item(for convenience)
 				return;
 			}
