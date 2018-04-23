@@ -10,7 +10,7 @@ public class ItemMenu : MonoBehaviour {
 	AdventureItem item;
 	GameObject obj;
 
-	public GameObject it;
+    public worldItem it;
 
 	Player player;
 
@@ -74,8 +74,8 @@ public class ItemMenu : MonoBehaviour {
 	void removeAction(){
 		Debug.Log ("clicked remove button");
 		GetComponent<Inventory> ().removeItem (item);
-		GameObject worldItem = Instantiate (it);
-		worldItem.GetComponent<SpriteRenderer> ().sprite = item.Sprite;
+		it = Instantiate (it);
+		it.GetComponent<SpriteRenderer> ().sprite = item.Sprite;
 
 		float dropOffset = 0.75f;
 
@@ -83,19 +83,19 @@ public class ItemMenu : MonoBehaviour {
 
 		// Facing North
 		case 1:
-			worldItem.transform.position = player.transform.position + new Vector3 (0, dropOffset, 0);
+			it.transform.position = player.transform.position + new Vector3 (0, dropOffset, 0);
 			break;
 		// Facing East
 		case 2:
-			worldItem.transform.position = player.transform.position + new Vector3 (dropOffset, 0, 0);
+			it.transform.position = player.transform.position + new Vector3 (dropOffset, 0, 0);
 			break;
 		// Facing South
 		case 3:
-			worldItem.transform.position = player.transform.position - new Vector3 (0, dropOffset, 0);
+			it.transform.position = player.transform.position - new Vector3 (0, dropOffset, 0);
 			break;
 		// Facing West
 		case 4:
-			worldItem.transform.position = player.transform.position - new Vector3 (dropOffset, 0, 0);
+			it.transform.position = player.transform.position - new Vector3 (dropOffset, 0, 0);
 			break;
 
 
