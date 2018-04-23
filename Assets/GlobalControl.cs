@@ -17,8 +17,8 @@ public class GlobalControl : MonoBehaviour
     {
         if (Instance == null)
         {
-			pickupMenu = GameObject.Find("Canvas").GetComponent<PickupMenu>();
-			equipMenu = GameObject.Find("Canvas").GetComponent<EquipMenu>();
+			pickupMenu = GameObject.Find("PopupCanvas").GetComponent<PickupMenu>();
+			equipMenu = GameObject.Find("PopupCanvas").GetComponent<EquipMenu>();
 
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 			equip = GameObject.Find("Equipment").GetComponent<Equipment>();
