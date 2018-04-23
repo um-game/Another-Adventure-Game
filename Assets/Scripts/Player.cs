@@ -84,36 +84,43 @@ public class Player: MonoBehaviour {
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
-        
-        if (Input.GetKey(KeyCode.W)) {
-            anim.SetInteger("direction", 1);
-            anim.SetBool("moving", true);
+        if (anim != null)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                anim.SetInteger("direction", 1);
+                anim.SetBool("moving", true);
 
-           rb2d.velocity = new Vector2(0, moveY * maxSpeed);
-        }
-        else if (Input.GetKey(KeyCode.S)) {
-            anim.SetInteger("direction", 3);
-            anim.SetBool("moving", true);
+                rb2d.velocity = new Vector2(0, moveY * maxSpeed);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                anim.SetInteger("direction", 3);
+                anim.SetBool("moving", true);
 
-           rb2d.velocity = new Vector2(0, moveY * maxSpeed);
-        }
-        else if (Input.GetKey(KeyCode.D)) {
-            anim.SetInteger("direction", 2);
-            anim.SetBool("moving", true);
+                rb2d.velocity = new Vector2(0, moveY * maxSpeed);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                anim.SetInteger("direction", 2);
+                anim.SetBool("moving", true);
 
-           rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
-        }
-        else if (Input.GetKey(KeyCode.A)) {
-            anim.SetInteger("direction", 4);
-            anim.SetBool("moving", true);
+                rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                anim.SetInteger("direction", 4);
+                anim.SetBool("moving", true);
 
-            rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
+                rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
+            }
+
+            else
+            {
+                anim.SetBool("moving", false);
+                rb2d.velocity = new Vector2(0, 0);
+            }
         }
-        
-        else {
-            anim.SetBool("moving", false);
-            rb2d.velocity = new Vector2(0, 0);
-        }   
     }
 
 	// This method is fired whenever the Player's collider passes through an 'isTrigger' collider
@@ -138,26 +145,29 @@ public class Player: MonoBehaviour {
         else if (other.gameObject.tag == "warp")
         {
             Warp myWarp = other.gameObject.GetComponent<Warp>();
-            
 
-            // Debug.Log("Going to level: " + index);
+            /*
             Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
             SceneManager.LoadScene(myWarp.dest);
             
-            transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
             
-            
+            */
+
+            StartCoroutine(ChangeLevel(myWarp.dest, myWarp.warpX, myWarp.warpY, 0));
+
+
+            //transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
         }
     }
+    
 
-    /*
-     IEnumerator ChangeLevel(int index)
+     IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
     {
         float fadeTime = GameObject.Find("EventSystem").GetComponent<Fading>().BeginFade(1);
         yield return new WaitForSeconds(fadeTime);
+        transform.position = new Vector3(warpX, warpY, warpZ);
         SceneManager.LoadScene(index);
     }
-    */
 		
 	private void toggleInventory () {
 		inv.toggleActive ();
