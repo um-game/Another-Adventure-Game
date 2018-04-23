@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class ItemDatabase : MonoBehaviour {
 		jsonItemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")); // Read in JSON data
 		loadSpriteDict ("Sprites/Items/roguelikeitems"); // Load item spritesheet
 		createDatabase (); 
+
 		//printDB (); // used to debug DB
 	}
 
@@ -79,6 +81,20 @@ public class ItemDatabase : MonoBehaviour {
 		for (int i = 0; i < itemList.Count; i++) {
 			Debug.Log (itemList[i].dbStr());
 		}
+	}
+
+	public List<AdventureItem> getItemByRarity(int rarity) {
+
+		List<AdventureItem> items = new List<AdventureItem> ();
+
+		// Build the list of items with given rarity
+		foreach(AdventureItem item in itemList){
+
+			if (item.Rarity == rarity) {
+				items.Add (item);
+			}
+		}
+		return items;
 	}
 }
 
