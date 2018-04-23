@@ -24,10 +24,10 @@ public class Enemy : MonoBehaviour {
 
 		float[] probs = new float[dt.Count];
 
+		// Create array of probabilities based on drop table
 		for (int i =0; i < dt.Count; i++) {
 			probs [i] = dt [i];
 		}
-
 		rng = new RandomNumberGenerator(probs); 
 	}
 	
@@ -50,20 +50,15 @@ public class Enemy : MonoBehaviour {
 
 			ItemDatabase itemDB = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ();
 
-			// Get all items that correspond to this enemmy's difficulty
+			// Get all items that correspond to this enemy's difficulty
 			List<AdventureItem> possibleDrop = itemDB.getItemByRarity (difficulty);
 
-			int rand = rng.next ();// Generate random item
+			int rand = rng.next (); // Generate random item index
 
-			// Replace 'one' with whatever comes out of drop table
+			// Get item at generated index
 			AdventureItem it = possibleDrop[rand];	
 			item.GetComponent<SpriteRenderer> ().sprite = it.Sprite;
 			item.id = it.ID; // Make sure this matches the random number too...
-
 		}
     }
-
 }
-
-
-
