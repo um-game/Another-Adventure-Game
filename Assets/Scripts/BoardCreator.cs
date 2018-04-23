@@ -33,6 +33,7 @@ public class BoardCreator : MonoBehaviour
         boardHolder = new GameObject("BoardHolder");
 
         player = GameObject.Find("player");
+        
 
         SetupTilesArray ();
 
@@ -99,7 +100,7 @@ public class BoardCreator : MonoBehaviour
             if (i == rooms.Length *.5f)
             {
                 Vector3 playerPos = new Vector3 (rooms[i].xPos, rooms[i].yPos, 0);
-                Instantiate(player, playerPos, Quaternion.identity);
+                player.transform.position = playerPos;
             }
         }
 
@@ -243,6 +244,8 @@ public class BoardCreator : MonoBehaviour
 
     void InstantiateFromArray (GameObject[] prefabs, float xCoord, float yCoord)
     {
+        // Debug.Log("Instantiating tile: " + xCoord + "," + yCoord);
+
         // Create a random index for the array.
         int randomIndex = Random.Range(0, prefabs.Length);
 
