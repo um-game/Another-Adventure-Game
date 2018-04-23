@@ -33,11 +33,11 @@ TextureImporter:
     21300052: roguelikeitems_26
     21300054: roguelikeitems_27
     21300056: roguelikeitems_28
-    21300058: roguelikeitems_29
-    21300060: roguelikeitems_30
-    21300062: roguelikeitems_31
-    21300064: roguelikeitems_32
-    21300066: roguelikeitems_33
+    21300058: blue_synergy
+    21300060: green_synergy
+    21300062: red_synergy
+    21300064: purple_synergy
+    21300066: white_synergy
     21300068: roguelikeitems_34
     21300070: roguelikeitems_35
     21300072: roguelikeitems_36
@@ -69,31 +69,31 @@ TextureImporter:
     21300124: roguelikeitems_62
     21300126: roguelikeitems_63
     21300128: roguelikeitems_64
-    21300130: steel_sword
-    21300132: sword
-    21300134: roguelikeitems_67
+    21300130: basic_sword
+    21300132: average_sword
+    21300134: great_sword
     21300136: roguelikeitems_68
     21300138: roguelikeitems_69
     21300140: roguelikeitems_70
     21300142: roguelikeitems_71
     21300144: roguelikeitems_72
-    21300146: roguelikeitems_73
+    21300146: legendary_sword
     21300148: roguelikeitems_74
     21300150: roguelikeitems_75
     21300152: roguelikeitems_76
     21300154: roguelikeitems_77
-    21300156: steel_head
-    21300158: roguelikeitems_79
-    21300160: roguelikeitems_80
-    21300162: roguelikeitems_81
+    21300156: basic_helm
+    21300158: better_helm
+    21300160: average_helm
+    21300162: great_helm
     21300164: roguelikeitems_82
     21300166: roguelikeitems_83
     21300168: roguelikeitems_84
-    21300170: chest_plate
+    21300170: basic_chestplate
     21300172: roguelikeitems_86
     21300174: roguelikeitems_87
     21300176: roguelikeitems_88
-    21300178: roguelikeitems_89
+    21300178: royal_chestplate
     21300180: roguelikeitems_90
     21300182: roguelikeitems_91
     21300184: roguelikeitems_92
@@ -105,8 +105,8 @@ TextureImporter:
     21300196: roguelikeitems_98
     21300198: roguelikeitems_99
     21300200: roguelikeitems_100
-    21300202: roguelikeitems_101
-    21300204: shieldd
+    21300202: basic_shield
+    21300204: better_shield
     21300206: shield
     21300208: roguelikeitems_104
     21300210: roguelikeitems_105
@@ -168,6 +168,8 @@ TextureImporter:
     21300322: steel_ring
     21300324: roguelikeitems_38
     21300326: royal_shield
+    21300328: better_sword
+    21300330: royal_helm
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -650,7 +652,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_29
+      name: blue_synergy
       rect:
         serializedVersion: 2
         x: 18
@@ -664,7 +666,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_30
+      name: green_synergy
       rect:
         serializedVersion: 2
         x: 33
@@ -678,7 +680,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_31
+      name: red_synergy
       rect:
         serializedVersion: 2
         x: 49
@@ -692,7 +694,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_32
+      name: purple_synergy
       rect:
         serializedVersion: 2
         x: 65
@@ -706,7 +708,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_33
+      name: white_synergy
       rect:
         serializedVersion: 2
         x: 80
@@ -1154,13 +1156,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: steel_sword
+      name: basic_sword
       rect:
         serializedVersion: 2
         x: 0
+        y: 113
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: average_sword
+      rect:
+        serializedVersion: 2
+        x: 32
         y: 112
         width: 15
-        height: 16
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1168,27 +1184,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: sword
+      name: great_sword
       rect:
         serializedVersion: 2
-        x: 32
-        y: 111
-        width: 16
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: roguelikeitems_67
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 48
+        y: 112
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1199,10 +1201,10 @@ TextureImporter:
       name: roguelikeitems_68
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
-        width: 32
-        height: 32
+        x: 64
+        y: 112
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1266,13 +1268,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_73
+      name: legendary_sword
       rect:
         serializedVersion: 2
-        x: 176
-        y: 96
-        width: 32
-        height: 32
+        x: 192
+        y: 111
+        width: 15
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1336,12 +1338,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: steel_head
+      name: basic_helm
       rect:
         serializedVersion: 2
         x: 1
         y: 80
-        width: 14
+        width: 15
         height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1350,7 +1352,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_79
+      name: better_helm
       rect:
         serializedVersion: 2
         x: 17
@@ -1364,7 +1366,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_80
+      name: average_helm
       rect:
         serializedVersion: 2
         x: 33
@@ -1378,13 +1380,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_81
+      name: great_helm
       rect:
         serializedVersion: 2
         x: 48
-        y: 48
-        width: 32
-        height: 48
+        y: 79
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1434,7 +1436,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: chest_plate
+      name: basic_chestplate
       rect:
         serializedVersion: 2
         x: 145
@@ -1490,13 +1492,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_89
+      name: royal_chestplate
       rect:
         serializedVersion: 2
-        x: 0
+        x: 16
         y: 65
-        width: 47
-        height: 14
+        width: 16
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1658,7 +1660,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: roguelikeitems_101
+      name: basic_shield
       rect:
         serializedVersion: 2
         x: 81
@@ -1672,7 +1674,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: shieldd
+      name: better_shield
       rect:
         serializedVersion: 2
         x: 97
@@ -2506,7 +2508,35 @@ TextureImporter:
         width: 14
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: better_sword
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 112
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: royal_helm
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 64
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -7,15 +7,21 @@ public class Player: MonoBehaviour {
 
     public float maxSpeed;
 
+	private float buffSpeed;
+	private float baseSpeed;
+
+	private bool attackBuff;
+
     Animator anim;
 	Rigidbody2D rb2d;
     Renderer rend;
 
 	public Inventory inv;
 	public Equipment equipment;
+	public Synergy syn;
 	public PickupMenu pickupMenu;
-//	public EquipMenu equipMenu;
 	int attack;
+	int baseAttack;
 	int defense;
 
     public static Player myPlayer;
@@ -42,9 +48,12 @@ public class Player: MonoBehaviour {
 
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
+			syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
+
+			baseAttack = 10;
 
 			health = 100; // Full health
-			attack = 10; // Base attack
+			attack = baseAttack; // Base attack
 			defense = 10; // Base defense
 
 			weapon = new ItemWeapon();
@@ -52,6 +61,9 @@ public class Player: MonoBehaviour {
 			chestArmor = new ItemArmor ();
 			headArmor = new ItemArmor ();
 
+			baseSpeed = maxSpeed;
+			buffSpeed = maxSpeed * 2.0f;
+			attackBuff = false;
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -60,9 +72,6 @@ public class Player: MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        
-        
-
 	}
 
 	void Update() {
@@ -124,7 +133,6 @@ public class Player: MonoBehaviour {
 
         // Debug.Log("Touched:" + other.gameObject.tag);
 
-
         if (itemDat != null) {
 			// Stop player
 			anim.SetBool("moving", false);
@@ -139,14 +147,11 @@ public class Player: MonoBehaviour {
         {
             Warp myWarp = other.gameObject.GetComponent<Warp>();
             
-
             // Debug.Log("Going to level: " + index);
             Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
             SceneManager.LoadScene(myWarp.dest);
             
             transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
-            
-            
         }
     }
 
@@ -162,6 +167,7 @@ public class Player: MonoBehaviour {
 	private void toggleInventory () {
 		inv.toggleActive ();
 		equipment.toggleActive ();
+		syn.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
@@ -177,19 +183,32 @@ public class Player: MonoBehaviour {
 		// If we did not have anything equipped and not shield, don't reduce attack
 		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
 			attack -= this.weapon.Atk;
+
+			// Subtract out buff
+			if (attackBuff) {
+				attack -= 20;
+			}
+
 		}
 
-		// Add new new weapon's attack
+		// Add new weapon's attack
 		attack += newWeapon.Atk;
 
 		if (newWeapon.itemType == ItemType.weapon) {
 			this.weapon = newWeapon;
+
+			// Add in buff
+			if (attackBuff) {
+				attack += 20;
+			}
+
 		} else {
 			this.shield = newWeapon;
 		}
 
 		// Put in equipment
 		equipment.addItem (newWeapon.ID);
+
 	}
 
 	public void setArmor(ItemArmor newArmor){
@@ -258,35 +277,114 @@ public class Player: MonoBehaviour {
 	public void unEquip(AdventureItem item) {
 
 		item.equipped = false;
-		equipment.removeItem (item);
 
-//		Debug.Log ("Unequipping: " + item.itemType);
+		if(item.GetType() == typeof(ItemSynergy)) {
+			syn.removeItem (item);
+			checkBuff ();
 
-		// Un-equipping sword
-		if (item.itemType == ItemType.weapon) {
-			ItemWeapon weapon = (ItemWeapon)item;
-			attack -= weapon.Atk;
-			this.weapon = new ItemWeapon (); // Set to bad ID
+		} else {
 
-		// Un-equipping shield
-		} else if (item.itemType == ItemType.shield) {
-			this.shield = new ItemWeapon();
+			equipment.removeItem (item);
 
-		// Un-equipping chest piece
-		} else if (item.itemType == ItemType.chest) {
-			ItemArmor armor = (ItemArmor)item;
-			defense -= armor.Def;
-			this.chestArmor = new ItemArmor();
+			// Un-equipping sword
+			if (item.itemType == ItemType.weapon) {
+				ItemWeapon weapon = (ItemWeapon)item;
+				attack -= weapon.Atk;
+				this.weapon = new ItemWeapon (); // Set to bad ID
 
-		// Un-equipping head piece
-		} else if (item.itemType == ItemType.head) {
-			ItemArmor armor = (ItemArmor)item;
-			defense -= armor.Def;
-			this.headArmor = new ItemArmor();
+				// Remove buff
+				if (attackBuff) {
+					attack -= 20;
+				}
+
+			// Un-equipping shield
+			} else if (item.itemType == ItemType.shield) {
+				this.shield = new ItemWeapon();
+
+			// Un-equipping chest piece
+			} else if (item.itemType == ItemType.chest) {
+				ItemArmor armor = (ItemArmor)item;
+				defense -= armor.Def;
+				this.chestArmor = new ItemArmor();
+
+			// Un-equipping head piece
+			} else if (item.itemType == ItemType.head) {
+				ItemArmor armor = (ItemArmor)item;
+				defense -= armor.Def;
+				this.headArmor = new ItemArmor();
+			}
+		}
+		printStats ();
+	}
+
+	public void equipSynItem(ItemSynergy synItem) {
+		syn.addItem (synItem.ID);
+		checkBuff();
+	}
+
+	private void checkBuff() {
+
+		List<AdventureItem> allSyn = syn.allItems;
+
+		Dictionary<string, int> contains = new Dictionary<string, int> () { { "red", 0 },
+																			{ "green", 0 },
+																			{ "blue", 0 },
+																			{ "purple", 0 },
+																			{ "white", 0 } };
+
+		// Figure out what items are present
+		foreach (AdventureItem item in allSyn) {
+
+			switch (item.Slug) 
+			{
+			case "red_synergy":
+				contains ["red"] += 1;
+				break;
+
+			case "green_synergy":
+				contains ["green"] += 1;
+				break;
+
+			case "blue_synergy":
+				contains ["blue"] += 1;
+				break;
+
+			case "purple_synergy":
+				contains ["purple"] += 1;
+				break;
+
+			case "white_synergy":
+				contains ["white"] += 1;
+				break;
+			}
 		}
 
-//		equipment.printEquipment();
+		// Turn buffs on/off
+		if (contains ["red"] == 1 && contains ["blue"] == 1) {
+			maxSpeed = buffSpeed;
+			Debug.Log ("RB BUFF SPEED");
+		} else if (maxSpeed == buffSpeed) {
+			maxSpeed = baseSpeed;
+			Debug.Log ("RB UNBUFF SPEED");
+		}
 
-		printStats ();
+		if (contains ["green"] == 1 && contains ["purple"] == 1) {
+			attackBuff = true;
+			Debug.Log ("ATK BUFF");
+
+			// Accounts for turning buff on while item equipped
+			if (attack == (baseAttack + weapon.Atk) && weapon.ID != -1) {
+				attack += 20;
+			}
+
+		} else if (attackBuff) {
+			attackBuff = false;
+
+			if (weapon.ID != -1) {
+				// This accounts for the situation where something is equipped
+				attack -= 20; 
+			}
+			Debug.Log ("ATK DEBUFF");
+		}
 	}
 }
