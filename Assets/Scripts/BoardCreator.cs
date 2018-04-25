@@ -19,7 +19,8 @@ public class BoardCreator : MonoBehaviour
     public GameObject[] floorTiles;                           // An array of floor tile prefabs.
     public GameObject[] wallTiles;                            // An array of wall tile prefabs.
     public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
-    public GameObject player;
+    private GameObject player;
+    private GameObject camera;
 
     private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
     private Room[] rooms;                                     // All the rooms that are created for this board.
@@ -33,6 +34,7 @@ public class BoardCreator : MonoBehaviour
         boardHolder = new GameObject("BoardHolder");
 
         player = GameObject.Find("player");
+        camera = GameObject.Find("Main Camera");
         
 
         SetupTilesArray ();
@@ -44,6 +46,8 @@ public class BoardCreator : MonoBehaviour
 
         InstantiateTiles ();
         InstantiateOuterWalls ();
+
+        MoveCharacter();
     }
 
 
@@ -96,14 +100,7 @@ public class BoardCreator : MonoBehaviour
                 // Setup the corridor based on the room that was just created.
                 corridors[i].SetupCorridor(rooms[i], corridorLength, roomWidth, roomHeight, columns, rows, false);
             }
-            
-            if (i == rooms.Length *.5f)
-            {
-                Vector3 playerPos = new Vector3 (rooms[i].xPos, rooms[i].yPos, 0);
-                player.transform.position = playerPos;
-            }
         }
-
     }
 
 
@@ -257,5 +254,14 @@ public class BoardCreator : MonoBehaviour
 
         // Set the tile's parent to the board holder.
         tileInstance.transform.parent = boardHolder.transform;
+    }
+
+    void MoveCharacter()
+    {
+        //place player and camera
+        Vector3 playerPos = new Vector3 (rooms[0].xPos + (rooms[0].roomWidth / 2), rooms[0].yPos + (rooms[0].roomHeight), 0);
+        Vector3 cameraPos = new Vector3(rooms[0].xPos + (rooms[0].roomWidth / 2), rooms[0].yPos + (rooms[0].roomHeight), -10);
+        player.transform.position = playerPos;
+        camera.transform.position = cameraPos;
     }
 }
