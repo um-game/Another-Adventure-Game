@@ -9,14 +9,18 @@ using UnityEngine.UI;
 public class Synergy : MonoBehaviour {
 
 	GameObject inventoryPanel; // Holds slot panel
+    GameObject inventoryPanelClone;
 	GameObject slotPanel; // Holds slots
+    GameObject slotPanelClone;
 	public GameObject inventorySlot; // Prefab instance of an inventory slot
 	public GameObject inventoryItem; // Prefab instance of an inventory item
 
 	int numSlots;
 
 	public List<AdventureItem> allItems; // Holds all the item instances for the inventory
+    public List<AdventureItem> allItemsClone;
 	public List<GameObject> allSlots; // Holds all the slot instances for the inventory
+    public List<GameObject> allSlotsClone;
 
 	ItemDatabase itemDB;
 
@@ -28,30 +32,42 @@ public class Synergy : MonoBehaviour {
 		if (mySynergy == null)
 		{
 			allItems = new List<AdventureItem>();
+            allItemsClone = new List<AdventureItem>();
 			allSlots = new List<GameObject>();
+            allSlotsClone = new List<GameObject>();
 			itemDB = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ();
 
 			inventoryPanel = GameObject.Find("synPanel");
+            inventoryPanelClone = GameObject.Find("synPanel2");
 			slotPanel = inventoryPanel.transform.Find("slotPanel").gameObject;
-			DontDestroyOnLoad(inventoryPanel.transform.root.gameObject);
+            slotPanelClone = inventoryPanelClone.transform.Find("slotPanel").gameObject;
+            DontDestroyOnLoad(inventoryPanel.transform.root.gameObject);
 			DontDestroyOnLoad(slotPanel.transform.root.gameObject);
+            DontDestroyOnLoad(inventoryPanelClone.transform.root.gameObject);
+            DontDestroyOnLoad(slotPanelClone.transform.root.gameObject);
 
-			numSlots = 4;
+            numSlots = 4;
 			for (int i = 0; i < numSlots; i++)
 			{
 				allItems.Add(new AdventureItem()); // Add empty item
+                allItemsClone.Add(new AdventureItem());
 				allSlots.Add(Instantiate(inventorySlot)); // Create instance of slot prefab
+                allSlotsClone.Add(Instantiate(inventorySlot));
 				allSlots[i].transform.SetParent(slotPanel.transform); // Set correct parent
+                allSlotsClone[i].transform.SetParent(slotPanelClone.transform);
 				allSlots[i].transform.localScale = new Vector3(1, 1, 1);
-				allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
-			}
+                allSlotsClone[i].transform.localScale = new Vector3(1, 1, 1);
+                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
+                allSlotsClone[i].GetComponent<Slot>().ID = i; // Set ID of slot
+            }
 
 			// Load ID's and add items here
 
 
 			inventoryPanel.SetActive(false);
+            inventoryPanelClone.SetActive(true);
 
-			mySynergy = this;
+            mySynergy = this;
 		}
 		else if (mySynergy != this)
 		{
@@ -67,15 +83,23 @@ public class Synergy : MonoBehaviour {
 		for (int i = 0; i < allItems.Count; i++) {
 			if (allItems [i].ID == -1) { // Check for 'empty slot'
 				allItems [i] = itemToAdd; // Assign empty slot to new item
+                allItemsClone[i] = itemToAdd;
 				GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
+                GameObject itemObjectClone = Instantiate(inventoryItem);
 
-				itemObject.GetComponent<ItemData>().init(itemToAdd, i); // Initialize itemData
-				itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
-				itemObject.transform.localScale = new Vector3(1,1,1);
-				itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
-				itemObject.GetComponent<Image>().sprite = itemToAdd.Sprite; // Replace default sprite w/ item sprite
-				itemObject.name = itemToAdd.Title; // Set name of prefab to name of item(for convenience)
-				return;
+                itemObject.GetComponent<ItemData>().init(itemToAdd, i); // Initialize itemData
+                itemObjectClone.GetComponent<ItemData>().init(itemToAdd, i);
+                itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
+                itemObjectClone.transform.SetParent(allSlotsClone[i].transform);
+                itemObject.transform.localScale = new Vector3(1,1,1);
+                itemObjectClone.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
+                itemObjectClone.transform.localPosition = new Vector2(0, 2);
+                itemObject.GetComponent<Image>().sprite = itemToAdd.Sprite; // Replace default sprite w/ item sprite
+                itemObjectClone.GetComponent<Image>().sprite = itemToAdd.Sprite;
+                itemObject.name = itemToAdd.Title; // Set name of prefab to name of item(for convenience)
+                itemObjectClone.name = itemToAdd.Title;
+                return;
 			}
 		}
 	}

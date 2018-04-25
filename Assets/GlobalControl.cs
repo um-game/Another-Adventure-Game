@@ -13,6 +13,7 @@ public class GlobalControl : MonoBehaviour
     public static ItemDatabase itemDB;
 	public static Equipment equip;
 	public static EquipMenu equipMenu;
+    public static GameObject statusCanvas;
 
     void Awake()
     {
@@ -20,6 +21,7 @@ public class GlobalControl : MonoBehaviour
         {
 			pickupMenu = GameObject.Find("PopupCanvas").GetComponent<PickupMenu>();
 			equipMenu = GameObject.Find("PopupCanvas").GetComponent<EquipMenu>();
+            statusCanvas = GameObject.Find("StatusCanvas");
 
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 			syn = GameObject.Find("Synergy").GetComponent<Synergy>();
@@ -37,10 +39,12 @@ public class GlobalControl : MonoBehaviour
             DontDestroyOnLoad(GetComponent<ToolTip>());
             DontDestroyOnLoad(GetComponent<ItemMenu>());
             */
+            DontDestroyOnLoad(statusCanvas);
             Instance = this;
         }
         else if (Instance != this)
         {
+            Destroy(statusCanvas);
             Destroy(gameObject);
         }
     }
