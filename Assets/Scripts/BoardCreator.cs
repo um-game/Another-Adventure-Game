@@ -21,6 +21,7 @@ public class BoardCreator : MonoBehaviour
     public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
     private GameObject player;
     private GameObject camera;
+    private GameObject outWarp;
 
     private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
     private Room[] rooms;                                     // All the rooms that are created for this board.
@@ -35,6 +36,7 @@ public class BoardCreator : MonoBehaviour
 
         player = GameObject.Find("player");
         camera = GameObject.Find("Main Camera");
+        outWarp = GameObject.Find("Outwarp");
         
 
         SetupTilesArray ();
@@ -48,6 +50,7 @@ public class BoardCreator : MonoBehaviour
         InstantiateOuterWalls ();
 
         MoveCharacter();
+        PlaceExit();
     }
 
 
@@ -259,9 +262,16 @@ public class BoardCreator : MonoBehaviour
     void MoveCharacter()
     {
         //place player and camera
-        Vector3 playerPos = new Vector3 (rooms[0].xPos + (rooms[0].roomWidth / 2), rooms[0].yPos + (rooms[0].roomHeight), 0);
-        Vector3 cameraPos = new Vector3(rooms[0].xPos + (rooms[0].roomWidth / 2), rooms[0].yPos + (rooms[0].roomHeight), -10);
+        Vector3 playerPos = new Vector3 (rooms[0].xPos + (rooms[0].roomWidth / 2), rooms[0].yPos + (rooms[0].roomHeight / 2), 0);
+        Vector3 cameraPos = new Vector3(rooms[0].xPos + (rooms[0].roomWidth / 2), rooms[0].yPos + (rooms[0].roomHeight / 2), -10);
         player.transform.position = playerPos;
         camera.transform.position = cameraPos;
+    }
+
+    void PlaceExit()
+    {
+        int lastRoom = rooms.Length - 1;
+        Vector3 pos = new Vector3(rooms[lastRoom].xPos + (rooms[lastRoom].roomWidth / 2), rooms[lastRoom].yPos + (rooms[lastRoom].roomHeight / 2), -1);
+        outWarp.transform.position = pos;
     }
 }
