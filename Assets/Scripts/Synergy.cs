@@ -118,6 +118,11 @@ public class Synergy : MonoBehaviour {
 					allSlots [i].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
 					allSlots[i].transform.DetachChildren();
 					allItems [i] = new AdventureItem ();
+
+
+					Destroy (allSlotsClone [i].transform.GetChild (0).transform.gameObject);
+					allItemsClone [i] = new AdventureItem ();
+
 					return;
 				}
 			}
