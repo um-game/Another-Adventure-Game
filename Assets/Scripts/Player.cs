@@ -202,11 +202,6 @@ public class Player: MonoBehaviour {
 		// If we did not have anything equipped and not shield, don't reduce attack
 		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
 			attack -= this.weapon.Atk;
-
-			// Subtract out buff
-			if (attackBuff) {
-				attack -= 20;
-			}
 		}
 
 		// Add new new weapon's attack
@@ -214,11 +209,6 @@ public class Player: MonoBehaviour {
 
 		if (newWeapon.itemType == ItemType.weapon) {
 			this.weapon = newWeapon;
-
-			// Add in buff
-			if (attackBuff) {
-				attack += 20;
-			}
 
 		} else {
 			this.shield = newWeapon;
@@ -308,11 +298,6 @@ public class Player: MonoBehaviour {
 				attack -= weapon.Atk;
 				this.weapon = new ItemWeapon (); // Set to bad ID
 
-				// Remove buff
-				if (attackBuff) {
-					attack -= 20;
-				}
-
 			// Un-equipping shield
 			} else if (item.itemType == ItemType.shield) {
 				this.shield = new ItemWeapon();
@@ -384,24 +369,17 @@ public class Player: MonoBehaviour {
 			Debug.Log ("RB UNBUFF SPEED");
 		}
 
+		// Just turn buff on ' IE gain attack if on
 		if (contains ["green"] == 1 && contains ["purple"] == 1) {
 			attackBuff = true;
 			Debug.Log ("ATK BUFF");
 
-			// Accounts for turning buff on while item equipped
-			if (attack == (baseAttack + weapon.Atk) && weapon.ID != -1) {
-				attack += 20;
-			}
+			attack += 20;
 
 		} else if (attackBuff) {
 			attackBuff = false;
-
-			if (weapon.ID != -1) {
-				// This accounts for the situation where something is equipped
-				attack -= 20; 
-			}
+			attack -= 20; 
 			Debug.Log ("ATK DEBUFF");
 		}
 	}
-
 }
