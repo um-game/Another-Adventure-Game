@@ -3213,6 +3213,7 @@ GameObject:
   - component: {fileID: 1404157927}
   - component: {fileID: 1404157926}
   - component: {fileID: 1404157925}
+  - component: {fileID: 1404157929}
   m_Layer: 5
   m_Name: StatusCanvas
   m_TagString: Untagged
@@ -3302,6 +3303,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1404157929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1404157924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5291e24c8749967428560e0f90ecb4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1497958897
 GameObject:
   m_ObjectHideFlags: 0
