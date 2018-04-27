@@ -21,13 +21,14 @@ public class Player: MonoBehaviour {
 	public PickupMenu pickupMenu;
 	public Synergy syn;
 
-	int attack;
+	public int attack;
+    public bool isAttacking = false;
 	int baseAttack;
-	int defense;
+	public int defense;
 
     public static Player myPlayer;
-    
-	public int health { get; set; }
+
+    public int health;
 
 	ItemWeapon weapon;
 	ItemWeapon shield;
@@ -141,6 +142,7 @@ public class Player: MonoBehaviour {
             }
         }
     }
+    
 
 	// This method is fired whenever the Player's collider passes through an 'isTrigger' collider
 	void OnTriggerEnter2D(Collider2D other){
@@ -163,24 +165,17 @@ public class Player: MonoBehaviour {
 
         else if (other.gameObject.tag == "warp")
         {
+            // Where the warp takes you is set in the Warp component
+            // with the id that can be obtained via File > Build Settings
             Warp myWarp = other.gameObject.GetComponent<Warp>();
 
-            /*
-            Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
-            SceneManager.LoadScene(myWarp.dest);
-            
-            
-            */
-
             StartCoroutine(ChangeLevel(myWarp.dest, myWarp.warpX, myWarp.warpY, 0));
-
-
-            //transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
         }
     }
     
 
-     IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
+
+    IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
     {
         float fadeTime = GameObject.Find("EventSystem").GetComponent<Fading>().BeginFade(1);
         yield return new WaitForSeconds(fadeTime);
@@ -391,5 +386,11 @@ public class Player: MonoBehaviour {
     public void attackAction()
     {
         anim.SetTrigger("attacking");
+
+    }
+
+    public void fireProjectile()
+    {
+        return;
     }
 }
