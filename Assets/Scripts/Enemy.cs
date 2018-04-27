@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collision) {
         Player myPlayer = collision.gameObject.GetComponent<Player>();
-        triggerDelay = 10; // after x frames trigger this again if still colliding
+        triggerDelay = 20; // after x frames trigger this again if still colliding
 
         if (myPlayer.isAttacking)
         {

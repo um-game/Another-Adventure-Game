@@ -25,10 +25,18 @@ public class Player: MonoBehaviour {
     public bool isAttacking = false;
 	int baseAttack;
 	public int defense;
+    int staminaCost;
+    int staminaRecover;
+    int healthRecover;
+    int tickHealthDelay;
+    int tickStaminaDelay;
+    int baseHealthTick;
+    int baseStaminaTick;
 
     public static Player myPlayer;
 
     public int health;
+    public int stamina;
 
 	ItemWeapon weapon;
 	ItemWeapon shield;
@@ -55,16 +63,20 @@ public class Player: MonoBehaviour {
 			baseAttack = 10;
 
 			health = 100; // Full health
+            stamina = 100; // Full stamina
 			attack = baseAttack; // Base attack
 			defense = 10; // Base defense
+            staminaCost = 5; // Base stamina cost for melee punch
+            staminaRecover = 5;
+            healthRecover = 1;
+            baseHealthTick = 200; // Base tick delay for health/stam recovery
+            baseStaminaTick = 20;
+            tickHealthDelay = baseHealthTick;
+            tickStaminaDelay = baseStaminaTick;
 
 			baseSpeed = maxSpeed;
 			buffSpeed = maxSpeed * 2.0f;
 			attackBuff = false;
-
-			health = 100; // Full health
-			attack = 10; // Base attack
-			defense = 10; // Base defense
 
 			weapon = new ItemWeapon();
 			shield = new ItemWeapon ();
@@ -99,6 +111,30 @@ public class Player: MonoBehaviour {
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
+        if (tickHealthDelay <= 0)
+        {
+            health += healthRecover;
+            if (health > 100)
+                health = 100;
+            tickHealthDelay = baseHealthTick;
+        }
+        else
+        {
+            tickHealthDelay -= 1;
+        }
+
+        if (tickStaminaDelay <= 0)
+        {
+            stamina += staminaRecover;
+            if (stamina > 100)
+                stamina = 100;
+            tickStaminaDelay = baseStaminaTick;
+        }
+        else
+        {
+            tickStaminaDelay -= 1;
+        }
+
         if (anim != null)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -116,6 +152,8 @@ public class Player: MonoBehaviour {
                 anim.SetBool("moving", false);
                 rb2d.velocity = new Vector2(0, 0);
             }
+
+
             if (Input.GetKey(KeyCode.W))
             {
                 anim.SetInteger("direction", 1);
@@ -206,6 +244,7 @@ public class Player: MonoBehaviour {
 
 		// Add new new weapon's attack
 		attack += newWeapon.Atk;
+        staminaCost = 10; // TODO: weapon stam cost
 
 		if (newWeapon.itemType == ItemType.weapon) {
 			this.weapon = newWeapon;
@@ -385,8 +424,13 @@ public class Player: MonoBehaviour {
 
     public void attackAction()
     {
-        anim.SetTrigger("attacking");
+        int potentialState = stamina - staminaCost;
 
+        if (potentialState >= 0)
+        {
+            anim.SetTrigger("attacking");
+            stamina -= staminaCost;
+        }
     }
 
     public void fireProjectile()
