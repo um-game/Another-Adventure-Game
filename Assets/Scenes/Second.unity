@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 45299138}
   - component: {fileID: 45299137}
   - component: {fileID: 45299136}
+  - component: {fileID: 45299141}
   m_Layer: 0
   m_Name: cat_fighter_sprite_0 (1)
   m_TagString: Untagged
@@ -366,6 +367,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &45299141
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 45299135}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &54457498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,6 +1687,7 @@ GameObject:
   - component: {fileID: 835815385}
   - component: {fileID: 835815384}
   - component: {fileID: 835815383}
+  - component: {fileID: 835815388}
   m_Layer: 0
   m_Name: cat_fighter_sprite_0
   m_TagString: Untagged
@@ -1784,6 +1806,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &835815388
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 835815382}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &848338328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,6 +2009,7 @@ GameObject:
   - component: {fileID: 863439897}
   - component: {fileID: 863439896}
   - component: {fileID: 863439895}
+  - component: {fileID: 863439900}
   m_Layer: 0
   m_Name: cat_fighter_sprite_0 (2)
   m_TagString: Untagged
@@ -2085,6 +2128,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &863439900
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 863439894}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &910862729
 GameObject:
   m_ObjectHideFlags: 0
@@ -2212,6 +2275,7 @@ GameObject:
   - component: {fileID: 1021424288}
   - component: {fileID: 1021424287}
   - component: {fileID: 1021424286}
+  - component: {fileID: 1021424291}
   m_Layer: 0
   m_Name: cat_fighter_sprite_0 (5)
   m_TagString: Untagged
@@ -2330,6 +2394,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1021424291
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021424285}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1103794659
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,6 +2500,7 @@ GameObject:
   - component: {fileID: 1263469535}
   - component: {fileID: 1263469534}
   - component: {fileID: 1263469533}
+  - component: {fileID: 1263469538}
   m_Layer: 0
   m_Name: cat_fighter_sprite_0 (4)
   m_TagString: Untagged
@@ -2534,6 +2619,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1263469538
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1263469532}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1403805144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,6 +2745,7 @@ GameObject:
   - component: {fileID: 1508601359}
   - component: {fileID: 1508601358}
   - component: {fileID: 1508601357}
+  - component: {fileID: 1508601362}
   m_Layer: 0
   m_Name: cat_fighter_sprite_0 (3)
   m_TagString: Untagged
@@ -2758,6 +2864,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1508601362
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1508601356}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1650810327
 GameObject:
   m_ObjectHideFlags: 0
