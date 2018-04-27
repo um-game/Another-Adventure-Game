@@ -100,39 +100,44 @@ public class Player: MonoBehaviour {
 
         if (anim != null)
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                attackAction();
+            }
+            else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
+                || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                anim.SetBool("attacking", false);
+                anim.SetBool("moving", true);
+            }
+            else
+            {
+                anim.SetBool("moving", false);
+                rb2d.velocity = new Vector2(0, 0);
+            }
             if (Input.GetKey(KeyCode.W))
             {
                 anim.SetInteger("direction", 1);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(0, moveY * maxSpeed);
             }
             else if (Input.GetKey(KeyCode.S))
             {
                 anim.SetInteger("direction", 3);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(0, moveY * maxSpeed);
             }
             else if (Input.GetKey(KeyCode.D))
             {
                 anim.SetInteger("direction", 2);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
             }
             else if (Input.GetKey(KeyCode.A))
             {
                 anim.SetInteger("direction", 4);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
-            }
-
-            else
-            {
-                anim.SetBool("moving", false);
-                rb2d.velocity = new Vector2(0, 0);
             }
         }
     }
@@ -382,4 +387,9 @@ public class Player: MonoBehaviour {
 			Debug.Log ("ATK DEBUFF");
 		}
 	}
+
+    public void attackAction()
+    {
+        anim.SetTrigger("attacking");
+    }
 }
