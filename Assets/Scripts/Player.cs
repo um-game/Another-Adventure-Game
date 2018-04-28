@@ -34,6 +34,8 @@ public class Player: MonoBehaviour {
 	ItemArmor chestArmor;
 	ItemArmor headArmor;
 
+	public static int UID = 0;
+
     // Use this for initialization
     void Start () {
        
@@ -138,7 +140,11 @@ public class Player: MonoBehaviour {
                 anim.SetInteger("direction", 4);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
-            }
+			} else if(Input.GetKey(KeyCode.P)) {
+				inv.printUID();
+				syn.printUID ();
+				equipment.printUID ();
+			}
         }
     }
 

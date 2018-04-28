@@ -11,15 +11,21 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public AdventureItem item;
 	public int amt { get; set; }
 	public int slotId; // Keep track of which slot we are in
+	public int slotUID;
 
 	ToolTip tooltip;
 	Inventory inv;
+	Synergy syn;
+	Equipment equip;
 	ItemMenu itemMenu;
 	EquipMenu equipMenu;
 
 	// Use this for initialization
 	void Start () {
 		inv = GameObject.Find ("Inventory").GetComponent<Inventory> ();
+		syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
+		equip = GameObject.Find ("Equipment").GetComponent<Equipment> ();
+
 		tooltip = inv.GetComponent<ToolTip> ();
 		itemMenu = inv.GetComponent<ItemMenu> ();
 		equipMenu = GameObject.Find("player").GetComponent<EquipMenu> ();
@@ -28,9 +34,10 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	// Update is called once per frame
 	void Update () {}
 
-	public void init(AdventureItem item, int slotId) {
+	public void init(AdventureItem item, int slotId, int uid) {
 		this.item = item;
 		this.slotId = slotId;
+		this.slotUID = uid;
 		amt = 1;
 	}
 
@@ -75,9 +82,9 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	// These next few methods define most of the 'drag and drop' behavior
 	public void OnBeginDrag(PointerEventData eventData) {
 		// Prevents equipped item from bieng grabbed
-		if(item.equipped){ return; }
+//		if(item.equipped){ return; }
 
-		Debug.Log (item.equipped);
+//		Debug.Log (item.equipped);
 		// If we click an item, grab it.
 		if (item != null) {
 			this.transform.SetParent(this.transform.parent.parent); // Change parent to canvas so item is rendered on top of slots
@@ -89,7 +96,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void OnDrag(PointerEventData eventData)
 	{
 		// Prevents equipped item from bieng drug
-		if(item.equipped){ return; }
+//		if(item.equipped){ return; }
 
 		// Update position of item transform
 		if (item != null) {
@@ -100,11 +107,50 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void OnEndDrag(PointerEventData eventData)
 	{
 		// Prevents equipped item from bieng 'dropped'
-		if(item.equipped){return;}
+//		if(item.equipped){return;}
 
-		
+
 		this.GetComponent<CanvasGroup> ().blocksRaycasts = true;
-		this.transform.SetParent(inv.allSlots[slotId].transform);
+
+		slotType currType = slotType.NA;
+
+		List<List<int>> allUID = new List<List<int>> ();
+
+		allUID.Add (inv.uids);
+		allUID.Add (syn.uids);
+		allUID.Add (equip.uids);
+
+		for (int i = 0; i < allUID.Count; i++) {
+
+			for (int j = 0; j < allUID [i].Count; j++) {
+
+				if (this.slotUID == allUID [i] [j]) {
+					currType = (slotType)i;
+					break;
+				}
+			}
+		}
+
+		switch (currType) {
+
+		case slotType.INV:
+			this.transform.SetParent (inv.allSlots [slotId].transform);
+			break;
+
+		case slotType.EQP:
+			this.transform.SetParent (equip.allSlots [slotId].transform);
+			break;
+
+		case slotType.SYN:
+			this.transform.SetParent (syn.allSlots [slotId].transform);
+			break;
+
+		default:
+			Debug.Log ("ERROR NA TYPE PRESENT");
+			break;
+		}
+		
+//		this.transform.SetParent(inv.allSlots[slotId].transform);
 		this.transform.localPosition = new Vector3 (0, 0, 0);
 	}
 }

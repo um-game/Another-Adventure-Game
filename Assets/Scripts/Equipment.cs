@@ -13,6 +13,7 @@ public class Equipment : MonoBehaviour {
 	int numSlots;
 
 	public List<AdventureItem> allItems; // Holds all the item instances for the equipment
+	public List<int> uids;
 
 	// There will be five slots.
 	// slot 0: head gear
@@ -33,6 +34,7 @@ public class Equipment : MonoBehaviour {
 
 			allItems = new List<AdventureItem> ();
 			allSlots = new List<GameObject> ();
+			uids = new List<int> ();
 			itemDB = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ();
 
 			equipmentPanel = GameObject.Find ("equipmentPanel");
@@ -46,6 +48,14 @@ public class Equipment : MonoBehaviour {
 				allItems.Add (new AdventureItem ()); // Add empty item
 				allSlots.Add (slotPanel.transform.GetChild (i).gameObject);
 				allSlots [i].GetComponent<Slot> ().ID = i; // Set ID of slot
+
+				Slot currSlot = allSlots [i].GetComponent<Slot> ();
+				currSlot.ID = i; // Set ID of slot
+				currSlot.uniqueID = Player.UID;
+				uids.Add (Player.UID);
+//				currSlot.GetComponent<ItemData> ().slotUID = Player.UID;
+				Player.UID += 1;
+				currSlot.type = slotType.EQP;
 			}
 			
 			// Load ID's and and items here
@@ -81,7 +91,7 @@ public class Equipment : MonoBehaviour {
 		allItems [slotI] = itemToAdd; // Assign empty slot to new item
 
 		GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
-		itemObject.GetComponent<ItemData> ().init (itemToAdd, slotI); // Initialize itemData
+		itemObject.GetComponent<ItemData> ().init (itemToAdd, slotI, allSlots[slotI].GetComponent<Slot>().uniqueID); // Initialize itemData
 		itemObject.transform.SetParent (allSlots [slotI].transform); // Set correct parent
         itemObject.transform.localScale = new Vector3(1,1,1);
         itemObject.transform.localPosition = Vector2.zero; // Center item in slot
@@ -117,5 +127,20 @@ public class Equipment : MonoBehaviour {
 		foreach (GameObject obj in allSlots) {
 			Debug.Log(obj.transform.childCount);
 		}
+	}
+
+	public void printUID() {
+		foreach (GameObject obj in allSlots) {
+			Debug.Log (obj.GetComponent<Slot> ().uniqueID);
+		}
+	}
+
+	public int uidToLocal(int UID) {
+		for (int i = 0; i < uids.Count; i++) {
+			if (uids [i] == UID) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
