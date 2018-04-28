@@ -95,10 +95,10 @@ public class Slot : MonoBehaviour, IDropHandler {
 						// If one of them is true, proceed accordingly
 						if (isHead || isweapon || isChest || isShield) {
 							droppedItem.item.equipped = true; // 0. NOTE: We set equipped to true to ensure it does not get equipped twice
-							droppedItem.slotUID = this.uniqueID; // 1. update dropped item's ID
-							removePrior (prevType, priorLocalID); // 2. null out the previous slot that the item was just in
-							equip.allItems [localID] = droppedItem.item; // 3. update the item in this slot
-							player.useItem (droppedItem.item); // 4. update player stats accordingly
+							player.useItem (droppedItem.item, this.uniqueID); // 1. update player stats accordingly
+							droppedItem.slotUID = this.uniqueID; // 2. update dropped item's ID
+							removePrior (prevType, priorLocalID); // 3. null out the previous slot that the item was just in
+							equip.allItems [localID] = droppedItem.item; // 4. update the item in this slot
 						}
 					}
 				}

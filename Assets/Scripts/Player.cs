@@ -258,11 +258,11 @@ public class Player: MonoBehaviour {
 		}
 	}
 
-	public void useItem(AdventureItem item) {
+	public void useItem(AdventureItem item, int slotUID) {
 
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
-		inv.removeItem (item);
+		inv.removeItem (item, slotUID);
 		printStats ();
 	}
 

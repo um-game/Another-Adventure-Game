@@ -66,7 +66,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 		// This little block determines what happens when an item is clicked on
 		if (item != null && !item.equipped) {
-			itemMenu.activate (item, this.gameObject);
+			itemMenu.activate (item, this.gameObject, slotUID);
 			equipMenu.deactivate ();
 		} else if(item.equipped) {
 			itemMenu.deactivate ();

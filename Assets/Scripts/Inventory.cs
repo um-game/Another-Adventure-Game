@@ -121,12 +121,14 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	public void removeItem(AdventureItem itemToRemove) {
+	public void removeItem(AdventureItem itemToRemove, int slotUID) {
 		
+
+		int localID = uidToLocal (slotUID);
 
 		for(int i = 0; i < allItems.Count; i++) {
 			
-			if (itemToRemove.ID == allItems[i].ID) {
+			if (itemToRemove.ID == allItems[i].ID && i == localID) {
 				
 				ItemData currData = allSlots [i].transform.GetChild (0).GetComponent<ItemData> ();
 				currData.decreaseAmt (1);
@@ -136,6 +138,7 @@ public class Inventory : MonoBehaviour {
 					GameObject item = allSlots [i].transform.GetChild (0).transform.gameObject;
 					Destroy (item);
 					allItems [i] = new AdventureItem ();
+					printInv ();
 					return;
 				}
 			}
