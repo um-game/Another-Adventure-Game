@@ -60,15 +60,11 @@ public class Synergy : MonoBehaviour {
 				allSlots[i].transform.localScale = new Vector3(1, 1, 1);
                 allSlotsClone[i].transform.localScale = new Vector3(1, 1, 1);
 
-//                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
-//                allSlotsClone[i].GetComponent<Slot>().ID = i; // Set ID of slot
-
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
-//				currSlot.ID = i; // Set ID of slot
-				currSlot.uniqueID = Player.UID;
-				uids.Add (Player.UID);
-				Player.UID += 1;
-				currSlot.type = slotType.SYN;
+				currSlot.uniqueID = Player.UID; // Set unique ID of slot
+				uids.Add (Player.UID); // Add to list
+				Player.UID += 1; // Increment
+				currSlot.type = slotType.SYN; // Set proper slot type
             }
 
 			// Load ID's and add items here

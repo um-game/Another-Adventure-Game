@@ -16,8 +16,6 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	public slotType type;
 
-//	public int ID { get; set; }
-
 	public int uniqueID { get; set; }
 
 	// Use this for initialization
@@ -38,8 +36,6 @@ public class Slot : MonoBehaviour, IDropHandler {
 	public void OnDrop(PointerEventData eventData) {
 
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData> (); // Get item from event data
-
-
 		List<List<int>> allUID = new List<List<int>> ();
 
 		allUID.Add (inv.uids);
@@ -59,8 +55,11 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		}
 
-		int priorLocalID;
+		// Figure out the local ID
+		int priorLocalID = uidToLocal(prevType, droppedItem.slotUID);
+		int localID = uidToLocal(this.type, this.uniqueID);
 
+		// Figure out what the old local ID is
 		switch (prevType) {
 
 		case slotType.INV:
@@ -83,11 +82,10 @@ public class Slot : MonoBehaviour, IDropHandler {
 		}
 
 		// TODO: implement swapping
-		// TODO: update stats
 
-		int localID = uidToLocal();
 		Debug.Log (localID);
 
+		// Check what kind of slot we are
 		switch(type) {
 
 		case slotType.INV:
@@ -96,16 +94,9 @@ public class Slot : MonoBehaviour, IDropHandler {
 				if (inv.allItems [localID].ID == -1) {
 					removePrior (prevType, priorLocalID);
 					inv.allItems [localID] = droppedItem.item; // Update item in slot
-					droppedItem.slotId = localID; // Update which slot we are in
-					droppedItem.slotUID = this.uniqueID;
-
-
-//					inv.allItems [priorLocalID] = new AdventureItem (); // Null out the previous slot
-//					inv.allItems [this.ID] = droppedItem.item; // Update item in slot
-//					droppedItem.slotId = ID; // Update which slot we are in
+					droppedItem.slotUID = this.uniqueID;  // Update ID
 
 				} else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
-
 
 					Transform item = this.transform.GetChild (0); // Get item in current slot
 					item.GetComponent<ItemData> ().slotUID = droppedItem.slotUID; // Assign new slot id
@@ -116,7 +107,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 					inv.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
 					inv.allItems [localID] = droppedItem.item;
 
-					// Move item currrently in slot to 'old' slot
+					// Reassign ID's
 					droppedItem.slotUID = this.uniqueID;
 					droppedItem.transform.SetParent (this.transform);
 					droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
@@ -129,6 +120,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 				System.Type currentItemType = droppedItem.item.GetType ();
 				AdventureItem currItem = droppedItem.item;
 
+				// Make sure it is the right type of item
 				if(currentItemType == typeof(ItemArmor) || currentItemType == typeof(ItemWeapon)) {
 					Debug.Log("EQP");
 
@@ -136,33 +128,29 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 						if (currItem.itemType == ItemType.weapon && localID == (int)ItemType.weapon) {
 							droppedItem.item.equipped = true;
+							droppedItem.slotUID = this.uniqueID; // Update ID
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							droppedItem.slotId = localID; // Update which slot we are in
-							droppedItem.slotUID = this.uniqueID;
 							player.useItem (droppedItem.item);
 						} else if(currItem.itemType == ItemType.shield && localID == (int)ItemType.shield) {
 							droppedItem.item.equipped = true;
+							droppedItem.slotUID = this.uniqueID;  // Update ID
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							droppedItem.slotId = localID; // Update which slot we are in
-							droppedItem.slotUID = this.uniqueID;
 							player.useItem (droppedItem.item);
 
 						}  else if(currItem.itemType == ItemType.head && localID == (int)ItemType.head) {
 							droppedItem.item.equipped = true;
+							droppedItem.slotUID = this.uniqueID;  // Update ID
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							droppedItem.slotId = localID; // Update which slot we are in
-							droppedItem.slotUID = this.uniqueID;
 							player.useItem (droppedItem.item);
 
 						}  else if(currItem.itemType == ItemType.chest && localID == (int)ItemType.chest) {
 							droppedItem.item.equipped = true;
+							droppedItem.slotUID = this.uniqueID;  // Update ID
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							droppedItem.slotId = localID; // Update which slot we are in
-							droppedItem.slotUID = this.uniqueID;
 							player.useItem (droppedItem.item);
 						}
 					}
@@ -171,7 +159,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		case slotType.SYN:
 			{
-
+				// Make sure it is the right type of item
 				if (droppedItem.item.GetType() == typeof(ItemSynergy)) {
 
 					if (syn.allItems [localID].ID == -1) {
@@ -179,15 +167,15 @@ public class Slot : MonoBehaviour, IDropHandler {
 						syn.allItems [localID] = droppedItem.item; // Update item in slot
 						syn.allItemsClone[localID] = droppedItem.item;
 
-						// Update other panel
+						// Update clone panel
+						Transform slotCloneT = syn.allSlotsClone[localID].transform;
 						GameObject itemObj = Instantiate (inv.inventoryItem);
-						itemObj.transform.SetParent (syn.allSlotsClone [localID].transform);
+						itemObj.transform.SetParent (slotCloneT);
 						itemObj.GetComponent<Image> ().sprite = droppedItem.item.Sprite;
 						itemObj.transform.localPosition = new Vector2 (0, 2);
 						itemObj.GetComponent<ItemData>().init(droppedItem.item, localID, syn.allSlots[localID].GetComponent<Slot>().uniqueID);
+						slotCloneT.localScale = new Vector3(1, 1, 1);
 
-
-						droppedItem.slotId = localID; // Update which slot we are in
 						droppedItem.slotUID = this.uniqueID;
 					} 
 //					else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
@@ -211,9 +199,11 @@ public class Slot : MonoBehaviour, IDropHandler {
 				break;
 			}
 		}
+		// Check if we need to turn buffs on/off
 		player.checkBuff ();
 	}
 
+	// Method to remove the dropped item from the previous slot
 	void removePrior(slotType prevType, int prevID) {
 
 		switch (prevType) {
@@ -237,21 +227,22 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	}
 
-	int uidToLocal() {
+	// Method to convert a unique ID to a local one
+	int uidToLocal(slotType slotT, int UID) {
 
-		switch (this.type) {
+		switch (slotT) {
 
 		case slotType.INV:
 			Debug.Log ("inv");
-			return inv.uidToLocal (this.uniqueID);
+			return inv.uidToLocal (UID);
 
 		case slotType.EQP:
 			Debug.Log ("eqp");
-			return equip.uidToLocal (this.uniqueID);
+			return equip.uidToLocal (UID);
 
 		case slotType.SYN:
 			Debug.Log ("syn");
-			return syn.uidToLocal (this.uniqueID);
+			return syn.uidToLocal (UID);
 
 		default:
 			Debug.Log ("default");
