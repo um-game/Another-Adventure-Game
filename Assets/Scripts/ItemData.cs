@@ -78,7 +78,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void OnBeginDrag(PointerEventData eventData) {
 		// If we click an item, grab it.
 		if (item != null) {
-			this.transform.SetParent(this.transform.parent.parent); // Change parent to canvas so item is rendered on top of slots
+			this.transform.SetParent(GameObject.Find("PopupCanvas").transform); // Change parent to canvas so item is rendered on top of slots
 			this.transform.position = eventData.position; // Update position
 			GetComponent<CanvasGroup> ().blocksRaycasts = false; // This allows the item to be drug and dropped at will
 		}
