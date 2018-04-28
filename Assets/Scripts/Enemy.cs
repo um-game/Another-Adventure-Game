@@ -99,6 +99,8 @@ public class Enemy : MonoBehaviour {
 			AdventureItem it = possibleDrop[rand];	
 			item.GetComponent<SpriteRenderer> ().sprite = it.Sprite;
 			item.id = it.ID; // Make sure this matches the random number too...
+
+            Debug.Log("change from cam");
 		}
     }
 }
