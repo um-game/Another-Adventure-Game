@@ -120,7 +120,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 						itemObj.transform.SetParent (slotCloneT);
 						itemObj.GetComponent<Image> ().sprite = droppedItem.item.Sprite;
 						itemObj.transform.localPosition = new Vector2 (0, 2);
-						itemObj.GetComponent<ItemData>().init(droppedItem.item, localID, syn.allSlots[localID].GetComponent<Slot>().uniqueID);
+						itemObj.GetComponent<ItemData>().init(droppedItem.item, syn.allSlots[localID].GetComponent<Slot>().uniqueID);
 						slotCloneT.localScale = new Vector3(1, 1, 1);
 
 						droppedItem.slotUID = this.uniqueID;
@@ -166,12 +166,14 @@ public class Slot : MonoBehaviour, IDropHandler {
 			break;
 
 		case slotType.SYN:
+			// Update other panel
 			Destroy(syn.allSlotsClone [prevID].transform.GetChild (0).transform.gameObject);
+
+			// Update items
 			syn.allItems [prevID] = new AdventureItem ();
 			syn.allItemsClone [prevID] = new AdventureItem ();
 			break;
 		}
-
 	}
 
 	// Method to convert a unique ID to a local one

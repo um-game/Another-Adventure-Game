@@ -92,8 +92,8 @@ public class Synergy : MonoBehaviour {
 				GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
                 GameObject itemObjectClone = Instantiate(inventoryItem);
 
-				itemObject.GetComponent<ItemData>().init(itemToAdd, i, allSlots[i].GetComponent<Slot>().uniqueID); // Initialize itemData
-				itemObjectClone.GetComponent<ItemData>().init(itemToAdd, i, allSlots[i].GetComponent<Slot>().uniqueID);
+				itemObject.GetComponent<ItemData>().init(itemToAdd, allSlots[i].GetComponent<Slot>().uniqueID); // Initialize itemData
+				itemObjectClone.GetComponent<ItemData>().init(itemToAdd, allSlots[i].GetComponent<Slot>().uniqueID);
                 itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
                 itemObjectClone.transform.SetParent(allSlotsClone[i].transform);
                 itemObject.transform.localScale = new Vector3(1,1,1);

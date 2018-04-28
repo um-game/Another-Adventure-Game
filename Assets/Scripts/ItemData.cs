@@ -30,7 +30,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		equipMenu = GameObject.Find("player").GetComponent<EquipMenu> ();
 	}
 	
-	public void init(AdventureItem item, int slotId, int uid) {
+	public void init(AdventureItem item, int uid) {
 		this.item = item;
 		this.slotUID = uid;
 		amt = 1;

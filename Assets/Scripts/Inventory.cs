@@ -48,9 +48,7 @@ public class Inventory : MonoBehaviour {
                 allSlots[i].transform.localScale = new Vector3(1,1,1);
                 
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
-//				currSlot.ID = i; // Set ID of slot
 				currSlot.uniqueID = Player.UID; // Set unique ID of slot
-//				currSlot.GetComponent<ItemData> ().slotUID = Player.UID;
 				uids.Add (Player.UID);
 				Player.UID += 1;
 				currSlot.type = slotType.INV;
@@ -112,7 +110,7 @@ public class Inventory : MonoBehaviour {
 				allItems [i] = itemToAdd; // Assign empty slot to new item
 				GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
 
-				itemObject.GetComponent<ItemData>().init(itemToAdd, i, allSlots[i].GetComponent<Slot>().uniqueID); // Initialize itemData
+				itemObject.GetComponent<ItemData>().init(itemToAdd, allSlots[i].GetComponent<Slot>().uniqueID); // Initialize itemData
 				itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
                 itemObject.transform.localScale = new Vector3(1,1,1);
                 itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
@@ -160,8 +158,6 @@ public class Inventory : MonoBehaviour {
 	}
 
 	public void toggleActive() {
-        
-        // NULL?
         inventoryPanel.SetActive (!inventoryPanel.activeSelf);
 
 		// Shut down the tooltip and itemMenu too, if it is active
@@ -169,9 +165,6 @@ public class Inventory : MonoBehaviour {
 		GetComponent<ItemMenu> ().deactivate ();
         
 	}
-
-	// Update is called once per frame
-	void Update () {}
 
 	public void printInv() {
 		foreach (AdventureItem item in allItems) {

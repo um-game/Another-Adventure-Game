@@ -93,7 +93,7 @@ public class Equipment : MonoBehaviour {
 		allItems [slotI] = itemToAdd; // Assign empty slot to new item
 
 		GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
-		itemObject.GetComponent<ItemData> ().init (itemToAdd, slotI, allSlots[slotI].GetComponent<Slot>().uniqueID); // Initialize itemData
+		itemObject.GetComponent<ItemData> ().init (itemToAdd, allSlots[slotI].GetComponent<Slot>().uniqueID); // Initialize itemData
 		itemObject.transform.SetParent (allSlots [slotI].transform); // Set correct parent
         itemObject.transform.localScale = new Vector3(1,1,1);
         itemObject.transform.localPosition = Vector2.zero; // Center item in slot
