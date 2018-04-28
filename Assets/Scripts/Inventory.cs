@@ -68,6 +68,8 @@ public class Inventory : MonoBehaviour {
 			addItem(14);
 			addItem (6);
 			addItem (16);
+			addItem (16);
+
 			addItem (17);
 			addItem (18);
 			addItem (19);
@@ -76,10 +78,10 @@ public class Inventory : MonoBehaviour {
 			addItem (22);
 			addItem (0);
 			addItem (0);
-			addItem (0);
-			addItem (0);
-			addItem (0);
-			addItem (0);
+//			addItem (0);
+//			addItem (0);
+//			addItem (0);
+//			addItem (0);
 			addItem (0); // full
 
             inventoryPanel.SetActive(false);
@@ -201,6 +203,13 @@ public class Inventory : MonoBehaviour {
 	}
 
 	public bool isFull() {
-		return allItems.Count == numSlots;
+		int numItems = 0;
+
+		foreach (AdventureItem item in allItems) {
+			if (item.ID != -1) {
+				numItems += 1;
+			}
+		}
+		return numItems == numSlots;
 	}
 }
