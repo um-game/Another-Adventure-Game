@@ -43,6 +43,10 @@ public class PickupMenu : MonoBehaviour {
         // NULL?
         pickupMenu.SetActive (true);
 	
+		if (player.isInvFull ()) {
+			buttons [0].interactable = false;
+		}
+
 		this.itemId = itemId;
 		this.obj = obj;
 	}

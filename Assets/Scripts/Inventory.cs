@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour {
 	public GameObject inventorySlot; // Prefab instance of an inventory slot
 	public GameObject inventoryItem; // Prefab instance of an inventory item
 
-	int numSlots;
+	public int numSlots;
 
 	public List<AdventureItem> allItems; // Holds all the item instances for the inventory
 	public List<GameObject> allSlots; // Holds all the slot instances for the inventory
@@ -74,6 +74,13 @@ public class Inventory : MonoBehaviour {
 			addItem (20);
 			addItem (21);
 			addItem (22);
+			addItem (0);
+			addItem (0);
+			addItem (0);
+			addItem (0);
+			addItem (0);
+			addItem (0);
+			addItem (0); // full
 
             inventoryPanel.SetActive(false);
 
@@ -188,5 +195,9 @@ public class Inventory : MonoBehaviour {
 			}
 		}
 		return -1;
+	}
+
+	public bool isFull() {
+		return allItems.Count == numSlots;
 	}
 }

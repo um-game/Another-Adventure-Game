@@ -409,4 +409,8 @@ public class Player: MonoBehaviour {
     {
         anim.SetTrigger("attacking");
     }
+
+	public bool isInvFull() {
+		return inv.isFull ();
+	}
 }
