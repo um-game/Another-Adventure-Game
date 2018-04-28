@@ -61,7 +61,7 @@ public class Synergy : MonoBehaviour {
                 allSlotsClone[i].transform.localScale = new Vector3(1, 1, 1);
 
 //                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
-                allSlotsClone[i].GetComponent<Slot>().ID = i; // Set ID of slot
+//                allSlotsClone[i].GetComponent<Slot>().ID = i; // Set ID of slot
 
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
 //				currSlot.ID = i; // Set ID of slot

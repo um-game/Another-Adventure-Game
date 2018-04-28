@@ -16,7 +16,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	public slotType type;
 
-	public int ID { get; set; }
+//	public int ID { get; set; }
 
 	public int uniqueID { get; set; }
 
@@ -135,12 +135,14 @@ public class Slot : MonoBehaviour, IDropHandler {
 					if(equip.allItems[localID].ID == -1) {
 
 						if (currItem.itemType == ItemType.weapon && localID == (int)ItemType.weapon) {
+							droppedItem.item.equipped = true;
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
 							droppedItem.slotId = localID; // Update which slot we are in
 							droppedItem.slotUID = this.uniqueID;
 							player.useItem (droppedItem.item);
 						} else if(currItem.itemType == ItemType.shield && localID == (int)ItemType.shield) {
+							droppedItem.item.equipped = true;
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
 							droppedItem.slotId = localID; // Update which slot we are in
@@ -148,6 +150,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 							player.useItem (droppedItem.item);
 
 						}  else if(currItem.itemType == ItemType.head && localID == (int)ItemType.head) {
+							droppedItem.item.equipped = true;
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
 							droppedItem.slotId = localID; // Update which slot we are in
@@ -155,6 +158,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 							player.useItem (droppedItem.item);
 
 						}  else if(currItem.itemType == ItemType.chest && localID == (int)ItemType.chest) {
+							droppedItem.item.equipped = true;
 							removePrior (prevType, priorLocalID);
 							equip.allItems [localID] = droppedItem.item; // Update item in slot
 							droppedItem.slotId = localID; // Update which slot we are in
@@ -185,9 +189,24 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 						droppedItem.slotId = localID; // Update which slot we are in
 						droppedItem.slotUID = this.uniqueID;
-					}
+					} 
+//					else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
+//
+//						Transform item = this.transform.GetChild (0); // Get item in current slot
+//						item.GetComponent<ItemData> ().slotUID = droppedItem.slotUID; // Assign new slot id
+//						item.transform.SetParent (inv.allSlots [priorLocalID].transform); // Set parent to new slot
+//						item.transform.position = inv.allSlots [priorLocalID].transform.position;
+//
+//						// Swap the items in the list(before re-assigning droppedItem's slot ID
+//						syn.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
+//						syn.allItems [localID] = droppedItem.item;
+//
+//						// Move item currrently in slot to 'old' slot
+//						droppedItem.slotUID = this.uniqueID;
+//						droppedItem.transform.SetParent (this.transform);
+//						droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
+//					}
 					syn.printInv ();
-					
 				}
 				break;
 			}
@@ -204,6 +223,8 @@ public class Slot : MonoBehaviour, IDropHandler {
 			break;
 
 		case slotType.EQP:
+			equip.allItems [prevID].equipped = false;
+			player.unEquip (equip.allItems [prevID]);
 			equip.allItems [prevID] = new AdventureItem ();
 			break;
 

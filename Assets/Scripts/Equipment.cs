@@ -83,8 +83,10 @@ public class Equipment : MonoBehaviour {
 //			return;
 			AdventureItem currentItem = allItems [slotI];
 			GameObject.Find ("Inventory").GetComponent<Inventory> ().addItem (currentItem.ID); // Put back in inventory
-			currentItem.equipped = false;
-			removeItem(currentItem);
+			if (currentItem.equipped) {
+				currentItem.equipped = false;
+				removeItem (currentItem);
+			}
 		}
 
 		// Assign current slot

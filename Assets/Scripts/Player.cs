@@ -225,8 +225,11 @@ public class Player: MonoBehaviour {
 			this.shield = newWeapon;
 		}
 
-		// Put in equipment
-		equipment.addItem (newWeapon.ID);
+		if (newWeapon.equipped == false) {
+
+			// Put in equipment
+			equipment.addItem (newWeapon.ID);
+		}
 	}
 
 	public void setArmor(ItemArmor newArmor){
@@ -246,8 +249,11 @@ public class Player: MonoBehaviour {
 			this.headArmor = newArmor;
 		}
 
-		// Put in equipment
-		equipment.addItem (newArmor.ID);
+		if (newArmor.equipped == false) {
+
+			// Put in equipment
+			equipment.addItem (newArmor.ID);
+		}
 	}
 
 	public void useItem(AdventureItem item) {
@@ -293,16 +299,19 @@ public class Player: MonoBehaviour {
 
 	public void unEquip(AdventureItem item) {
 
-		item.equipped = false;
+//		item.equipped = false;
 
 		if(item.GetType() == typeof(ItemSynergy)) {
+			item.equipped = false;
 			syn.removeItem (item);
 			checkBuff ();
 
 		} else {
 
-			equipment.removeItem (item);
-
+			if (item.equipped) {
+				item.equipped = false;
+				equipment.removeItem (item);
+			}
 			// Un-equipping sword
 			if (item.itemType == ItemType.weapon) {
 				ItemWeapon weapon = (ItemWeapon)item;
