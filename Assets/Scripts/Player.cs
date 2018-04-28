@@ -334,7 +334,7 @@ public class Player: MonoBehaviour {
 		checkBuff();
 	}
 
-	private void checkBuff() {
+	public void checkBuff() {
 
 		List<AdventureItem> allSyn = syn.allItems;
 

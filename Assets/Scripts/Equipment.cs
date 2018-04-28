@@ -47,10 +47,10 @@ public class Equipment : MonoBehaviour {
 			for (int i = 0; i < numSlots; i++) {
 				allItems.Add (new AdventureItem ()); // Add empty item
 				allSlots.Add (slotPanel.transform.GetChild (i).gameObject);
-				allSlots [i].GetComponent<Slot> ().ID = i; // Set ID of slot
+//				allSlots [i].GetComponent<Slot> ().ID = i; // Set ID of slot
 
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
-				currSlot.ID = i; // Set ID of slot
+//				currSlot.ID = i; // Set ID of slot
 				currSlot.uniqueID = Player.UID;
 				uids.Add (Player.UID);
 //				currSlot.GetComponent<ItemData> ().slotUID = Player.UID;

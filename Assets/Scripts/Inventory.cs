@@ -48,8 +48,8 @@ public class Inventory : MonoBehaviour {
                 allSlots[i].transform.localScale = new Vector3(1,1,1);
                 
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
-				currSlot.ID = i; // Set ID of slot
-				currSlot.uniqueID = Player.UID;
+//				currSlot.ID = i; // Set ID of slot
+				currSlot.uniqueID = Player.UID; // Set unique ID of slot
 //				currSlot.GetComponent<ItemData> ().slotUID = Player.UID;
 				uids.Add (Player.UID);
 				Player.UID += 1;

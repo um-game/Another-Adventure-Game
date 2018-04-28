@@ -59,11 +59,12 @@ public class Synergy : MonoBehaviour {
                 allSlotsClone[i].transform.SetParent(slotPanelClone.transform);
 				allSlots[i].transform.localScale = new Vector3(1, 1, 1);
                 allSlotsClone[i].transform.localScale = new Vector3(1, 1, 1);
-                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
+
+//                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
                 allSlotsClone[i].GetComponent<Slot>().ID = i; // Set ID of slot
 
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
-				currSlot.ID = i; // Set ID of slot
+//				currSlot.ID = i; // Set ID of slot
 				currSlot.uniqueID = Player.UID;
 				uids.Add (Player.UID);
 				Player.UID += 1;

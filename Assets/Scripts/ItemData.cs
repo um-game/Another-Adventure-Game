@@ -131,21 +131,27 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			}
 		}
 
+		int localID;
+
 		switch (currType) {
 
 		case slotType.INV:
-			this.transform.SetParent (inv.allSlots [slotId].transform);
+			localID = inv.uidToLocal (this.slotUID);
+			this.transform.SetParent (inv.allSlots [localID].transform);
 			break;
 
 		case slotType.EQP:
+			localID = equip.uidToLocal (this.slotUID);
 			this.transform.SetParent (equip.allSlots [slotId].transform);
 			break;
 
 		case slotType.SYN:
+			localID = syn.uidToLocal (this.slotUID);
 			this.transform.SetParent (syn.allSlots [slotId].transform);
 			break;
 
 		default:
+			localID = -1;
 			Debug.Log ("ERROR NA TYPE PRESENT");
 			break;
 		}
