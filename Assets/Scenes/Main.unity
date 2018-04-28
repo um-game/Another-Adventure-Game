@@ -912,6 +912,7 @@ MonoBehaviour:
     type: 2}
   allSlots: []
   allSlotsClone: []
+  uids: 
 --- !u!224 &205857767 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224858408539241674, guid: 3d08088007076ba4d98ad501e8c88175,
@@ -1078,7 +1079,9 @@ MonoBehaviour:
     type: 2}
   inventoryItem: {fileID: 1778231505854072, guid: 856f1f35a96df154288d66ec9f39ce79,
     type: 2}
+  numSlots: 0
   allSlots: []
+  uids: 
 --- !u!114 &255545370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5623,6 +5626,7 @@ MonoBehaviour:
     type: 2}
   inventoryItem: {fileID: 1778231505854072, guid: 856f1f35a96df154288d66ec9f39ce79,
     type: 2}
+  uids: 
   allSlots: []
 --- !u!1 &1259293158
 GameObject:

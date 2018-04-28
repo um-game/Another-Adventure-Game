@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour {
 	public GameObject inventorySlot; // Prefab instance of an inventory slot
 	public GameObject inventoryItem; // Prefab instance of an inventory item
 
-	public int numSlots;
+	int numSlots;
 
 	public List<AdventureItem> allItems; // Holds all the item instances for the inventory
 	public List<GameObject> allSlots; // Holds all the slot instances for the inventory
