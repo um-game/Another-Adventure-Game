@@ -16,11 +16,8 @@ public class Slot : MonoBehaviour, IDropHandler {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () {}
 		
-	}
-
-
 	public void OnDrop(PointerEventData eventData) {
 
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData> (); // Get item from event data

@@ -8,7 +8,7 @@ public class Player: MonoBehaviour {
     public float maxSpeed;
 
 	private float buffSpeed;
-	private float baseSpeed;
+	public float baseSpeed { get; set; }
 
 	private bool attackBuff;
 
@@ -20,10 +20,11 @@ public class Player: MonoBehaviour {
 	public Equipment equipment;
 	public PickupMenu pickupMenu;
 	public Synergy syn;
+	public statsPanel myStats;
 
-	int attack;
+	public int attack { get; set;}
 	int baseAttack;
-	int defense;
+	public int defense { get; set;}
 
     public static Player myPlayer;
     
@@ -51,6 +52,9 @@ public class Player: MonoBehaviour {
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
 
+			myStats = GameObject.Find ("statsPanel").GetComponent<statsPanel>();
+			myStats.toggleActive ();
+
 			baseAttack = 10;
 
 			health = 100; // Full health
@@ -70,6 +74,7 @@ public class Player: MonoBehaviour {
 			chestArmor = new ItemArmor ();
 			headArmor = new ItemArmor ();
 
+			myStats.updateStats ();
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
         }
@@ -80,9 +85,9 @@ public class Player: MonoBehaviour {
 	}
 
 	void Update() {
-		// Toggle the inventory(if aother menu isnt already open
+		// Toggle the UI
 		if (Input.GetKeyDown (KeyCode.I)) {
-			toggleInventory ();
+			toggleUI ();
             Debug.Log("OPEN INVENTORY");
 		}
 
@@ -183,10 +188,11 @@ public class Player: MonoBehaviour {
         SceneManager.LoadScene(index);
     }
 		
-	private void toggleInventory () {
+	private void toggleUI () {
 		inv.toggleActive ();
 		equipment.toggleActive ();
 		syn.toggleActive ();
+		myStats.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
@@ -244,6 +250,9 @@ public class Player: MonoBehaviour {
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
 		inv.removeItem (item);
+
+		// Update stats
+		myStats.updateStats ();
 		printStats ();
 	}
 
