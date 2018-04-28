@@ -6,13 +6,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    
+
+    Animator anim;
     public worldItem item;      // Type of item enemy will drop
     bool dying = false;         // If the enemy has died or not
     Rigidbody2D RigidBodyCat;   // Cat Fighter's Rigid Body
     int maxSpeed = 1;           // Speed of Enemy
     int range = 2;              // If player is within range, enemy will attack
+    int attRange = 1;
     Transform target;           // Hold transform of player, used to calculate movement direction
+    int facing = 0;
 
     Vector3 currentPosition, lastPosition;  // Used for sprite flipping
 
@@ -27,8 +30,10 @@ public class Enemy : MonoBehaviour
         currentPosition = transform.position;
         lastPosition = currentPosition;
 
-        
-        
+        anim = GetComponent<Animator>();
+
+
+
     }
 
     // Update is called once per frame
@@ -36,6 +41,7 @@ public class Enemy : MonoBehaviour
     {
         // FIXME: enemy gets stuck
         Vector3 diff = target.transform.position - this.transform.position; // Get difference in position
+        anim.SetInteger("attRange", (int)diff.magnitude);
 
         if (diff.magnitude < range)
         {
@@ -52,24 +58,18 @@ public class Enemy : MonoBehaviour
 
         if (currentPosition.x > lastPosition.x)
         {
+            anim.SetInteger("facing", 1);
+            
 
-            //We are moving to the right
-            //set sprite to rightFacingSprite
         }
         if (currentPosition.x < lastPosition.x)
         {
-            //We are moving to the left
-            //set sprite to leftFacingSprite
+            anim.SetInteger("facing", 3);
         }
+
         var relativePoint = transform.InverseTransformPoint(transform.position);
 
-        if (relativePoint.x < 0.0)
-            print("Object is to the left");
-        else if (relativePoint.x > 0.0)
-            print("Object is to the right");
-        else
-            print("Object is directly ahead");
-
+       
         //Update the new positions
         lastPosition = currentPosition;
         currentPosition = transform.position;
