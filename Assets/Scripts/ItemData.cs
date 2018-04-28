@@ -96,8 +96,6 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	{
 		this.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 
-		slotType currType = slotType.NA;
-
 		List<List<int>> allUID = new List<List<int>> ();
 
 		allUID.Add (inv.uids);
@@ -105,16 +103,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		allUID.Add (equip.uids);
 
 		// Determine what kind of slot we are
-		for (int i = 0; i < allUID.Count; i++) {
-
-			for (int j = 0; j < allUID [i].Count; j++) {
-
-				if (this.slotUID == allUID [i] [j]) {
-					currType = (slotType)i;
-					break;
-				}
-			}
-		}
+		slotType currType = Slot.uidToType (allUID, this.slotUID);
 
 		int localID;
 
@@ -141,6 +130,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			Debug.Log ("ERROR NA TYPE PRESENT");
 			break;
 		}
+		// Set position
 		this.transform.localPosition = new Vector3 (0, 0, 0);
 	}
 }

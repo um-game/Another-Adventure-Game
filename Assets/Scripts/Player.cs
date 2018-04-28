@@ -234,9 +234,11 @@ public class Player: MonoBehaviour {
 
 	public void setArmor(ItemArmor newArmor){
 
-		// Check if there is something equipped
-		if (this.chestArmor.ID != -1) {
+		// Check if there is something equipped on the chest
+		if (this.chestArmor.ID != -1 && newArmor.itemType == ItemType.chest) {
 			this.defense -= this.chestArmor.Def;
+		} else if (this.headArmor.ID != -1 && newArmor.itemType == ItemType.head) {
+			this.defense -= this.headArmor.Def;
 		}
 
 		this.defense += newArmor.Def;
@@ -266,7 +268,7 @@ public class Player: MonoBehaviour {
 
 	public void printStats()
 	{
-		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
+		Debug.Log ("Health: " + health + "\nDefense: " + defense + "\nWeapon: " 
 			+ weapon.Title + "\nArmor: " + chestArmor.Title);
 	}
 		

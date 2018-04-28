@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public enum slotType { INV, SYN, EQP, NA }
 
-
 public class Slot : MonoBehaviour, IDropHandler {
 
 	private Inventory inv;
@@ -14,7 +13,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 	private Equipment equip;
 	private Player player;
 
-	public slotType type;
+	public slotType type; // enum corresponding to type of slot
 
 	public int uniqueID { get; set; }
 
@@ -27,63 +26,24 @@ public class Slot : MonoBehaviour, IDropHandler {
 		player = GameObject.Find ("player").GetComponent<Player> ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
 	public void OnDrop(PointerEventData eventData) {
 
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData> (); // Get item from event data
-		List<List<int>> allUID = new List<List<int>> ();
 
+		List<List<int>> allUID = new List<List<int>> ();
 		allUID.Add (inv.uids);
 		allUID.Add (syn.uids);
 		allUID.Add (equip.uids);
 
-		slotType prevType = slotType.NA;
-
-		for (int i = 0; i < allUID.Count; i++) {
-
-			for (int j = 0; j < allUID [i].Count; j++) {
-
-				if (droppedItem.slotUID == allUID [i] [j]) {
-					prevType = (slotType)i;
-					break;
-				}
-			}
-		}
+		slotType prevType = Slot.uidToType (allUID, droppedItem.slotUID);
 
 		// Figure out the local ID
 		int priorLocalID = uidToLocal(prevType, droppedItem.slotUID);
 		int localID = uidToLocal(this.type, this.uniqueID);
 
-		// Figure out what the old local ID is
-		switch (prevType) {
-
-		case slotType.INV:
-			priorLocalID = inv.uidToLocal (droppedItem.slotUID);
-			break;
-
-		case slotType.SYN:
-			priorLocalID = syn.uidToLocal (droppedItem.slotUID);
-			break;
-
-		case slotType.EQP:
-			priorLocalID = equip.uidToLocal (droppedItem.slotUID);
-			break;
-
-		default:
-			priorLocalID = -1;
-			Debug.Log ("NA ENCOUNTERED ERROR");
-			break;
-
-		}
-
 		// TODO: implement swapping
 
-		Debug.Log (localID);
+//		Debug.Log (localID);
 
 		// Check what kind of slot we are
 		switch(type) {
@@ -122,36 +82,23 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 				// Make sure it is the right type of item
 				if(currentItemType == typeof(ItemArmor) || currentItemType == typeof(ItemWeapon)) {
-					Debug.Log("EQP");
+//					Debug.Log("EQP");
 
 					if(equip.allItems[localID].ID == -1) {
 
-						if (currItem.itemType == ItemType.weapon && localID == (int)ItemType.weapon) {
-							droppedItem.item.equipped = true;
-							droppedItem.slotUID = this.uniqueID; // Update ID
-							removePrior (prevType, priorLocalID);
-							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							player.useItem (droppedItem.item);
-						} else if(currItem.itemType == ItemType.shield && localID == (int)ItemType.shield) {
-							droppedItem.item.equipped = true;
-							droppedItem.slotUID = this.uniqueID;  // Update ID
-							removePrior (prevType, priorLocalID);
-							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							player.useItem (droppedItem.item);
+						// This little bit ensures the proper piece of equipment ends up in the proper slot
+						bool isHead = currItem.itemType == ItemType.head && localID == (int)ItemType.head;
+						bool isweapon = currItem.itemType == ItemType.weapon && localID == (int)ItemType.weapon;
+						bool isChest = currItem.itemType == ItemType.chest && localID == (int)ItemType.chest;
+						bool isShield = currItem.itemType == ItemType.shield && localID == (int)ItemType.shield;
 
-						}  else if(currItem.itemType == ItemType.head && localID == (int)ItemType.head) {
-							droppedItem.item.equipped = true;
-							droppedItem.slotUID = this.uniqueID;  // Update ID
-							removePrior (prevType, priorLocalID);
-							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							player.useItem (droppedItem.item);
-
-						}  else if(currItem.itemType == ItemType.chest && localID == (int)ItemType.chest) {
-							droppedItem.item.equipped = true;
-							droppedItem.slotUID = this.uniqueID;  // Update ID
-							removePrior (prevType, priorLocalID);
-							equip.allItems [localID] = droppedItem.item; // Update item in slot
-							player.useItem (droppedItem.item);
+						// If one of them is true, proceed accordingly
+						if (isHead || isweapon || isChest || isShield) {
+							droppedItem.item.equipped = true; // 0. NOTE: We set equipped to true to ensure it does not get equipped twice
+							droppedItem.slotUID = this.uniqueID; // 1. update dropped item's ID
+							removePrior (prevType, priorLocalID); // 2. null out the previous slot that the item was just in
+							equip.allItems [localID] = droppedItem.item; // 3. update the item in this slot
+							player.useItem (droppedItem.item); // 4. update player stats accordingly
 						}
 					}
 				}
@@ -194,7 +141,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 //						droppedItem.transform.SetParent (this.transform);
 //						droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
 //					}
-					syn.printInv ();
+//					syn.printInv ();
 				}
 				break;
 			}
@@ -233,20 +180,31 @@ public class Slot : MonoBehaviour, IDropHandler {
 		switch (slotT) {
 
 		case slotType.INV:
-			Debug.Log ("inv");
+//			Debug.Log ("inv");
 			return inv.uidToLocal (UID);
 
 		case slotType.EQP:
-			Debug.Log ("eqp");
+//			Debug.Log ("eqp");
 			return equip.uidToLocal (UID);
 
 		case slotType.SYN:
-			Debug.Log ("syn");
+//			Debug.Log ("syn");
 			return syn.uidToLocal (UID);
 
 		default:
 			Debug.Log ("default");
 			return -1;
 		}
+	}
+
+	public static slotType uidToType(List<List<int>> allUID, int UID) {
+		for (int i = 0; i < allUID.Count; i++) {
+			for (int j = 0; j < allUID [i].Count; j++) {
+				if (UID == allUID [i] [j]) {
+					return(slotType)i;
+				}
+			}
+		}
+		return slotType.NA;
 	}
 }

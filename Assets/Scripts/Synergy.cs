@@ -69,7 +69,6 @@ public class Synergy : MonoBehaviour {
 
 			// Load ID's and add items here
 
-
 			inventoryPanel.SetActive(false);
             inventoryPanelClone.SetActive(true);
 
@@ -148,14 +147,8 @@ public class Synergy : MonoBehaviour {
 	}
 
 	public void toggleActive() {
-
-		// NULL?
 		inventoryPanel.SetActive (!inventoryPanel.activeSelf);
-
 	}
-
-	// Update is called once per frame
-	void Update () {}
 
 	public void printInv() {
 		foreach (AdventureItem item in allItems) {
@@ -164,7 +157,6 @@ public class Synergy : MonoBehaviour {
 	}
 
 	private void printSlots() {
-
 		foreach (GameObject obj in allSlots) {
 			Debug.Log(obj.transform.childCount);
 		}
