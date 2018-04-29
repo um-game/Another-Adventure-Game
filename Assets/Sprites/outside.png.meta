@@ -395,10 +395,10 @@ TextureImporter:
     21300776: outside_388
     21300778: outside_389
     21300780: outside_390
-    21300782: outside_391
-    21300784: outside_392
-    21300786: outside_393
-    21300788: outside_394
+    21300782: tree1_1
+    21300784: tree1_2
+    21300786: tree2_1
+    21300788: tree2_2
     21300790: outside_395
     21300792: outside_396
     21300794: outside_397
@@ -438,10 +438,10 @@ TextureImporter:
     21300862: outside_431
     21300864: outside_432
     21300866: outside_433
-    21300868: outside_434
-    21300870: outside_435
-    21300872: outside_436
-    21300874: outside_437
+    21300868: tree1_3
+    21300870: tree1_4
+    21300872: tree2_3
+    21300874: tree2_4
     21300876: outside_438
     21300878: outside_439
     21300880: outside_440
@@ -480,10 +480,10 @@ TextureImporter:
     21300946: outside_473
     21300948: outside_474
     21300950: outside_475
-    21300952: outside_476
-    21300954: outside_477
-    21300956: outside_478
-    21300958: outside_479
+    21300952: tree1_5
+    21300954: tree1_6
+    21300956: tree2_5
+    21300958: tree2_6
     21300960: outside_480
     21300962: outside_481
     21300964: outside_482
@@ -8852,7 +8852,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_391
+      name: tree1_1
       rect:
         serializedVersion: 2
         x: 16
@@ -8870,7 +8870,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_392
+      name: tree1_2
       rect:
         serializedVersion: 2
         x: 32
@@ -8888,7 +8888,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_393
+      name: tree2_1
       rect:
         serializedVersion: 2
         x: 48
@@ -8906,7 +8906,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_394
+      name: tree2_2
       rect:
         serializedVersion: 2
         x: 64
@@ -9629,7 +9629,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_434
+      name: tree1_3
       rect:
         serializedVersion: 2
         x: 16
@@ -9647,7 +9647,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_435
+      name: tree1_4
       rect:
         serializedVersion: 2
         x: 32
@@ -9665,7 +9665,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_436
+      name: tree2_3
       rect:
         serializedVersion: 2
         x: 48
@@ -9683,7 +9683,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_437
+      name: tree2_4
       rect:
         serializedVersion: 2
         x: 64
@@ -10387,7 +10387,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_476
+      name: tree1_5
       rect:
         serializedVersion: 2
         x: 16
@@ -10405,7 +10405,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_477
+      name: tree1_6
       rect:
         serializedVersion: 2
         x: 32
@@ -10423,7 +10423,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_478
+      name: tree2_5
       rect:
         serializedVersion: 2
         x: 48
@@ -10441,7 +10441,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_479
+      name: tree2_6
       rect:
         serializedVersion: 2
         x: 64
