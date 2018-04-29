@@ -16,8 +16,8 @@ TextureImporter:
     21300018: outside_9
     21300020: outside_10
     21300022: outside_11
-    21300024: outside_12
-    21300026: outside_13
+    21300024: water1_10
+    21300026: water1_11
     21300028: outside_14
     21300030: outside_15
     21300032: outside_16
@@ -45,8 +45,8 @@ TextureImporter:
     21300076: outside_38
     21300078: outside_39
     21300080: outside_40
-    21300082: outside_41
-    21300084: outside_42
+    21300082: water1_12
+    21300084: water1_13
     21300086: outside_43
     21300088: outside_44
     21300090: outside_45
@@ -87,9 +87,9 @@ TextureImporter:
     21300160: outside_80
     21300162: outside_81
     21300164: outside_82
-    21300166: outside_83
-    21300168: outside_84
-    21300170: outside_85
+    21300166: water1_1
+    21300168: water1_2
+    21300170: water1_3
     21300172: outside_86
     21300174: outside_87
     21300176: outside_88
@@ -137,9 +137,9 @@ TextureImporter:
     21300260: outside_130
     21300262: outside_131
     21300264: outside_132
-    21300266: outside_133
-    21300268: outside_134
-    21300270: outside_135
+    21300266: water1_4
+    21300268: water1_5
+    21300270: water1_6
     21300272: outside_136
     21300274: outside_137
     21300276: outside_138
@@ -187,9 +187,9 @@ TextureImporter:
     21300360: outside_180
     21300362: outside_181
     21300364: outside_182
-    21300366: outside_183
-    21300368: outside_184
-    21300370: outside_185
+    21300366: water1_7
+    21300368: water1_8
+    21300370: water_9
     21300372: outside_186
     21300374: outside_187
     21300376: outside_188
@@ -2022,7 +2022,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_12
+      name: water1_10
       rect:
         serializedVersion: 2
         x: 432
@@ -2040,7 +2040,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_13
+      name: water1_11
       rect:
         serializedVersion: 2
         x: 448
@@ -2544,7 +2544,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_41
+      name: water1_12
       rect:
         serializedVersion: 2
         x: 432
@@ -2562,7 +2562,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_42
+      name: water1_13
       rect:
         serializedVersion: 2
         x: 448
@@ -3300,7 +3300,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_83
+      name: water1_1
       rect:
         serializedVersion: 2
         x: 416
@@ -3318,7 +3318,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_84
+      name: water1_2
       rect:
         serializedVersion: 2
         x: 432
@@ -3336,7 +3336,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_85
+      name: water1_3
       rect:
         serializedVersion: 2
         x: 448
@@ -4200,7 +4200,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_133
+      name: water1_4
       rect:
         serializedVersion: 2
         x: 416
@@ -4218,11 +4218,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_134
+      name: water1_5
       rect:
         serializedVersion: 2
-        x: 432
-        y: 800
+        x: 433
+        y: 801
         width: 16
         height: 16
       alignment: 0
@@ -4236,11 +4236,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_135
+      name: water1_6
       rect:
         serializedVersion: 2
-        x: 448
-        y: 800
+        x: 447
+        y: 801
         width: 16
         height: 16
       alignment: 0
@@ -5100,7 +5100,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_183
+      name: water1_7
       rect:
         serializedVersion: 2
         x: 416
@@ -5118,7 +5118,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_184
+      name: water1_8
       rect:
         serializedVersion: 2
         x: 432
@@ -5136,7 +5136,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: outside_185
+      name: water_9
       rect:
         serializedVersion: 2
         x: 448

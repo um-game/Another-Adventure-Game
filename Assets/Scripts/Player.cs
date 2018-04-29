@@ -11,6 +11,7 @@ public class Player: MonoBehaviour {
 	private float baseSpeed;
 
 	private bool attackBuff;
+    private bool swimming;
 
     Animator anim;
 	Rigidbody2D rb2d;
@@ -73,6 +74,8 @@ public class Player: MonoBehaviour {
             baseStaminaTick = 20;
             tickHealthDelay = baseHealthTick;
             tickStaminaDelay = baseStaminaTick;
+
+            swimming = false;
 
 			baseSpeed = maxSpeed;
 			buffSpeed = maxSpeed * 2.0f;
@@ -209,8 +212,27 @@ public class Player: MonoBehaviour {
 
             StartCoroutine(ChangeLevel(myWarp.dest, myWarp.warpX, myWarp.warpY, 0));
         }
+
+        else if (other.gameObject.tag == "water")
+        {
+            swimming = true;
+
+            anim.SetBool("swimming", swimming);
+        }
+
+
     }
-    
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "water")
+        {
+            swimming = false;
+
+            anim.SetBool("swimming", swimming);
+        }
+    }
+
 
 
     IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
