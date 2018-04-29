@@ -21,6 +21,7 @@ public class Player: MonoBehaviour {
 	public Equipment equipment;
 	public PickupMenu pickupMenu;
 	public Synergy syn;
+	private StatsPanel statsPanel;
 
 	public int attack;
     public bool isAttacking = false;
@@ -60,6 +61,8 @@ public class Player: MonoBehaviour {
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
+			statsPanel = GameObject.Find ("statsPanel").GetComponent<StatsPanel> ();
+			statsPanel.toggleActive ();
 
 			baseAttack = 10;
 
@@ -248,6 +251,7 @@ public class Player: MonoBehaviour {
 		inv.toggleActive ();
 		equipment.toggleActive ();
 		syn.toggleActive ();
+		statsPanel.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
@@ -306,6 +310,7 @@ public class Player: MonoBehaviour {
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
 		inv.removeItem (item);
+		statsPanel.updateStats ();
 		printStats ();
 	}
 
