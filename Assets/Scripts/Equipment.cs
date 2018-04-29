@@ -47,13 +47,10 @@ public class Equipment : MonoBehaviour {
 			for (int i = 0; i < numSlots; i++) {
 				allItems.Add (new AdventureItem ()); // Add empty item
 				allSlots.Add (slotPanel.transform.GetChild (i).gameObject);
-//				allSlots [i].GetComponent<Slot> ().ID = i; // Set ID of slot
 
 				Slot currSlot = allSlots [i].GetComponent<Slot> ();
-//				currSlot.ID = i; // Set ID of slot
 				currSlot.uniqueID = Player.UID;
 				uids.Add (Player.UID);
-//				currSlot.GetComponent<ItemData> ().slotUID = Player.UID;
 				Player.UID += 1;
 				currSlot.type = slotType.EQP;
 			}
@@ -65,9 +62,7 @@ public class Equipment : MonoBehaviour {
 			myEquip = this;
 
 		} else if(myEquip != null) {
-		
 			Destroy(gameObject);
-
 		}
 	}
 		
@@ -79,8 +74,6 @@ public class Equipment : MonoBehaviour {
 
 		if (allItems [slotI].ID != -1) { // Check for 'non - empty' slot
 			// If item equipped, put back into inventory 
-
-//			return;
 			AdventureItem currentItem = allItems [slotI];
 			GameObject.Find ("Inventory").GetComponent<Inventory> ().addItem (currentItem.ID); // Put back in inventory
 			if (currentItem.equipped) {
@@ -110,8 +103,6 @@ public class Equipment : MonoBehaviour {
 
 		GameObject item = allSlots [itemToRmI].transform.GetChild (0).transform.gameObject;
 		Destroy (item);
-//		allSlots [itemToRmI].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
-//		allSlots[itemToRmI].transform.DetachChildren();
 		allItems [itemToRmI] = new AdventureItem ();
 	}
 

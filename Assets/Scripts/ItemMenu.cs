@@ -95,10 +95,7 @@ public class ItemMenu : MonoBehaviour {
 		case 4:
 			it.transform.position = player.transform.position - new Vector3 (dropOffset, 0, 0);
 			break;
-
-
 		}
-		Destroy (obj);
 		itemMenu.SetActive (false);
 	}
 

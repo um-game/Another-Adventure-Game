@@ -132,7 +132,9 @@ public class Inventory : MonoBehaviour {
 				
 				ItemData currData = allSlots [i].transform.GetChild (0).GetComponent<ItemData> ();
 				currData.decreaseAmt (1);
+				Debug.Log (currData.amt);
 				if(currData.amt == 0) {
+					Debug.Log ("remove");
 					currData.removeItem ();
 
 					GameObject item = allSlots [i].transform.GetChild (0).transform.gameObject;

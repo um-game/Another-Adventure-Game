@@ -7,7 +7,6 @@ using System;
 
 public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-
 	public AdventureItem item;
 	public int amt { get; set; }
 	public int slotUID; // Keep track of which slot we are in

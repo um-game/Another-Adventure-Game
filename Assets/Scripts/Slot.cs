@@ -41,10 +41,6 @@ public class Slot : MonoBehaviour, IDropHandler {
 		int priorLocalID = uidToLocal(prevType, droppedItem.slotUID);
 		int localID = uidToLocal(this.type, this.uniqueID);
 
-		// TODO: implement swapping
-
-//		Debug.Log (localID);
-
 		// Check what kind of slot we are
 		switch(type) {
 
@@ -56,22 +52,34 @@ public class Slot : MonoBehaviour, IDropHandler {
 					inv.allItems [localID] = droppedItem.item; // Update item in slot
 					droppedItem.slotUID = this.uniqueID;  // Update ID
 
-				} else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
+				}  else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
 
 					Transform item = this.transform.GetChild (0); // Get item in current slot
 					item.GetComponent<ItemData> ().slotUID = droppedItem.slotUID; // Assign new slot id
-					item.transform.SetParent (inv.allSlots [priorLocalID].transform); // Set parent to new slot
-					item.transform.position = inv.allSlots [priorLocalID].transform.position;
 
-					// Swap the items in the list(before re-assigning droppedItem's slot ID
-					inv.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
-					inv.allItems [localID] = droppedItem.item;
+					if (inv.uidToLocal (droppedItem.slotUID) != -1) {
+						item.transform.SetParent (inv.allSlots [priorLocalID].transform); // Set parent to new slot in synergy
+						item.transform.position = inv.allSlots [priorLocalID].transform.position;
 
-					// Reassign ID's
+						// Swap the items in the list(before re-assigning droppedItem's slot ID
+						inv.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
+						inv.allItems [localID] = droppedItem.item;
+
+					} else {
+						item.transform.SetParent (syn.allSlots [priorLocalID].transform); // Set parent to new slot in inv
+						item.transform.position = syn.allSlots [priorLocalID].transform.position;
+
+						// Swap the items in the list(before re-assigning droppedItem's slot ID
+						syn.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
+						inv.allItems [localID] = droppedItem.item;
+
+					}
+
+					// Move item currrently in slot to 'old' slot
 					droppedItem.slotUID = this.uniqueID;
 					droppedItem.transform.SetParent (this.transform);
 					droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
-				}
+				} 
 				break;
 			}
 
@@ -82,15 +90,14 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 				// Make sure it is the right type of item
 				if(currentItemType == typeof(ItemArmor) || currentItemType == typeof(ItemWeapon)) {
-//					Debug.Log("EQP");
 
-					if(equip.allItems[localID].ID == -1) {
+					// This little bit ensures the proper piece of equipment ends up in the proper slot
+					bool isHead = currItem.itemType == ItemType.head && localID == (int)ItemType.head;
+					bool isweapon = currItem.itemType == ItemType.weapon && localID == (int)ItemType.weapon;
+					bool isChest = currItem.itemType == ItemType.chest && localID == (int)ItemType.chest;
+					bool isShield = currItem.itemType == ItemType.shield && localID == (int)ItemType.shield;
 
-						// This little bit ensures the proper piece of equipment ends up in the proper slot
-						bool isHead = currItem.itemType == ItemType.head && localID == (int)ItemType.head;
-						bool isweapon = currItem.itemType == ItemType.weapon && localID == (int)ItemType.weapon;
-						bool isChest = currItem.itemType == ItemType.chest && localID == (int)ItemType.chest;
-						bool isShield = currItem.itemType == ItemType.shield && localID == (int)ItemType.shield;
+					if (equip.allItems [localID].ID == -1) {
 
 						// If one of them is true, proceed accordingly
 						if (isHead || isweapon || isChest || isShield) {
@@ -100,7 +107,28 @@ public class Slot : MonoBehaviour, IDropHandler {
 							removePrior (prevType, priorLocalID); // 3. null out the previous slot that the item was just in
 							equip.allItems [localID] = droppedItem.item; // 4. update the item in this slot
 						}
-					}
+					} else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
+
+						if (isHead || isweapon || isChest || isShield) {
+							Transform item = this.transform.GetChild (0); // Get item in current slot
+							item.GetComponent<ItemData> ().slotUID = droppedItem.slotUID; // Assign new slot id
+
+							item.transform.SetParent (inv.allSlots [priorLocalID].transform); // Set parent to new slot in inv
+							item.transform.position = inv.allSlots [priorLocalID].transform.position;
+
+							droppedItem.item.equipped = true; // 0. NOTE: We set equipped to true to ensure it does not get equipped twice
+							player.useItem (droppedItem.item, this.uniqueID); // 1. update player stats accordingly
+
+							// Swap the items in the list(before re-assigning droppedItem's slot ID
+							inv.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
+							equip.allItems [localID] = droppedItem.item;
+
+							// Move item currrently in slot to 'old' slot
+							droppedItem.slotUID = this.uniqueID;
+							droppedItem.transform.SetParent (this.transform);
+							droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
+						}
+					} 
 				}
 				break;
 			}
@@ -112,36 +140,58 @@ public class Slot : MonoBehaviour, IDropHandler {
 					if (syn.allItems [localID].ID == -1) {
 						removePrior (prevType, priorLocalID); // Null out the previous slot
 						syn.allItems [localID] = droppedItem.item; // Update item in slot
-						syn.allItemsClone[localID] = droppedItem.item;
+						syn.allItemsClone [localID] = droppedItem.item;
 
 						// Update clone panel
-						Transform slotCloneT = syn.allSlotsClone[localID].transform;
+						Transform slotCloneT = syn.allSlotsClone [localID].transform;
 						GameObject itemObj = Instantiate (inv.inventoryItem);
 						itemObj.transform.SetParent (slotCloneT);
 						itemObj.GetComponent<Image> ().sprite = droppedItem.item.Sprite;
 						itemObj.transform.localPosition = new Vector2 (0, 2);
-						itemObj.GetComponent<ItemData>().init(droppedItem.item, syn.allSlots[localID].GetComponent<Slot>().uniqueID);
-						slotCloneT.localScale = new Vector3(1, 1, 1);
+						itemObj.GetComponent<ItemData> ().init (droppedItem.item, syn.allSlots [localID].GetComponent<Slot> ().uniqueID);
+						itemObj.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
 
 						droppedItem.slotUID = this.uniqueID;
+					} else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
+
+						Transform item = this.transform.GetChild (0); // Get item in current slot
+						item.GetComponent<ItemData> ().slotUID = droppedItem.slotUID; // Assign new slot id
+
+						if (syn.uidToLocal (droppedItem.slotUID) != -1) {
+							item.transform.SetParent (syn.allSlots [priorLocalID].transform); // Set parent to new slot in synergy
+							item.transform.position = syn.allSlots [priorLocalID].transform.position;
+
+							// Swap the items in the list(before re-assigning droppedItem's slot ID
+							syn.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
+							syn.allItems [localID] = droppedItem.item;
+
+						} else if(inv.uidToLocal(droppedItem.slotUID) != -1) {
+							item.transform.SetParent (inv.allSlots [priorLocalID].transform); // Set parent to new slot in inv
+							item.transform.position = inv.allSlots [priorLocalID].transform.position;
+
+							// Swap the items in the list(before re-assigning droppedItem's slot ID
+							inv.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
+							syn.allItems [localID] = droppedItem.item;
+						}
+
+						// Update clone panel
+						Transform slotCloneT = syn.allSlotsClone [localID].transform;
+						GameObject itemObj = Instantiate (inv.inventoryItem);
+
+						Destroy (slotCloneT.GetChild (0).transform.gameObject);
+
+						itemObj.transform.SetParent (slotCloneT);
+
+						itemObj.GetComponent<Image> ().sprite = droppedItem.item.Sprite;
+						itemObj.transform.localPosition = new Vector2 (0, 2);
+						itemObj.GetComponent<ItemData> ().init (droppedItem.item, syn.allSlots [localID].GetComponent<Slot> ().uniqueID);
+						itemObj.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
+
+						// Move item currrently in slot to 'old' slot
+						droppedItem.slotUID = this.uniqueID;
+						droppedItem.transform.SetParent (this.transform);
+						droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
 					} 
-//					else if (droppedItem.slotUID != this.uniqueID) { // Otherwise, swap the item locations
-//
-//						Transform item = this.transform.GetChild (0); // Get item in current slot
-//						item.GetComponent<ItemData> ().slotUID = droppedItem.slotUID; // Assign new slot id
-//						item.transform.SetParent (inv.allSlots [priorLocalID].transform); // Set parent to new slot
-//						item.transform.position = inv.allSlots [priorLocalID].transform.position;
-//
-//						// Swap the items in the list(before re-assigning droppedItem's slot ID
-//						syn.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
-//						syn.allItems [localID] = droppedItem.item;
-//
-//						// Move item currrently in slot to 'old' slot
-//						droppedItem.slotUID = this.uniqueID;
-//						droppedItem.transform.SetParent (this.transform);
-//						droppedItem.transform.localPosition = new Vector3 (0, 0, 0);
-//					}
-//					syn.printInv ();
 				}
 				break;
 			}
