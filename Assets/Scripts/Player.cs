@@ -392,13 +392,13 @@ public class Player: MonoBehaviour {
 		}
 
 		// Just turn buff on ' IE gain attack if on
-		if (contains ["green"] == 1 && contains ["purple"] == 1) {
+		if (contains ["green"] == 1 && contains ["purple"] == 1 && attackBuff == false) {
 			attackBuff = true;
 			Debug.Log ("ATK BUFF");
 
 			attack += 20;
 
-		} else if (attackBuff) {
+		} else if ((contains ["green"] != 1 || contains ["purple"] != 1) && attackBuff) {
 			attackBuff = false;
 			attack -= 20; 
 			Debug.Log ("ATK DEBUFF");

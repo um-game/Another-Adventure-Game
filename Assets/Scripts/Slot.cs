@@ -175,17 +175,24 @@ public class Slot : MonoBehaviour, IDropHandler {
 						}
 
 						// Update clone panel
-						Transform slotCloneT = syn.allSlotsClone [localID].transform;
-						GameObject itemObj = Instantiate (inv.inventoryItem);
+						for (int i = 0; i < syn.allSlotsClone.Count; i++) {
 
-						Destroy (slotCloneT.GetChild (0).transform.gameObject);
+							if (syn.allItems [i].ID != -1) {
 
-						itemObj.transform.SetParent (slotCloneT);
+								Transform currentSlotClone = syn.allSlotsClone [i].transform;
+								GameObject itemObj = Instantiate (inv.inventoryItem);
 
-						itemObj.GetComponent<Image> ().sprite = droppedItem.item.Sprite;
-						itemObj.transform.localPosition = new Vector2 (0, 2);
-						itemObj.GetComponent<ItemData> ().init (droppedItem.item, syn.allSlots [localID].GetComponent<Slot> ().uniqueID);
-						itemObj.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
+								if (currentSlotClone.childCount != 0) {
+									Destroy (currentSlotClone.GetChild (0).transform.gameObject);
+								}
+								itemObj.transform.SetParent (currentSlotClone);
+
+								itemObj.GetComponent<Image> ().sprite = syn.allItems[i].Sprite;
+								itemObj.transform.localPosition = new Vector2 (0, 2);
+								itemObj.GetComponent<ItemData> ().init (syn.allItems[i], syn.allSlots [i].GetComponent<Slot> ().uniqueID);
+								itemObj.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
+							}
+						}
 
 						// Move item currrently in slot to 'old' slot
 						droppedItem.slotUID = this.uniqueID;
