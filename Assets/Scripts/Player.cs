@@ -382,6 +382,7 @@ public class Player: MonoBehaviour {
 				this.headArmor = new ItemArmor();
 			}
 		}
+		statsPanel.updateStats ();
 		printStats ();
 	}
 
