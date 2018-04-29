@@ -11,6 +11,7 @@ public class Player: MonoBehaviour {
 	private float baseSpeed;
 
 	private bool attackBuff;
+    private bool swimming;
 
     Animator anim;
 	Rigidbody2D rb2d;
@@ -20,14 +21,24 @@ public class Player: MonoBehaviour {
 	public Equipment equipment;
 	public PickupMenu pickupMenu;
 	public Synergy syn;
+	private StatsPanel statsPanel;
 
-	int attack;
+	public int attack;
+    public bool isAttacking = false;
 	int baseAttack;
-	int defense;
+	public int defense;
+    int staminaCost;
+    int staminaRecover;
+    int healthRecover;
+    int tickHealthDelay;
+    int tickStaminaDelay;
+    int baseHealthTick;
+    int baseStaminaTick;
 
     public static Player myPlayer;
-    
-	public int health { get; set; }
+
+    public int health;
+    public int stamina;
 
 	ItemWeapon weapon;
 	ItemWeapon shield;
@@ -52,20 +63,28 @@ public class Player: MonoBehaviour {
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
+			statsPanel = GameObject.Find ("statsPanel").GetComponent<StatsPanel> ();
+			statsPanel.toggleActive ();
 
 			baseAttack = 10;
 
 			health = 100; // Full health
+            stamina = 100; // Full stamina
 			attack = baseAttack; // Base attack
 			defense = 10; // Base defense
+            staminaCost = 5; // Base stamina cost for melee punch
+            staminaRecover = 5;
+            healthRecover = 1;
+            baseHealthTick = 200; // Base tick delay for health/stam recovery
+            baseStaminaTick = 20;
+            tickHealthDelay = baseHealthTick;
+            tickStaminaDelay = baseStaminaTick;
+
+            swimming = false;
 
 			baseSpeed = maxSpeed;
 			buffSpeed = maxSpeed * 2.0f;
 			attackBuff = false;
-
-			health = 100; // Full health
-			attack = 10; // Base attack
-			defense = 10; // Base defense
 
 			weapon = new ItemWeapon();
 			shield = new ItemWeapon ();
@@ -100,11 +119,36 @@ public class Player: MonoBehaviour {
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
+        if (tickHealthDelay <= 0)
+        {
+            health += healthRecover;
+            if (health > 100)
+                health = 100;
+            tickHealthDelay = baseHealthTick;
+        }
+        else
+        {
+            tickHealthDelay -= 1;
+        }
+
+        if (tickStaminaDelay <= 0)
+        {
+            stamina += staminaRecover;
+            if (stamina > 100)
+                stamina = 100;
+            tickStaminaDelay = baseStaminaTick;
+        }
+        else
+        {
+            tickStaminaDelay -= 1;
+        }
+
         if (anim != null)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                attackAction();
+                if (!swimming)
+                    attackAction();
             }
             else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
                 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -117,6 +161,8 @@ public class Player: MonoBehaviour {
                 anim.SetBool("moving", false);
                 rb2d.velocity = new Vector2(0, 0);
             }
+
+
             if (Input.GetKey(KeyCode.W))
             {
                 anim.SetInteger("direction", 1);
@@ -147,6 +193,7 @@ public class Player: MonoBehaviour {
 			}
         }
     }
+    
 
 	// This method is fired whenever the Player's collider passes through an 'isTrigger' collider
 	void OnTriggerEnter2D(Collider2D other){
@@ -169,24 +216,36 @@ public class Player: MonoBehaviour {
 
         else if (other.gameObject.tag == "warp")
         {
+            // Where the warp takes you is set in the Warp component
+            // with the id that can be obtained via File > Build Settings
             Warp myWarp = other.gameObject.GetComponent<Warp>();
 
-            /*
-            Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
-            SceneManager.LoadScene(myWarp.dest);
-            
-            
-            */
-
             StartCoroutine(ChangeLevel(myWarp.dest, myWarp.warpX, myWarp.warpY, 0));
+        }
+
+        else if (other.gameObject.tag == "water")
+        {
+            swimming = true;
+
+            anim.SetBool("swimming", swimming);
+        }
 
 
-            //transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "water")
+        {
+            swimming = false;
+
+            anim.SetBool("swimming", swimming);
         }
     }
-    
 
-     IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
+
+
+    IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
     {
         float fadeTime = GameObject.Find("EventSystem").GetComponent<Fading>().BeginFade(1);
         yield return new WaitForSeconds(fadeTime);
@@ -198,6 +257,7 @@ public class Player: MonoBehaviour {
 		inv.toggleActive ();
 		equipment.toggleActive ();
 		syn.toggleActive ();
+		statsPanel.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
@@ -217,6 +277,7 @@ public class Player: MonoBehaviour {
 
 		// Add new new weapon's attack
 		attack += newWeapon.Atk;
+        staminaCost = 10; // TODO: weapon stam cost
 
 		if (newWeapon.itemType == ItemType.weapon) {
 			this.weapon = newWeapon;
@@ -263,6 +324,7 @@ public class Player: MonoBehaviour {
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
 		inv.removeItem (item, slotUID);
+		statsPanel.updateStats ();
 		printStats ();
 	}
 
@@ -337,6 +399,7 @@ public class Player: MonoBehaviour {
 				this.headArmor = new ItemArmor();
 			}
 		}
+		statsPanel.updateStats ();
 		printStats ();
 	}
 
@@ -407,7 +470,18 @@ public class Player: MonoBehaviour {
 
     public void attackAction()
     {
-        anim.SetTrigger("attacking");
+        int potentialState = stamina - staminaCost;
+
+        if (potentialState >= 0)
+        {
+            anim.SetTrigger("attacking");
+            stamina -= staminaCost;
+        }
+    }
+
+    public void fireProjectile()
+    {
+        return;
     }
 
 	public bool isInvFull() {
