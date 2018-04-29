@@ -142,7 +142,8 @@ public class Player: MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                attackAction();
+                if (!swimming)
+                    attackAction();
             }
             else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
                 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
