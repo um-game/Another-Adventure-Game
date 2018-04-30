@@ -42,14 +42,14 @@ public class PopupCanvas : MonoBehaviour {
             allItemID.Add(invIDs);
 
             List<int> synIDs = new List<int>();
-            for (int i = 0; i < allUID[0].Count; i++)
+            for (int i = 0; i < allUID[1].Count; i++)
             {
                 synIDs.Add(syn.allItems[i].ID);
             }
             allItemID.Add(synIDs);
 
             List<int> equipIDs = new List<int>();
-            for (int i = 0; i < allUID[0].Count; i++)
+            for (int i = 0; i < allUID[2].Count; i++)
             {
                 equipIDs.Add(equip.allItems[i].ID);
             }
