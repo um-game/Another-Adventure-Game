@@ -11,6 +11,7 @@ public class Player: MonoBehaviour {
 	private float baseSpeed;
 
 	private bool attackBuff;
+    private bool swimming;
 
     Animator anim;
 	Rigidbody2D rb2d;
@@ -20,19 +21,31 @@ public class Player: MonoBehaviour {
 	public Equipment equipment;
 	public PickupMenu pickupMenu;
 	public Synergy syn;
+	private StatsPanel statsPanel;
 
-	int attack;
+	public int attack;
+    public bool isAttacking = false;
 	int baseAttack;
-	int defense;
+	public int defense;
+    int staminaCost;
+    int staminaRecover;
+    int healthRecover;
+    int tickHealthDelay;
+    int tickStaminaDelay;
+    int baseHealthTick;
+    int baseStaminaTick;
 
     public static Player myPlayer;
-    
-	public int health { get; set; }
+
+    public int health;
+    public int stamina;
 
 	ItemWeapon weapon;
 	ItemWeapon shield;
 	ItemArmor chestArmor;
 	ItemArmor headArmor;
+
+	public static int UID = 0;
 
     // Use this for initialization
     void Start () {
@@ -50,20 +63,28 @@ public class Player: MonoBehaviour {
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
+			statsPanel = GameObject.Find ("statsPanel").GetComponent<StatsPanel> ();
+			statsPanel.toggleActive ();
 
 			baseAttack = 10;
 
 			health = 100; // Full health
+            stamina = 100; // Full stamina
 			attack = baseAttack; // Base attack
 			defense = 10; // Base defense
+            staminaCost = 5; // Base stamina cost for melee punch
+            staminaRecover = 5;
+            healthRecover = 1;
+            baseHealthTick = 200; // Base tick delay for health/stam recovery
+            baseStaminaTick = 20;
+            tickHealthDelay = baseHealthTick;
+            tickStaminaDelay = baseStaminaTick;
+
+            swimming = false;
 
 			baseSpeed = maxSpeed;
 			buffSpeed = maxSpeed * 2.0f;
 			attackBuff = false;
-
-			health = 100; // Full health
-			attack = 10; // Base attack
-			defense = 10; // Base defense
 
 			weapon = new ItemWeapon();
 			shield = new ItemWeapon ();
@@ -98,44 +119,81 @@ public class Player: MonoBehaviour {
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
+        if (tickHealthDelay <= 0)
+        {
+            health += healthRecover;
+            if (health > 100)
+                health = 100;
+            tickHealthDelay = baseHealthTick;
+        }
+        else
+        {
+            tickHealthDelay -= 1;
+        }
+
+        if (tickStaminaDelay <= 0)
+        {
+            stamina += staminaRecover;
+            if (stamina > 100)
+                stamina = 100;
+            tickStaminaDelay = baseStaminaTick;
+        }
+        else
+        {
+            tickStaminaDelay -= 1;
+        }
+
         if (anim != null)
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                if (!swimming)
+                    attackAction();
+            }
+            else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
+                || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                anim.SetBool("attacking", false);
+                anim.SetBool("moving", true);
+            }
+            else
+            {
+                anim.SetBool("moving", false);
+                rb2d.velocity = new Vector2(0, 0);
+            }
+
+
             if (Input.GetKey(KeyCode.W))
             {
                 anim.SetInteger("direction", 1);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(0, moveY * maxSpeed);
             }
             else if (Input.GetKey(KeyCode.S))
             {
                 anim.SetInteger("direction", 3);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(0, moveY * maxSpeed);
             }
             else if (Input.GetKey(KeyCode.D))
             {
                 anim.SetInteger("direction", 2);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
             }
             else if (Input.GetKey(KeyCode.A))
             {
                 anim.SetInteger("direction", 4);
-                anim.SetBool("moving", true);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
-            }
-
-            else
-            {
-                anim.SetBool("moving", false);
-                rb2d.velocity = new Vector2(0, 0);
-            }
+			} else if(Input.GetKey(KeyCode.P)) {
+				inv.printUID();
+				syn.printUID ();
+				equipment.printUID ();
+			}
         }
     }
+    
 
 	// This method is fired whenever the Player's collider passes through an 'isTrigger' collider
 	void OnTriggerEnter2D(Collider2D other){
@@ -158,24 +216,36 @@ public class Player: MonoBehaviour {
 
         else if (other.gameObject.tag == "warp")
         {
+            // Where the warp takes you is set in the Warp component
+            // with the id that can be obtained via File > Build Settings
             Warp myWarp = other.gameObject.GetComponent<Warp>();
 
-            /*
-            Scene nextScene = SceneManager.GetSceneByBuildIndex(myWarp.dest);
-            SceneManager.LoadScene(myWarp.dest);
-            
-            
-            */
-
             StartCoroutine(ChangeLevel(myWarp.dest, myWarp.warpX, myWarp.warpY, 0));
+        }
+
+        else if (other.gameObject.tag == "water")
+        {
+            swimming = true;
+
+            anim.SetBool("swimming", swimming);
+        }
 
 
-            //transform.position = new Vector3(myWarp.warpX, myWarp.warpY, 0);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "water")
+        {
+            swimming = false;
+
+            anim.SetBool("swimming", swimming);
         }
     }
-    
 
-     IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
+
+
+    IEnumerator ChangeLevel(int index, float warpX, float warpY, float warpZ)
     {
         float fadeTime = GameObject.Find("EventSystem").GetComponent<Fading>().BeginFade(1);
         yield return new WaitForSeconds(fadeTime);
@@ -187,6 +257,7 @@ public class Player: MonoBehaviour {
 		inv.toggleActive ();
 		equipment.toggleActive ();
 		syn.toggleActive ();
+		statsPanel.toggleActive ();
 		PauseGameFeature ();
 		// Stop player
 		anim.SetBool("moving", false);
@@ -202,37 +273,33 @@ public class Player: MonoBehaviour {
 		// If we did not have anything equipped and not shield, don't reduce attack
 		if (this.weapon.ID != -1 && newWeapon.itemType != ItemType.shield) {
 			attack -= this.weapon.Atk;
-
-			// Subtract out buff
-			if (attackBuff) {
-				attack -= 20;
-			}
 		}
 
 		// Add new new weapon's attack
 		attack += newWeapon.Atk;
+        staminaCost = 10; // TODO: weapon stam cost
 
 		if (newWeapon.itemType == ItemType.weapon) {
 			this.weapon = newWeapon;
-
-			// Add in buff
-			if (attackBuff) {
-				attack += 20;
-			}
 
 		} else {
 			this.shield = newWeapon;
 		}
 
-		// Put in equipment
-		equipment.addItem (newWeapon.ID);
+		if (newWeapon.equipped == false) {
+
+			// Put in equipment
+			equipment.addItem (newWeapon.ID);
+		}
 	}
 
 	public void setArmor(ItemArmor newArmor){
 
-		// Check if there is something equipped
-		if (this.chestArmor.ID != -1) {
+		// Check if there is something equipped on the chest
+		if (this.chestArmor.ID != -1 && newArmor.itemType == ItemType.chest) {
 			this.defense -= this.chestArmor.Def;
+		} else if (this.headArmor.ID != -1 && newArmor.itemType == ItemType.head) {
+			this.defense -= this.headArmor.Def;
 		}
 
 		this.defense += newArmor.Def;
@@ -245,21 +312,25 @@ public class Player: MonoBehaviour {
 			this.headArmor = newArmor;
 		}
 
-		// Put in equipment
-		equipment.addItem (newArmor.ID);
+		if (newArmor.equipped == false) {
+
+			// Put in equipment
+			equipment.addItem (newArmor.ID);
+		}
 	}
 
-	public void useItem(AdventureItem item) {
+	public void useItem(AdventureItem item, int slotUID) {
 
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
-		inv.removeItem (item);
+		inv.removeItem (item, slotUID);
+		statsPanel.updateStats ();
 		printStats ();
 	}
 
 	public void printStats()
 	{
-		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
+		Debug.Log ("Health: " + health + "\nDefense: " + defense + "\nWeapon: " 
 			+ weapon.Title + "\nArmor: " + chestArmor.Title);
 	}
 		
@@ -292,26 +363,24 @@ public class Player: MonoBehaviour {
 
 	public void unEquip(AdventureItem item) {
 
-		item.equipped = false;
+//		item.equipped = false;
 
 		if(item.GetType() == typeof(ItemSynergy)) {
+			item.equipped = false;
 			syn.removeItem (item);
 			checkBuff ();
 
 		} else {
 
-			equipment.removeItem (item);
-
+			if (item.equipped) {
+				item.equipped = false;
+				equipment.removeItem (item);
+			}
 			// Un-equipping sword
 			if (item.itemType == ItemType.weapon) {
 				ItemWeapon weapon = (ItemWeapon)item;
 				attack -= weapon.Atk;
 				this.weapon = new ItemWeapon (); // Set to bad ID
-
-				// Remove buff
-				if (attackBuff) {
-					attack -= 20;
-				}
 
 			// Un-equipping shield
 			} else if (item.itemType == ItemType.shield) {
@@ -330,6 +399,7 @@ public class Player: MonoBehaviour {
 				this.headArmor = new ItemArmor();
 			}
 		}
+		statsPanel.updateStats ();
 		printStats ();
 	}
 
@@ -338,7 +408,7 @@ public class Player: MonoBehaviour {
 		checkBuff();
 	}
 
-	private void checkBuff() {
+	public void checkBuff() {
 
 		List<AdventureItem> allSyn = syn.allItems;
 
@@ -384,24 +454,37 @@ public class Player: MonoBehaviour {
 			Debug.Log ("RB UNBUFF SPEED");
 		}
 
-		if (contains ["green"] == 1 && contains ["purple"] == 1) {
+		// Just turn buff on ' IE gain attack if on
+		if (contains ["green"] == 1 && contains ["purple"] == 1 && attackBuff == false) {
 			attackBuff = true;
 			Debug.Log ("ATK BUFF");
 
-			// Accounts for turning buff on while item equipped
-			if (attack == (baseAttack + weapon.Atk) && weapon.ID != -1) {
-				attack += 20;
-			}
+			attack += 20;
 
-		} else if (attackBuff) {
+		} else if ((contains ["green"] != 1 || contains ["purple"] != 1) && attackBuff) {
 			attackBuff = false;
-
-			if (weapon.ID != -1) {
-				// This accounts for the situation where something is equipped
-				attack -= 20; 
-			}
+			attack -= 20; 
 			Debug.Log ("ATK DEBUFF");
 		}
 	}
 
+    public void attackAction()
+    {
+        int potentialState = stamina - staminaCost;
+
+        if (potentialState >= 0)
+        {
+            anim.SetTrigger("attacking");
+            stamina -= staminaCost;
+        }
+    }
+
+    public void fireProjectile()
+    {
+        return;
+    }
+
+	public bool isInvFull() {
+		return inv.isFull ();
+	}
 }

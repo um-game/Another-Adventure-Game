@@ -11,12 +11,15 @@ public class PickupMenu : MonoBehaviour {
 	GameObject obj; // Game object representing item
 	Button[] buttons;
 
+    private PopupCanvas myCanvas;
+
     public static PickupMenu myPickupMenu;
 
 	// Use this for initialization
 	void Start () {
         if (myPickupMenu == null)
         {
+            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
             pickupMenu = GameObject.Find("pickupMenu");
             player = GetComponent<Player>();
             buttons = pickupMenu.GetComponentsInChildren<Button>();
@@ -24,7 +27,6 @@ public class PickupMenu : MonoBehaviour {
             buttons[0].onClick.AddListener(pickupAction);
             buttons[1].onClick.AddListener(cancelAction);
 
-            // DontDestroyOnLoad(gameObject);
             myPickupMenu = this;
         }
         else if (myPickupMenu != this)
@@ -35,14 +37,18 @@ public class PickupMenu : MonoBehaviour {
 
             Debug.Log("DESTROY");
         }
-
-
 	}
 
 	public void activate(int itemId, GameObject obj) {
         // NULL?
         pickupMenu.SetActive (true);
 	
+		if (player.isInvFull ()) {
+			buttons [0].interactable = false;
+		} else {
+			buttons [0].interactable = true;
+		}
+
 		this.itemId = itemId;
 		this.obj = obj;
 	}
@@ -57,6 +63,8 @@ public class PickupMenu : MonoBehaviour {
 		player.addItemToInv (itemId);
 		Destroy (obj);
         deactivate();
+
+        myCanvas.UpdateLists();
 	}
 
 	void cancelAction(){

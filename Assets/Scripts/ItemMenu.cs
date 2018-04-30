@@ -9,12 +9,14 @@ public class ItemMenu : MonoBehaviour {
 	Button[] buttons;
 	AdventureItem item;
 	GameObject obj;
+	int slotUID;
 
     public worldItem it;
 
 	Player player;
 
     public static ItemMenu myItemMenu;
+    private PopupCanvas myCanvas;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +26,7 @@ public class ItemMenu : MonoBehaviour {
             buttons = itemMenu.GetComponentsInChildren<Button>();
             itemMenu.SetActive(false);
 			player = GameObject.Find ("player").GetComponent<Player> ();
+            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
 
 			buttons [0].onClick.AddListener (useAction);
 			buttons [1].onClick.AddListener (removeAction);
@@ -38,14 +41,11 @@ public class ItemMenu : MonoBehaviour {
         }
 	}
 
-	public void activate(AdventureItem item, GameObject obj) {
+	public void activate(AdventureItem item, GameObject obj, int slotUID) {
 
 		itemMenu.SetActive (true);
 
-
-//		if (player.equipment.allItems [item.itemType] != -1) {
-//		}
-
+		this.slotUID = slotUID;
 		this.obj = obj;
 		this.item = item;
 	}
@@ -65,15 +65,17 @@ public class ItemMenu : MonoBehaviour {
 	void useAction(){
 
 		Debug.Log ("clicked use button");
-		player.useItem (item);
+		player.useItem (item, slotUID);
 		Destroy (obj);
 //		player.printStats ();
 		itemMenu.SetActive (false);
+
+        myCanvas.UpdateLists();
 	}
 
 	void removeAction(){
 		Debug.Log ("clicked remove button");
-		GetComponent<Inventory> ().removeItem (item);
+		GetComponent<Inventory> ().removeItem (item, slotUID);
 		it = Instantiate (it);
 		it.GetComponent<SpriteRenderer> ().sprite = item.Sprite;
 
@@ -97,12 +99,11 @@ public class ItemMenu : MonoBehaviour {
 		case 4:
 			it.transform.position = player.transform.position - new Vector3 (dropOffset, 0, 0);
 			break;
-
-
 		}
-		Destroy (obj);
 		itemMenu.SetActive (false);
-	}
+
+        myCanvas.UpdateLists();
+    }
 
 	void cancelAction(){ 
 		itemMenu.SetActive (false);
