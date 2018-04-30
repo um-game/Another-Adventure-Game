@@ -99,6 +99,10 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D collision) {
+
+        if (collision.gameObject.GetComponent<Enemy>() != null)
+            return;
+
         Player myPlayer = collision.gameObject.GetComponent<Player>();
         triggerDelay = 20; // after x frames trigger this again if still colliding
 
