@@ -12,6 +12,7 @@ public class BoardCreator : MonoBehaviour
 
     public int columns = 100;                                 // The number of columns on the board (how wide it will be).
     public int rows = 100;                                    // The number of rows on the board (how tall it will be).
+    public int traps_per_n_tiles = 7;
     public IntRange numRooms = new IntRange (15, 20);         // The range of the number of rooms there can be.
     public IntRange roomWidth = new IntRange (3, 10);         // The range of widths rooms can have.
     public IntRange roomHeight = new IntRange (3, 10);        // The range of heights rooms can have.
@@ -19,6 +20,7 @@ public class BoardCreator : MonoBehaviour
     public GameObject[] floorTiles;                           // An array of floor tile prefabs.
     public GameObject[] wallTiles;                            // An array of wall tile prefabs.
     public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
+    public GameObject[] obstacles;
     private GameObject player;
     private GameObject camera;
     private GameObject outWarp;
@@ -48,6 +50,8 @@ public class BoardCreator : MonoBehaviour
 
         InstantiateTiles ();
         InstantiateOuterWalls ();
+
+        PlaceTraps();
 
         MoveCharacter();
         PlaceExit();
@@ -273,5 +277,22 @@ public class BoardCreator : MonoBehaviour
         int lastRoom = rooms.Length - 1;
         Vector3 pos = new Vector3(rooms[lastRoom].xPos + (rooms[lastRoom].roomWidth / 2), rooms[lastRoom].yPos + (rooms[lastRoom].roomHeight / 2), -1);
         outWarp.transform.position = pos;
+    }
+
+    void PlaceTraps()
+    {
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            int size = rooms[i].roomWidth * rooms[i].roomHeight;
+            int num_traps = (int) size / traps_per_n_tiles;
+
+            IntRange xLoc = new IntRange(rooms[i].xPos + 1, rooms[i].xPos + rooms[i].roomWidth - 1);
+            IntRange yLoc = new IntRange(rooms[i].yPos + 1, rooms[i].yPos + rooms[i].roomHeight - 1);
+            for (int j = 0; j < num_traps; j++)
+            {
+                InstantiateFromArray(obstacles, xLoc.Random, yLoc.Random);
+            }
+
+        }
     }
 }
