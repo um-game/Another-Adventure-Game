@@ -11,12 +11,15 @@ public class PickupMenu : MonoBehaviour {
 	GameObject obj; // Game object representing item
 	Button[] buttons;
 
+    private PopupCanvas myCanvas;
+
     public static PickupMenu myPickupMenu;
 
 	// Use this for initialization
 	void Start () {
         if (myPickupMenu == null)
         {
+            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
             pickupMenu = GameObject.Find("pickupMenu");
             player = GetComponent<Player>();
             buttons = pickupMenu.GetComponentsInChildren<Button>();
@@ -60,6 +63,8 @@ public class PickupMenu : MonoBehaviour {
 		player.addItemToInv (itemId);
 		Destroy (obj);
         deactivate();
+
+        myCanvas.UpdateLists();
 	}
 
 	void cancelAction(){

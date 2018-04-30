@@ -16,6 +16,7 @@ public class ItemMenu : MonoBehaviour {
 	Player player;
 
     public static ItemMenu myItemMenu;
+    private PopupCanvas myCanvas;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,7 @@ public class ItemMenu : MonoBehaviour {
             buttons = itemMenu.GetComponentsInChildren<Button>();
             itemMenu.SetActive(false);
 			player = GameObject.Find ("player").GetComponent<Player> ();
+            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
 
 			buttons [0].onClick.AddListener (useAction);
 			buttons [1].onClick.AddListener (removeAction);
@@ -67,6 +69,8 @@ public class ItemMenu : MonoBehaviour {
 		Destroy (obj);
 //		player.printStats ();
 		itemMenu.SetActive (false);
+
+        myCanvas.UpdateLists();
 	}
 
 	void removeAction(){
@@ -97,7 +101,9 @@ public class ItemMenu : MonoBehaviour {
 			break;
 		}
 		itemMenu.SetActive (false);
-	}
+
+        myCanvas.UpdateLists();
+    }
 
 	void cancelAction(){ 
 		itemMenu.SetActive (false);
