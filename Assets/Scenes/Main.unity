@@ -623,9 +623,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 1, b: 0, a: 0.78431374}
-    m_HighlightedColor: {r: 0, g: 1, b: 0, a: 0.672}
-    m_PressedColor: {r: 0, g: 1, b: 0, a: 0.78431374}
-    m_DisabledColor: {r: 0.50735295, g: 0.50735295, b: 0.50735295, a: 0.5019608}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -986,6 +986,7 @@ MonoBehaviour:
     type: 2}
   allSlots: []
   allSlotsClone: []
+  uids: 
 --- !u!224 &205857767 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224858408539241674, guid: 3d08088007076ba4d98ad501e8c88175,
@@ -1236,6 +1237,7 @@ MonoBehaviour:
   inventoryItem: {fileID: 1778231505854072, guid: 856f1f35a96df154288d66ec9f39ce79,
     type: 2}
   allSlots: []
+  uids: 
 --- !u!114 &255545370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,7 +1423,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 1, b: 0, a: 0.78431374}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -3060,9 +3062,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 0, b: 0, a: 0.78431374}
-    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 0.78431374}
-    m_PressedColor: {r: 1, g: 0, b: 0, a: 0.78431374}
-    m_DisabledColor: {r: 0.50735295, g: 0.50735295, b: 0.50735295, a: 0.5019608}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5840,6 +5842,7 @@ MonoBehaviour:
     type: 2}
   inventoryItem: {fileID: 1778231505854072, guid: 856f1f35a96df154288d66ec9f39ce79,
     type: 2}
+  uids: 
   allSlots: []
 --- !u!1 &1259293158
 GameObject:

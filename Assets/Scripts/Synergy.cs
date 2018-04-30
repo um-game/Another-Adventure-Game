@@ -21,6 +21,7 @@ public class Synergy : MonoBehaviour {
     public List<AdventureItem> allItemsClone;
 	public List<GameObject> allSlots; // Holds all the slot instances for the inventory
     public List<GameObject> allSlotsClone;
+	public List<int> uids;
 
 	ItemDatabase itemDB;
 
@@ -35,6 +36,7 @@ public class Synergy : MonoBehaviour {
             allItemsClone = new List<AdventureItem>();
 			allSlots = new List<GameObject>();
             allSlotsClone = new List<GameObject>();
+			uids = new List<int> ();
 			itemDB = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ();
 
 			inventoryPanel = GameObject.Find("synPanel");
@@ -57,12 +59,15 @@ public class Synergy : MonoBehaviour {
                 allSlotsClone[i].transform.SetParent(slotPanelClone.transform);
 				allSlots[i].transform.localScale = new Vector3(1, 1, 1);
                 allSlotsClone[i].transform.localScale = new Vector3(1, 1, 1);
-                allSlots[i].GetComponent<Slot>().ID = i; // Set ID of slot
-                allSlotsClone[i].GetComponent<Slot>().ID = i; // Set ID of slot
+
+				Slot currSlot = allSlots [i].GetComponent<Slot> ();
+				currSlot.uniqueID = Player.UID; // Set unique ID of slot
+				uids.Add (Player.UID); // Add to list
+				Player.UID += 1; // Increment
+				currSlot.type = slotType.SYN; // Set proper slot type
             }
 
 			// Load ID's and add items here
-
 
 			inventoryPanel.SetActive(false);
             inventoryPanelClone.SetActive(true);
@@ -87,8 +92,8 @@ public class Synergy : MonoBehaviour {
 				GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
                 GameObject itemObjectClone = Instantiate(inventoryItem);
 
-                itemObject.GetComponent<ItemData>().init(itemToAdd, i); // Initialize itemData
-                itemObjectClone.GetComponent<ItemData>().init(itemToAdd, i);
+				itemObject.GetComponent<ItemData>().init(itemToAdd, allSlots[i].GetComponent<Slot>().uniqueID); // Initialize itemData
+				itemObjectClone.GetComponent<ItemData>().init(itemToAdd, allSlots[i].GetComponent<Slot>().uniqueID);
                 itemObject.transform.SetParent (allSlots [i].transform); // Set correct parent
                 itemObjectClone.transform.SetParent(allSlotsClone[i].transform);
                 itemObject.transform.localScale = new Vector3(1,1,1);
@@ -119,7 +124,6 @@ public class Synergy : MonoBehaviour {
 					allSlots[i].transform.DetachChildren();
 					allItems [i] = new AdventureItem ();
 
-
 					Destroy (allSlotsClone [i].transform.GetChild (0).transform.gameObject);
 					allItemsClone [i] = new AdventureItem ();
 
@@ -142,14 +146,8 @@ public class Synergy : MonoBehaviour {
 	}
 
 	public void toggleActive() {
-
-		// NULL?
 		inventoryPanel.SetActive (!inventoryPanel.activeSelf);
-
 	}
-
-	// Update is called once per frame
-	void Update () {}
 
 	public void printInv() {
 		foreach (AdventureItem item in allItems) {
@@ -158,9 +156,24 @@ public class Synergy : MonoBehaviour {
 	}
 
 	private void printSlots() {
-
 		foreach (GameObject obj in allSlots) {
 			Debug.Log(obj.transform.childCount);
 		}
+	}
+
+	public void printUID() {
+		foreach (GameObject obj in allSlots) {
+			Debug.Log (obj.GetComponent<Slot> ().uniqueID);
+		}
+			
+	}
+
+	public int uidToLocal(int UID) {
+		for (int i = 0; i < uids.Count; i++) {
+			if (uids [i] == UID) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

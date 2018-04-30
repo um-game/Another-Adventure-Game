@@ -45,6 +45,8 @@ public class Player: MonoBehaviour {
 	ItemArmor chestArmor;
 	ItemArmor headArmor;
 
+	public static int UID = 0;
+
     // Use this for initialization
     void Start () {
        
@@ -184,7 +186,11 @@ public class Player: MonoBehaviour {
                 anim.SetInteger("direction", 4);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
-            }
+			} else if(Input.GetKey(KeyCode.P)) {
+				inv.printUID();
+				syn.printUID ();
+				equipment.printUID ();
+			}
         }
     }
     
@@ -280,15 +286,20 @@ public class Player: MonoBehaviour {
 			this.shield = newWeapon;
 		}
 
-		// Put in equipment
-		equipment.addItem (newWeapon.ID);
+		if (newWeapon.equipped == false) {
+
+			// Put in equipment
+			equipment.addItem (newWeapon.ID);
+		}
 	}
 
 	public void setArmor(ItemArmor newArmor){
 
-		// Check if there is something equipped
-		if (this.chestArmor.ID != -1) {
+		// Check if there is something equipped on the chest
+		if (this.chestArmor.ID != -1 && newArmor.itemType == ItemType.chest) {
 			this.defense -= this.chestArmor.Def;
+		} else if (this.headArmor.ID != -1 && newArmor.itemType == ItemType.head) {
+			this.defense -= this.headArmor.Def;
 		}
 
 		this.defense += newArmor.Def;
@@ -301,22 +312,25 @@ public class Player: MonoBehaviour {
 			this.headArmor = newArmor;
 		}
 
-		// Put in equipment
-		equipment.addItem (newArmor.ID);
+		if (newArmor.equipped == false) {
+
+			// Put in equipment
+			equipment.addItem (newArmor.ID);
+		}
 	}
 
-	public void useItem(AdventureItem item) {
+	public void useItem(AdventureItem item, int slotUID) {
 
 		// Can check type and act accordingly or create use function and pass player
 		item.use (this);
-		inv.removeItem (item);
+		inv.removeItem (item, slotUID);
 		statsPanel.updateStats ();
 		printStats ();
 	}
 
 	public void printStats()
 	{
-		Debug.Log ("Health: " + health + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeapon: " 
+		Debug.Log ("Health: " + health + "\nDefense: " + defense + "\nWeapon: " 
 			+ weapon.Title + "\nArmor: " + chestArmor.Title);
 	}
 		
@@ -349,16 +363,19 @@ public class Player: MonoBehaviour {
 
 	public void unEquip(AdventureItem item) {
 
-		item.equipped = false;
+//		item.equipped = false;
 
 		if(item.GetType() == typeof(ItemSynergy)) {
+			item.equipped = false;
 			syn.removeItem (item);
 			checkBuff ();
 
 		} else {
 
-			equipment.removeItem (item);
-
+			if (item.equipped) {
+				item.equipped = false;
+				equipment.removeItem (item);
+			}
 			// Un-equipping sword
 			if (item.itemType == ItemType.weapon) {
 				ItemWeapon weapon = (ItemWeapon)item;
@@ -391,7 +408,7 @@ public class Player: MonoBehaviour {
 		checkBuff();
 	}
 
-	private void checkBuff() {
+	public void checkBuff() {
 
 		List<AdventureItem> allSyn = syn.allItems;
 
@@ -438,13 +455,13 @@ public class Player: MonoBehaviour {
 		}
 
 		// Just turn buff on ' IE gain attack if on
-		if (contains ["green"] == 1 && contains ["purple"] == 1) {
+		if (contains ["green"] == 1 && contains ["purple"] == 1 && attackBuff == false) {
 			attackBuff = true;
 			Debug.Log ("ATK BUFF");
 
 			attack += 20;
 
-		} else if (attackBuff) {
+		} else if ((contains ["green"] != 1 || contains ["purple"] != 1) && attackBuff) {
 			attackBuff = false;
 			attack -= 20; 
 			Debug.Log ("ATK DEBUFF");
@@ -466,4 +483,8 @@ public class Player: MonoBehaviour {
     {
         return;
     }
+
+	public bool isInvFull() {
+		return inv.isFull ();
+	}
 }

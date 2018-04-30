@@ -24,7 +24,6 @@ public class PickupMenu : MonoBehaviour {
             buttons[0].onClick.AddListener(pickupAction);
             buttons[1].onClick.AddListener(cancelAction);
 
-            // DontDestroyOnLoad(gameObject);
             myPickupMenu = this;
         }
         else if (myPickupMenu != this)
@@ -35,14 +34,18 @@ public class PickupMenu : MonoBehaviour {
 
             Debug.Log("DESTROY");
         }
-
-
 	}
 
 	public void activate(int itemId, GameObject obj) {
         // NULL?
         pickupMenu.SetActive (true);
 	
+		if (player.isInvFull ()) {
+			buttons [0].interactable = false;
+		} else {
+			buttons [0].interactable = true;
+		}
+
 		this.itemId = itemId;
 		this.obj = obj;
 	}

@@ -13,6 +13,7 @@ public class Equipment : MonoBehaviour {
 	int numSlots;
 
 	public List<AdventureItem> allItems; // Holds all the item instances for the equipment
+	public List<int> uids;
 
 	// There will be five slots.
 	// slot 0: head gear
@@ -33,6 +34,7 @@ public class Equipment : MonoBehaviour {
 
 			allItems = new List<AdventureItem> ();
 			allSlots = new List<GameObject> ();
+			uids = new List<int> ();
 			itemDB = GameObject.Find ("Inventory").GetComponent<ItemDatabase> ();
 
 			equipmentPanel = GameObject.Find ("equipmentPanel");
@@ -45,7 +47,12 @@ public class Equipment : MonoBehaviour {
 			for (int i = 0; i < numSlots; i++) {
 				allItems.Add (new AdventureItem ()); // Add empty item
 				allSlots.Add (slotPanel.transform.GetChild (i).gameObject);
-				allSlots [i].GetComponent<Slot> ().ID = i; // Set ID of slot
+
+				Slot currSlot = allSlots [i].GetComponent<Slot> ();
+				currSlot.uniqueID = Player.UID;
+				uids.Add (Player.UID);
+				Player.UID += 1;
+				currSlot.type = slotType.EQP;
 			}
 			
 			// Load ID's and and items here
@@ -55,9 +62,7 @@ public class Equipment : MonoBehaviour {
 			myEquip = this;
 
 		} else if(myEquip != null) {
-		
 			Destroy(gameObject);
-
 		}
 	}
 		
@@ -69,19 +74,19 @@ public class Equipment : MonoBehaviour {
 
 		if (allItems [slotI].ID != -1) { // Check for 'non - empty' slot
 			// If item equipped, put back into inventory 
-
-//			return;
 			AdventureItem currentItem = allItems [slotI];
 			GameObject.Find ("Inventory").GetComponent<Inventory> ().addItem (currentItem.ID); // Put back in inventory
-			currentItem.equipped = false;
-			removeItem(currentItem);
+			if (currentItem.equipped) {
+				currentItem.equipped = false;
+				removeItem (currentItem);
+			}
 		}
 
 		// Assign current slot
 		allItems [slotI] = itemToAdd; // Assign empty slot to new item
 
 		GameObject itemObject = Instantiate (inventoryItem); // Create instance of item prefab
-		itemObject.GetComponent<ItemData> ().init (itemToAdd, slotI); // Initialize itemData
+		itemObject.GetComponent<ItemData> ().init (itemToAdd, allSlots[slotI].GetComponent<Slot>().uniqueID); // Initialize itemData
 		itemObject.transform.SetParent (allSlots [slotI].transform); // Set correct parent
         itemObject.transform.localScale = new Vector3(1,1,1);
         itemObject.transform.localPosition = Vector2.zero; // Center item in slot
@@ -98,8 +103,6 @@ public class Equipment : MonoBehaviour {
 
 		GameObject item = allSlots [itemToRmI].transform.GetChild (0).transform.gameObject;
 		Destroy (item);
-//		allSlots [itemToRmI].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
-//		allSlots[itemToRmI].transform.DetachChildren();
 		allItems [itemToRmI] = new AdventureItem ();
 	}
 
@@ -117,5 +120,20 @@ public class Equipment : MonoBehaviour {
 		foreach (GameObject obj in allSlots) {
 			Debug.Log(obj.transform.childCount);
 		}
+	}
+
+	public void printUID() {
+		foreach (GameObject obj in allSlots) {
+			Debug.Log (obj.GetComponent<Slot> ().uniqueID);
+		}
+	}
+
+	public int uidToLocal(int UID) {
+		for (int i = 0; i < uids.Count; i++) {
+			if (uids [i] == UID) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
