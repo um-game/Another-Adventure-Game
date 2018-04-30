@@ -69,6 +69,7 @@ public class Enemy : MonoBehaviour {
 		{
 			diff.Normalize();
 
+
 			// Move towards player
 			RigidBodyEnemy.velocity = new Vector2(diff.x * maxSpeed, diff.y * maxSpeed);
 		}
@@ -80,10 +81,13 @@ public class Enemy : MonoBehaviour {
 		if (currentPosition.x > lastPosition.x)
 		{
 			anim.SetInteger("facing", 1);
+			GetComponent<SpriteRenderer> ().flipX = false;
 		}
 		if (currentPosition.x < lastPosition.x)
 		{
 			anim.SetInteger("facing", 3);
+			GetComponent<SpriteRenderer> ().flipX = true;
+
 		}
 
 		var relativePoint = transform.InverseTransformPoint(transform.position);
