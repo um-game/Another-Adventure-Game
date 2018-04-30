@@ -41,6 +41,7 @@ public class AdventureItem
 		this.Rarity = rarity;
 		this.Sprite = sprite;
 		equipped = false;
+		Debug.Log ("This is a change");
 	}
 
 	// We may use this to represent an 'empty' item
