@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour {
 	public List<AdventureItem> allItems; // Holds all the item instances for the inventory
 	public List<GameObject> allSlots; // Holds all the slot instances for the inventory
 
+    private PopupCanvas myCanvas;
+
 	ItemDatabase itemDB;
 
 	public List<int> uids;
@@ -33,6 +35,8 @@ public class Inventory : MonoBehaviour {
             allSlots = new List<GameObject>();
 			uids = new List<int> ();
             itemDB = GetComponent<ItemDatabase>();
+
+            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
 
             inventoryPanel = GameObject.Find("inventoryPanel");
             slotPanel = inventoryPanel.transform.Find("slotPanel").gameObject;

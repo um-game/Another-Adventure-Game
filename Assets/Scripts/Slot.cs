@@ -12,6 +12,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 	private Synergy syn;
 	private Equipment equip;
 	private Player player;
+    private PopupCanvas myCanvas;
 
 	public slotType type; // enum corresponding to type of slot
 
@@ -24,6 +25,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 		syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
 		equip = GameObject.Find ("Equipment").GetComponent<Equipment>();
 		player = GameObject.Find ("player").GetComponent<Player> ();
+        myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas> ();
 	}
 	
 	public void OnDrop(PointerEventData eventData) {
@@ -203,6 +205,9 @@ public class Slot : MonoBehaviour, IDropHandler {
 				break;
 			}
 		}
+
+        myCanvas.UpdateLists();
+
 		// Check if we need to turn buffs on/off
 		player.checkBuff ();
 	}
