@@ -9,6 +9,15 @@ public class Enemy : MonoBehaviour {
     public int health;
     public int defense;
 
+	Rigidbody2D RigidBodyEnemy; // Cat Fighter's Rigid Body
+	int maxSpeed = 1;           // Speed of Enemy
+	int range = 2;              // If player is within range, enemy will attack
+	int attRange = 1;
+	Transform target;           // Hold transform of player, used to calculate movement direction
+	int facing = 0;
+	Animator anim;
+	Vector3 currentPosition, lastPosition;  // Used for sprite flipping
+
 	public worldItem item; // Type of item enemy will drop
     bool dying = false;
 	RandomNumberGenerator rng;
@@ -20,6 +29,14 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		RigidBodyEnemy = GetComponent<Rigidbody2D>();
+		target = GameObject.Find("player").transform;
+
+		currentPosition = transform.position;
+		lastPosition = currentPosition;
+
+		anim = GetComponent<Animator>();
 
         // TODO: Setup enemy database?
         attack = 11;
@@ -37,10 +54,48 @@ public class Enemy : MonoBehaviour {
 		}
 		rng = new RandomNumberGenerator(probs); 
 	}
-	
-	// Update is called once per frame
+
+	// Update is caled once per frame
 	void Update () {
-		
+
+		float moveX = Input.GetAxis("Horizontal");
+		float moveY = Input.GetAxis("Vertical");
+
+		// FIXME: enemy gets stuck
+		Vector3 diff = target.transform.position - this.transform.position; // Get difference in position
+		anim.SetInteger("attRange", (int)diff.magnitude);
+
+		if (diff.magnitude < range)
+		{
+			diff.Normalize();
+
+
+			// Move towards player
+			RigidBodyEnemy.velocity = new Vector2(diff.x * maxSpeed, diff.y * maxSpeed);
+		}
+		else
+		{
+			RigidBodyEnemy.velocity = new Vector2(0, 0); // Otherwse we stop moving
+		}
+
+		if (currentPosition.x > lastPosition.x)
+		{
+			anim.SetInteger("facing", 1);
+			GetComponent<SpriteRenderer> ().flipX = false;
+		}
+		if (currentPosition.x < lastPosition.x)
+		{
+			anim.SetInteger("facing", 3);
+			GetComponent<SpriteRenderer> ().flipX = true;
+
+		}
+
+		var relativePoint = transform.InverseTransformPoint(transform.position);
+
+		//Update the new positions
+		lastPosition = currentPosition;
+		currentPosition = transform.position;
+
 	}
 
 	void OnTriggerEnter2D(Collider2D collision) {
