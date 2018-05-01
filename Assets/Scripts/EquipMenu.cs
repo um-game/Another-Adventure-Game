@@ -13,11 +13,14 @@ public class EquipMenu : MonoBehaviour {
 
 	public static EquipMenu myEquipMenu;
 
+    private PopupCanvas myCanvas;
+
 	// Use this for initialization
 	void Start () {
 		if (myEquipMenu == null)
 		{
 			equipMenu = GameObject.Find ("equipMenu");
+            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
 			player = GetComponent<Player> ();
 			buttons = equipMenu.GetComponentsInChildren<Button> ();
 			equipMenu.SetActive (false);
@@ -53,12 +56,14 @@ public class EquipMenu : MonoBehaviour {
 	}
 
 	void unequipAction(){
-		Debug.Log ("clicked pickup button");
+		Debug.Log ("clicked unequip button");
 		player.addItemToInv (item.ID);
 		player.unEquip (item);
 		player.equipment.printEquipment ();
 		Destroy (obj);
 		deactivate();
+
+        myCanvas.UpdateLists();
 	}
 
 	void dropAction(){

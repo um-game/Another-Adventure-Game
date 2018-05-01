@@ -12,7 +12,7 @@ public class ItemDatabase : MonoBehaviour {
 	private JsonData jsonItemData;
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		jsonItemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")); // Read in JSON data
 		loadSpriteDict ("Sprites/Items/roguelikeitems"); // Load item spritesheet
 		createDatabase (); 

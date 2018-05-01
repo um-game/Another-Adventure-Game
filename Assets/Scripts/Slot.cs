@@ -48,6 +48,9 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 		case slotType.INV:
 			{
+                
+                droppedItem.item.equipped = false;
+
 				// If there is no item in the slot, put it in there 
 				if (inv.allItems [localID].ID == -1) {
 					removePrior (prevType, priorLocalID);
@@ -72,8 +75,8 @@ public class Slot : MonoBehaviour, IDropHandler {
 						item.transform.position = syn.allSlots [priorLocalID].transform.position;
 
 						// Swap the items in the list(before re-assigning droppedItem's slot ID
-						syn.allItems [priorLocalID] = item.GetComponent<ItemData> ().item;
-						inv.allItems [localID] = droppedItem.item;
+						syn.allItems [priorLocalID] = new AdventureItem();
+						inv.allItems [localID] = new AdventureItem();
 
 					}
 
@@ -136,6 +139,8 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		case slotType.SYN:
 			{
+                droppedItem.item.equipped = true;
+
 				// Make sure it is the right type of item
 				if (droppedItem.item.GetType() == typeof(ItemSynergy)) {
 
@@ -206,11 +211,12 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		}
 
-        myCanvas.UpdateLists();
 
 		// Check if we need to turn buffs on/off
 		player.checkBuff ();
-	}
+        
+        myCanvas.UpdateLists();
+    }
 
 	// Method to remove the dropped item from the previous slot
 	void removePrior(slotType prevType, int prevID) {
