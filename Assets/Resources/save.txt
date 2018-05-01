@@ -9,8 +9,8 @@ Slot: 16 Item: 17
 Slot: 17 Item: 18
 Slot: 18 Item: 19
 Slot: 19 Item: 20
-Slot: 20 Item: 22
-Slot: 21 Item: -1
+Slot: 20 Item: 21
+Slot: 21 Item: 22
 Slot: 22 Item: -1
 Slot: 23 Item: -1
 Slot: 24 Item: -1
