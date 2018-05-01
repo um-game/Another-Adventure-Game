@@ -46,13 +46,17 @@ public class Bladetrap : MonoBehaviour
         Player myPlayer = collision.gameObject.GetComponent<Player>();
         triggerDelay = 20; // after x frames trigger this again if still colliding
 
-        int damage = myPlayer.defense - attack;
-        if (damage > 0)
-            damage = 0;
-        myPlayer.health += damage;
-        Debug.Log("Bladetrap HIT PLAYER: " + myPlayer.health);
-        if (myPlayer.health == 0)
-            Debug.Log("PLAYER DIED!");
+        if (myPlayer != null)
+        {
+            int damage = myPlayer.defense - attack;
+            if (damage > 0)
+                damage = 0;
+            myPlayer.health += damage;
+            Debug.Log("Bladetrap HIT PLAYER: " + myPlayer.health);
+            if (myPlayer.health == 0)
+                Debug.Log("PLAYER DIED!");
+        }
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
