@@ -11,7 +11,6 @@ public class PopupCanvas : MonoBehaviour {
     private Inventory inv;
     private Synergy syn;
     private Equipment equip;
-    private Player player;
 
     private List<List<int>> allUID;
     private List<List<int>> allItemID;
@@ -28,8 +27,6 @@ public class PopupCanvas : MonoBehaviour {
             inv.Start();
             syn = GameObject.Find("Synergy").GetComponent<Synergy>();
             equip = GameObject.Find("Equipment").GetComponent<Equipment>();
-            player = GameObject.Find("player").GetComponent<Player>();
-            
             
             myManager = GameObject.Find("ButtonManager").GetComponent<ButtonManager>();
 
@@ -49,12 +46,21 @@ public class PopupCanvas : MonoBehaviour {
                     Debug.Log(inv.uids.Count);
 
                     int slotID = Int32.Parse(data[1]);
-                    
+                    int itemID = Int32.Parse(data[3]);
+
                     if (slotID >= inv.uids[0] && slotID <= inv.uids[inv.uids.Count-1])
                     {
-                        int itemID = Int32.Parse(data[3]);
                         inv.loadItem(itemID, slotID);
                     }
+                    else if (slotID >= syn.uids[0] && slotID <= syn.uids[syn.uids.Count-1])
+                    {
+                        syn.loadItem(itemID, slotID);
+                    }
+                    else if (slotID >= equip.uids[0] && slotID <= equip.uids[equip.uids.Count-1])
+                    {
+                        equip.loadItem(itemID, slotID);
+                    }
+
                 }
 
                 reader.Close();

@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour {
 
-    Button newButton;
-    Button loadButton;
-
     public string savePath = "Assets/Resources/save.txt";
     public bool loading = false;
 
@@ -18,14 +15,7 @@ public class ButtonManager : MonoBehaviour {
     {
         if (myManager == null)
         {
-            // If we're on a scene other than the main menu who cares
-            if (GameObject.Find("NewButton") != null)
-            {
-                newButton = GameObject.Find("NewButton").GetComponent<Button>();
-                loadButton = GameObject.Find("LoadButton").GetComponent<Button>();
-            }
             
-
             myManager = this;
             DontDestroyOnLoad(this);
         }
