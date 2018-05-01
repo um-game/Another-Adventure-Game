@@ -69,7 +69,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			equipMenu.deactivate ();
 		} else if(item.equipped) {
 			itemMenu.deactivate ();
-			equipMenu.activate (item, this.gameObject);
+			equipMenu.activate (item, this.gameObject, slotUID);
 		}
 	}
 

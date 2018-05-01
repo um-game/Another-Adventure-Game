@@ -48,6 +48,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 		case slotType.INV:
 			{
+				droppedItem.item.equipped = false;
 				// If there is no item in the slot, put it in there 
 				if (inv.allItems [localID].ID == -1) {
 					removePrior (prevType, priorLocalID);
@@ -139,6 +140,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 				// Make sure it is the right type of item
 				if (droppedItem.item.GetType() == typeof(ItemSynergy)) {
 
+					droppedItem.item.equipped = true;
 					if (syn.allItems [localID].ID == -1) {
 						removePrior (prevType, priorLocalID); // Null out the previous slot
 						syn.allItems [localID] = droppedItem.item; // Update item in slot

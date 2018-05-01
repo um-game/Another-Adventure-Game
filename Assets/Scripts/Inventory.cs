@@ -87,6 +87,8 @@ public class Inventory : MonoBehaviour {
 			addItem (0); // full
             */
 
+			addItem (22);
+
             inventoryPanel.SetActive(false);
 
             myInventory = this;
