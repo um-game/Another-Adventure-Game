@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class PopupCanvas : MonoBehaviour {
 
     private List<List<int>> allUID;
     private List<List<int>> allItemID;
+    private ButtonManager myManager;
 
     // Use this for initialization
     void Start()
@@ -23,10 +25,41 @@ public class PopupCanvas : MonoBehaviour {
         {
 
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
+            inv.Start();
             syn = GameObject.Find("Synergy").GetComponent<Synergy>();
             equip = GameObject.Find("Equipment").GetComponent<Equipment>();
             player = GameObject.Find("player").GetComponent<Player>();
+            
+            
+            myManager = GameObject.Find("ButtonManager").GetComponent<ButtonManager>();
 
+
+            if (myManager.loading)
+            {
+                string path = myManager.savePath;
+
+                //Read the text from directly from the savefile
+                StreamReader reader = new StreamReader(path);
+
+                while (!reader.EndOfStream)
+                {
+                    string nextSlot = reader.ReadLine();
+                    string[] data = nextSlot.Split(' ');
+
+                    Debug.Log(inv.uids.Count);
+
+                    int slotID = Int32.Parse(data[1]);
+                    
+                    if (slotID >= inv.uids[0] && slotID <= inv.uids[inv.uids.Count-1])
+                    {
+                        int itemID = Int32.Parse(data[3]);
+                        inv.loadItem(itemID, slotID);
+                    }
+                }
+
+                reader.Close();
+            }
+            
 
             allUID = new List<List<int>>();
             allItemID = new List<List<int>>();
@@ -106,11 +139,15 @@ public class PopupCanvas : MonoBehaviour {
 
     public void printAllSlots()
     {
+        // Clear old save
+        string path = myManager.savePath;
+        StreamWriter wiper = new StreamWriter(path, false);
+        wiper.Close();
+
         for (int i = 0; i < allUID.Count; i++)
         {
             for (int j = 0; j < allUID[i].Count; j++)
             {
-                string path = "Assets/Resources/test.txt";
 
                 //Write some text to the test.txt file
                 StreamWriter writer = new StreamWriter(path, true);

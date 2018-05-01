@@ -93,6 +93,7 @@ public class Player: MonoBehaviour {
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
+
         }
         else if (myPlayer != this)
         {
