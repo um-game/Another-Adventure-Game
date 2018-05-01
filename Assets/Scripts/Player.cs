@@ -11,6 +11,7 @@ public class Player: MonoBehaviour {
 	private float baseSpeed;
 
 	private bool attackBuff;
+    private bool speedBuff;
     private bool swimming;
 
     Animator anim;
@@ -88,8 +89,7 @@ public class Player: MonoBehaviour {
             tickStaminaDelay = baseStaminaTick;
 
             swimming = false;
-
-            maxSpeed = 2;
+            
 			baseSpeed = maxSpeed;
 			buffSpeed = maxSpeed * 2.0f;
 			attackBuff = false;
@@ -99,8 +99,8 @@ public class Player: MonoBehaviour {
 			chestArmor = new ItemArmor ();
 			headArmor = new ItemArmor ();
 
-            
-            checkBuff();
+            loadRemoveBuff();
+            //checkBuff();
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -458,11 +458,13 @@ public class Player: MonoBehaviour {
 		}
 
 		// Turn buffs on/off
-		if (contains ["red"] == 1 && contains ["blue"] == 1) {
-			maxSpeed = buffSpeed;
+		if (contains ["red"] == 1 && contains ["blue"] == 1 && speedBuff == false) {
+            speedBuff = true;
+            maxSpeed *= 2;
 			Debug.Log ("RB BUFF SPEED");
-		} else if (maxSpeed == buffSpeed) {
-			maxSpeed = baseSpeed;
+		} else if ((contains["red"] != 1 || contains["blue"] != 1) && speedBuff) {
+            speedBuff = false;
+            maxSpeed /= 2;
 			Debug.Log ("RB UNBUFF SPEED");
 		}
 
@@ -478,6 +480,8 @@ public class Player: MonoBehaviour {
 			attack -= 20; 
 			Debug.Log ("ATK DEBUFF");
 		}
+
+        statsPanel.updateStats();
 	}
 
     public void attackAction()
@@ -499,4 +503,55 @@ public class Player: MonoBehaviour {
 	public bool isInvFull() {
 		return inv.isFull ();
 	}
+
+    public void loadRemoveBuff()
+    {
+        List<AdventureItem> allSyn = syn.allItems;
+
+        Dictionary<string, int> contains = new Dictionary<string, int>() { { "red", 0 },
+                                                                            { "green", 0 },
+                                                                            { "blue", 0 },
+                                                                            { "purple", 0 },
+                                                                            { "white", 0 } };
+
+        // Figure out what items are present
+        foreach (AdventureItem item in allSyn)
+        {
+
+            switch (item.Slug)
+            {
+                case "red_synergy":
+                    contains["red"] += 1;
+                    break;
+
+                case "green_synergy":
+                    contains["green"] += 1;
+                    break;
+
+                case "blue_synergy":
+                    contains["blue"] += 1;
+                    break;
+
+                case "purple_synergy":
+                    contains["purple"] += 1;
+                    break;
+
+                case "white_synergy":
+                    contains["white"] += 1;
+                    break;
+            }
+        }
+
+        if (contains["green"] == 1 && contains["purple"] == 1 && attackBuff == false)
+        {
+            attackBuff = true;
+            Debug.Log("ATK BUFF");
+        }
+
+        if (contains["red"] == 1 && contains["blue"] == 1 && speedBuff == false)
+        {
+            speedBuff = true;
+            Debug.Log("RB BUFF SPEED");
+        }
+    }
 }

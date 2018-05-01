@@ -6,10 +6,10 @@ Slot: 13 Item: 14
 Slot: 14 Item: 6
 Slot: 15 Item: 16
 Slot: 16 Item: 17
-Slot: 17 Item: 18
-Slot: 18 Item: 19
+Slot: 17 Item: 19
+Slot: 18 Item: 21
 Slot: 19 Item: 20
-Slot: 20 Item: 21
+Slot: 20 Item: 18
 Slot: 21 Item: 22
 Slot: 22 Item: -1
 Slot: 23 Item: -1
@@ -27,4 +27,4 @@ Slot: 5 Item: -1
 Slot: 6 Item: -1
 Slot: 7 Item: -1
 Slot: 8 Item: -1
-Stats Attack: 10 Defense: 10 Speed: 2 Health: 99 Stamina: 100
+Stats Attack: 10 Defense: 10 Speed: 2 Health: 100 Stamina: 100
