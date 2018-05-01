@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,8 +19,6 @@ public class Inventory : MonoBehaviour {
 	public List<AdventureItem> allItems; // Holds all the item instances for the inventory
 	public List<GameObject> allSlots; // Holds all the slot instances for the inventory
 
-    private PopupCanvas myCanvas;
-
 	ItemDatabase itemDB;
 
 	public List<int> uids;
@@ -27,7 +26,7 @@ public class Inventory : MonoBehaviour {
     public static Inventory myInventory;
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 	
         if (myInventory == null)
         {
@@ -35,8 +34,7 @@ public class Inventory : MonoBehaviour {
             allSlots = new List<GameObject>();
 			uids = new List<int> ();
             itemDB = GetComponent<ItemDatabase>();
-
-            myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
+            itemDB.Start();
 
             inventoryPanel = GameObject.Find("inventoryPanel");
             slotPanel = inventoryPanel.transform.Find("slotPanel").gameObject;
@@ -60,9 +58,11 @@ public class Inventory : MonoBehaviour {
             }
 
             // Load ID's and add items here
+            
 
 
             // This is just here to show off the functionality of the inventory...
+            /*
 			addItem(4);
 			addItem (5);
 			addItem(7);
@@ -85,6 +85,7 @@ public class Inventory : MonoBehaviour {
 //			addItem (0);
 //			addItem (0);
 			addItem (0); // full
+            */
 
             inventoryPanel.SetActive(false);
 
@@ -211,4 +212,27 @@ public class Inventory : MonoBehaviour {
 		}
 		return numItems == numSlots;
 	}
+
+    public void loadItem(int id, int slot)
+    {
+        AdventureItem nextItem;
+        if (id == -1)
+            nextItem = new AdventureItem();
+        else
+        {
+            nextItem = itemDB.getItem(id);
+
+            allItems[uidToLocal(slot)] = nextItem;
+
+            GameObject itemObject = Instantiate(inventoryItem); // Create instance of item prefab
+
+            itemObject.GetComponent<ItemData>().init(nextItem, allSlots[uidToLocal(slot)].GetComponent<Slot>().uniqueID); // Initialize itemData
+            itemObject.transform.SetParent(allSlots[uidToLocal(slot)].transform); // Set correct parent
+            itemObject.transform.localScale = new Vector3(1, 1, 1);
+            itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
+            itemObject.GetComponent<Image>().sprite = nextItem.Sprite; // Replace default sprite w/ item sprite
+            itemObject.name = nextItem.Title; // Set name of prefab to name of item(for convenience)
+        }
+        
+    }
 }

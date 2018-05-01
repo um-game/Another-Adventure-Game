@@ -26,11 +26,14 @@ public class Equipment : MonoBehaviour {
 	ItemDatabase itemDB;
 
 	public static Equipment myEquip;
+    private Player myPlayer;
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 
 		if (myEquip == null) {
+
+            myPlayer = GameObject.Find("player").GetComponent<Player>();
 
 			allItems = new List<AdventureItem> ();
 			allSlots = new List<GameObject> ();
@@ -136,4 +139,29 @@ public class Equipment : MonoBehaviour {
 		}
 		return -1;
 	}
+
+    public void loadItem(int id, int slot)
+    {
+        AdventureItem nextItem;
+        if (id == -1)
+            nextItem = new AdventureItem();
+        else
+        {
+            nextItem = itemDB.getItem(id);
+            nextItem.equipped = true;
+
+            allItems[uidToLocal(slot)] = nextItem;
+
+            GameObject itemObject = Instantiate(inventoryItem); // Create instance of item prefab
+
+            itemObject.GetComponent<ItemData>().init(nextItem, allSlots[uidToLocal(slot)].GetComponent<Slot>().uniqueID); // Initialize itemData
+            itemObject.transform.SetParent(allSlots[uidToLocal(slot)].transform); // Set correct parent
+            itemObject.transform.localScale = new Vector3(1, 1, 1);
+            itemObject.transform.localPosition = new Vector2(0, 2); // Center item in slot
+            itemObject.GetComponent<Image>().sprite = nextItem.Sprite; // Replace default sprite w/ item sprite
+            itemObject.name = nextItem.Title; // Set name of prefab to name of item(for convenience)
+            
+        }
+
+    }
 }
