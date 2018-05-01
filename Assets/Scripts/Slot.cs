@@ -139,6 +139,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		case slotType.SYN:
 			{
+                droppedItem.item.equipped = true;
 
 				// Make sure it is the right type of item
 				if (droppedItem.item.GetType() == typeof(ItemSynergy)) {
@@ -210,11 +211,12 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		}
 
-        myCanvas.UpdateLists();
 
 		// Check if we need to turn buffs on/off
 		player.checkBuff ();
-	}
+        
+        myCanvas.UpdateLists();
+    }
 
 	// Method to remove the dropped item from the previous slot
 	void removePrior(slotType prevType, int prevID) {
