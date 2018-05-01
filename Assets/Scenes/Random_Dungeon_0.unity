@@ -979,6 +979,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   columns: 100
   rows: 100
+  nTilesPerTrap: 7
+  nTilesPerEnemy: 10
   numRooms:
     m_Min: 15
     m_Max: 20
@@ -997,6 +999,10 @@ MonoBehaviour:
   - {fileID: 1021683896116822, guid: dfffc38e76b4a9f4fa13b3ee21fcfac8, type: 2}
   outerWallTiles:
   - {fileID: 1021683896116822, guid: dfffc38e76b4a9f4fa13b3ee21fcfac8, type: 2}
+  obstacles:
+  - {fileID: 1964518843730508, guid: 8d09c92b15f8a994a8d9e1bdc8fb8fef, type: 2}
+  enimies:
+  - {fileID: 1741379925367018, guid: cd4fa4b568fbc1f4088cc6a5d8b3707c, type: 2}
 --- !u!1 &447075313
 GameObject:
   m_ObjectHideFlags: 0
