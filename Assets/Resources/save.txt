@@ -6,10 +6,10 @@ Slot: 13 Item: 14
 Slot: 14 Item: 6
 Slot: 15 Item: 16
 Slot: 16 Item: 17
-Slot: 17 Item: 19
-Slot: 18 Item: 21
+Slot: 17 Item: 18
+Slot: 18 Item: 19
 Slot: 19 Item: 20
-Slot: 20 Item: 18
+Slot: 20 Item: 21
 Slot: 21 Item: 22
 Slot: 22 Item: -1
 Slot: 23 Item: -1
