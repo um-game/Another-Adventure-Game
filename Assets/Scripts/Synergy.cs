@@ -27,11 +27,15 @@ public class Synergy : MonoBehaviour {
 
 	public static Synergy mySynergy;
 
+    Player myPlayer;
+
 	// Use this for initialization
 	public void Start () {
 
 		if (mySynergy == null)
 		{
+            myPlayer = GameObject.Find("player").GetComponent<Player>();
+
 			allItems = new List<AdventureItem>();
             allItemsClone = new List<AdventureItem>();
 			allSlots = new List<GameObject>();
@@ -186,6 +190,8 @@ public class Synergy : MonoBehaviour {
         {
             nextItem = itemDB.getItem(id);
 
+            nextItem.equipped = true;
+
             allItems[uidToLocal(slot)] = nextItem;
             allItemsClone[uidToLocal(slot)] = nextItem;
             GameObject itemObject = Instantiate(inventoryItem); // Create instance of item prefab
@@ -203,8 +209,9 @@ public class Synergy : MonoBehaviour {
             itemObjectClone.GetComponent<Image>().sprite = nextItem.Sprite;
             itemObject.name = nextItem.Title; // Set name of prefab to name of item(for convenience)
             itemObjectClone.name = nextItem.Title;
+            
             return;
-        }
 
+        }
     }
 }

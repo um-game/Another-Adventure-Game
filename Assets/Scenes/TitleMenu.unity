@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab28f2c6687a58b44b9eaaa743ec79ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeOutTexture: {fileID: 0}
+  fadeOutTexture: {fileID: 2800000, guid: 699cec42b1bcd434fa1cef1207fb5fa7, type: 3}
   fadeSpeed: 0.8
 --- !u!1 &231296870
 GameObject:

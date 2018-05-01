@@ -22,6 +22,7 @@ public class Player: MonoBehaviour {
 	public PickupMenu pickupMenu;
 	public Synergy syn;
 	private StatsPanel statsPanel;
+    private ButtonManager myManager;
 
 	public int attack;
     public bool isAttacking = false;
@@ -59,19 +60,25 @@ public class Player: MonoBehaviour {
             anim.SetBool("moving", false);
 
 			pickupMenu = GetComponent<PickupMenu>();
+            myManager = GameObject.Find("ButtonManager").GetComponent<ButtonManager>();
 
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
+            syn.Start();
 			statsPanel = GameObject.Find ("statsPanel").GetComponent<StatsPanel> ();
 			statsPanel.toggleActive ();
 
 			baseAttack = 10;
 
-			health = 100; // Full health
-            stamina = 100; // Full stamina
-			attack = baseAttack; // Base attack
-			defense = 10; // Base defense
+            if (!myManager.loading)
+            {
+                health = 100; // Full health
+                stamina = 100; // Full stamina
+                attack = baseAttack; // Base attack
+                defense = 10; // Base defense
+            }
+			
             staminaCost = 5; // Base stamina cost for melee punch
             staminaRecover = 5;
             healthRecover = 1;
@@ -82,6 +89,7 @@ public class Player: MonoBehaviour {
 
             swimming = false;
 
+            maxSpeed = 2;
 			baseSpeed = maxSpeed;
 			buffSpeed = maxSpeed * 2.0f;
 			attackBuff = false;
@@ -90,6 +98,9 @@ public class Player: MonoBehaviour {
 			shield = new ItemWeapon ();
 			chestArmor = new ItemArmor ();
 			headArmor = new ItemArmor ();
+
+            
+            checkBuff();
 
             // DontDestroyOnLoad(gameObject);
             myPlayer = this;
@@ -331,8 +342,8 @@ public class Player: MonoBehaviour {
 
 	public void printStats()
 	{
-		Debug.Log ("Health: " + health + "\nDefense: " + defense + "\nWeapon: " 
-			+ weapon.Title + "\nArmor: " + chestArmor.Title);
+		Debug.Log ("Attack: " + attack + " Defense: " + defense + " Speed: " + maxSpeed
+            + " Health: " + health + " Stamina: " + stamina);
 	}
 		
 	// Pauses / unpauses the game by essentially 'stopping time'

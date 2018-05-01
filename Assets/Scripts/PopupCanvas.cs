@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class PopupCanvas : MonoBehaviour {
     private List<List<int>> allItemID;
     private ButtonManager myManager;
 
+    private Player myPlayer;
+
     // Use this for initialization
     void Start()
     {
@@ -27,6 +30,7 @@ public class PopupCanvas : MonoBehaviour {
             inv.Start();
             syn = GameObject.Find("Synergy").GetComponent<Synergy>();
             equip = GameObject.Find("Equipment").GetComponent<Equipment>();
+            myPlayer = GameObject.Find("player").GetComponent<Player>();
             
             myManager = GameObject.Find("ButtonManager").GetComponent<ButtonManager>();
 
@@ -43,24 +47,34 @@ public class PopupCanvas : MonoBehaviour {
                     string nextSlot = reader.ReadLine();
                     string[] data = nextSlot.Split(' ');
 
-                    Debug.Log(inv.uids.Count);
-
-                    int slotID = Int32.Parse(data[1]);
-                    int itemID = Int32.Parse(data[3]);
-
-                    if (slotID >= inv.uids[0] && slotID <= inv.uids[inv.uids.Count-1])
+                    if (data[0] == "Slot:")
                     {
-                        inv.loadItem(itemID, slotID);
-                    }
-                    else if (slotID >= syn.uids[0] && slotID <= syn.uids[syn.uids.Count-1])
-                    {
-                        syn.loadItem(itemID, slotID);
-                    }
-                    else if (slotID >= equip.uids[0] && slotID <= equip.uids[equip.uids.Count-1])
-                    {
-                        equip.loadItem(itemID, slotID);
-                    }
+                        int slotID = Int32.Parse(data[1]);
+                        int itemID = Int32.Parse(data[3]);
 
+                        if (slotID >= inv.uids[0] && slotID <= inv.uids[inv.uids.Count - 1])
+                        {
+                            inv.loadItem(itemID, slotID);
+                        }
+                        else if (slotID >= syn.uids[0] && slotID <= syn.uids[syn.uids.Count - 1])
+                        {
+                            syn.loadItem(itemID, slotID);
+                        }
+                        else if (slotID >= equip.uids[0] && slotID <= equip.uids[equip.uids.Count - 1])
+                        {
+                            equip.loadItem(itemID, slotID);
+                        }
+                    }
+                    
+                    else if (data[0] == "Stats")
+                    {
+                        Debug.Log(nextSlot);
+                        myPlayer.attack = Int32.Parse(data[2]);
+                        myPlayer.defense = Int32.Parse(data[4]);
+                        myPlayer.maxSpeed = float.Parse(data[6], CultureInfo.InvariantCulture);
+                        myPlayer.health = Int32.Parse(data[8]);
+                        myPlayer.stamina = Int32.Parse(data[10]);
+                    }
                 }
 
                 reader.Close();
@@ -163,5 +177,11 @@ public class PopupCanvas : MonoBehaviour {
                 Debug.Log("Slot: " + allUID[i][j] + " Item: " + allItemID[i][j]);
             }
         }
+
+        StreamWriter writer2 = new StreamWriter(path, true);
+        writer2.WriteLine("Stats Attack: " + myPlayer.attack + " Defense: " + myPlayer.defense + " Speed: " + myPlayer.maxSpeed
+            + " Health: " + myPlayer.health + " Stamina: " + myPlayer.stamina);
+        writer2.Close();
+
     }
 }
