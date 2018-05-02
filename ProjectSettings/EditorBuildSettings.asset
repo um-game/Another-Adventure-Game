@@ -17,6 +17,3 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Random_Dungeon_0.unity
     guid: 026b9777e2315df4b80cb655008740cd
-  - enabled: 0
-    path: Assets/Scenes/TitleMenu.unity
-    guid: 36810876780f9b948aa8c26d152f8a13
