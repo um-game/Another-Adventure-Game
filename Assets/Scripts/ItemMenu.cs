@@ -11,7 +11,7 @@ public class ItemMenu : MonoBehaviour {
 	GameObject obj;
 	int slotUID;
 
-    public worldItem it;
+	public GameObject it;
 
 	Player player;
 
@@ -76,8 +76,9 @@ public class ItemMenu : MonoBehaviour {
 	void removeAction(){
 		Debug.Log ("clicked remove button");
 		GetComponent<Inventory> ().removeItem (item, slotUID);
-		it = Instantiate (it);
-		it.GetComponent<SpriteRenderer> ().sprite = item.Sprite;
+		GameObject tmpItem = Instantiate (it);
+		tmpItem.GetComponent<SpriteRenderer> ().sprite = item.Sprite;
+		tmpItem.GetComponent<worldItem> ().id = this.item.ID;
 
 		float dropOffset = 0.75f;
 
@@ -85,19 +86,19 @@ public class ItemMenu : MonoBehaviour {
 
 		// Facing North
 		case 1:
-			it.transform.position = player.transform.position + new Vector3 (0, dropOffset, 0);
+			tmpItem .transform.position = player.transform.position + new Vector3 (0, dropOffset, 0);
 			break;
 		// Facing East
 		case 2:
-			it.transform.position = player.transform.position + new Vector3 (dropOffset, 0, 0);
+			tmpItem .transform.position = player.transform.position + new Vector3 (dropOffset, 0, 0);
 			break;
 		// Facing South
 		case 3:
-			it.transform.position = player.transform.position - new Vector3 (0, dropOffset, 0);
+			tmpItem .transform.position = player.transform.position - new Vector3 (0, dropOffset, 0);
 			break;
 		// Facing West
 		case 4:
-			it.transform.position = player.transform.position - new Vector3 (dropOffset, 0, 0);
+			tmpItem .transform.position = player.transform.position - new Vector3 (dropOffset, 0, 0);
 			break;
 		}
 		itemMenu.SetActive (false);

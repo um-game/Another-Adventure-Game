@@ -25,8 +25,7 @@ public class EquipMenu : MonoBehaviour {
 			buttons = equipMenu.GetComponentsInChildren<Button> ();
 			equipMenu.SetActive (false);
 			buttons [0].onClick.AddListener (unequipAction);
-			buttons [1].onClick.AddListener (dropAction);
-			buttons [2].onClick.AddListener (cancelAction);
+			buttons [1].onClick.AddListener (cancelAction);
 
 			// DontDestroyOnLoad(gameObject);
 			myEquipMenu = this;
@@ -65,13 +64,7 @@ public class EquipMenu : MonoBehaviour {
 
         myCanvas.UpdateLists();
 	}
-
-	void dropAction(){
-		Debug.Log ("clicked drop button");
-		Destroy (obj);
-		deactivate();
-    }
-
+		
 	void cancelAction(){ 
 		equipMenu.SetActive (false);
 	}
