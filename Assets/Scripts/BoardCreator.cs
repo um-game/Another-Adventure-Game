@@ -53,11 +53,12 @@ public class BoardCreator : MonoBehaviour
         InstantiateTiles ();
         InstantiateOuterWalls ();
 
+
+        PlaceExit();
         PlaceTraps();
         PlaceEnimies();
 
         MoveCharacter();
-        PlaceExit();
     }
 
 
@@ -293,7 +294,11 @@ public class BoardCreator : MonoBehaviour
             IntRange yLoc = new IntRange(rooms[i].yPos + 1, rooms[i].yPos + rooms[i].roomHeight - 1);
             for (int j = 0; j < num_traps; j++)
             {
-                InstantiateFromArray(obstacles, xLoc.Random, yLoc.Random);
+                int nextX = xLoc.Random;
+                int nextY = yLoc.Random;
+
+                if (!(nextX == outWarp.transform.position.x && nextY == outWarp.transform.position.y))
+                    InstantiateFromArray(obstacles, nextX, nextY);
             }
 
         }
