@@ -10,6 +10,8 @@ public class EquipMenu : MonoBehaviour {
 	public static GameObject equipMenu;
 	GameObject obj; // Game object representing item
 	Button[] buttons;
+	int slotUID;
+	Synergy syn;
 
 	public static EquipMenu myEquipMenu;
 
@@ -23,27 +25,22 @@ public class EquipMenu : MonoBehaviour {
             myCanvas = GameObject.Find("PopupCanvas").GetComponent<PopupCanvas>();
 			player = GetComponent<Player> ();
 			buttons = equipMenu.GetComponentsInChildren<Button> ();
+			syn = GameObject.Find ("Synergy").GetComponent<Synergy>();
 			equipMenu.SetActive (false);
 			buttons [0].onClick.AddListener (unequipAction);
-			buttons [1].onClick.AddListener (dropAction);
-			buttons [2].onClick.AddListener (cancelAction);
-
-			// DontDestroyOnLoad(gameObject);
+			buttons [1].onClick.AddListener (cancelAction);
 			myEquipMenu = this;
 		}
 		else if (myEquipMenu != this)
 		{
-
 			GameObject pickupCopy = GameObject.Find("pickupMenu");
 			Destroy(pickupCopy.transform.root.gameObject);
 
 			Debug.Log("DESTROY");
 		}
-
-
 	}
 
-	public void activate(AdventureItem item, GameObject obj) {
+	public void activate(AdventureItem item, GameObject obj, int slotUID) {
 		// NULL?
 		equipMenu.SetActive (true);
 
@@ -58,19 +55,19 @@ public class EquipMenu : MonoBehaviour {
 	void unequipAction(){
 		Debug.Log ("clicked unequip button");
 		player.addItemToInv (item.ID);
-		player.unEquip (item);
-		player.equipment.printEquipment ();
+
+		if (syn.uidToLocal (slotUID) != -1) {
+			syn.removeItem (this.item);
+			player.checkBuff ();
+		} else {
+			player.unEquip (item);
+			player.equipment.printEquipment ();
+		}
 		Destroy (obj);
 		deactivate();
 
         myCanvas.UpdateLists();
 	}
-
-	void dropAction(){
-		Debug.Log ("clicked drop button");
-		Destroy (obj);
-		deactivate();
-    }
 
 	void cancelAction(){ 
 		equipMenu.SetActive (false);

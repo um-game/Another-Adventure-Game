@@ -124,8 +124,9 @@ public class Synergy : MonoBehaviour {
 				currData.decreaseAmt (1);
 				if(currData.amt == 0) {
 					currData.removeItem ();
-					allSlots [i].transform.GetChild (0).transform.gameObject.SetActive (false); // Hmmmm
-					allSlots[i].transform.DetachChildren();
+
+					Destroy(allSlots [i].transform.GetChild (0).transform.gameObject); // Hmmmm
+//					allSlots[i].transform.DetachChildren();
 					allItems [i] = new AdventureItem ();
 
 					Destroy (allSlotsClone [i].transform.GetChild (0).transform.gameObject);
