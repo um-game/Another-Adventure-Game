@@ -27,4 +27,4 @@ Slot: 1 Item: -1
 Slot: 2 Item: -1
 Slot: 3 Item: -1
 Slot: 4 Item: -1
-Stats Attack: 10 Defense: 10 Speed: 2 Health: 30 Stamina: 90
+Stats Attack: 10 Defense: 10 Speed: 2 Health: 100 Stamina: 100
