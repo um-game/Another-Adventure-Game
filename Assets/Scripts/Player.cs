@@ -114,7 +114,7 @@ public class Player: MonoBehaviour {
 
 	void Update() {
 		// Toggle the inventory(if aother menu isnt already open
-		if (Input.GetKeyDown (KeyCode.I)) {
+		if (Input.GetKeyDown (KeyCode.I) || Input.GetKeyDown(KeyCode.PageDown)) {
 			toggleInventory ();
             Debug.Log("OPEN INVENTORY");
 		}
@@ -126,7 +126,40 @@ public class Player: MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate ()
+	{
+
+//	    buttons:
+//	    A = Return
+//	    B = Space
+//	    X = PageUp
+//	    Y = PageDown
+//
+//
+//	    Left bumper = Left Ctrl
+//	    Right bumper = Left Alt
+//	    Left trigger = Mouse button 1(no axis)
+//	    Right trigger = Mouse button 0(no axis)
+//	    Left flipper = Mouse button 3
+//	    Right flipper = Mouse button 4
+//
+//
+//	    pad button left = Mouse button 2
+//	    pad button right = Left shift
+//	        arrow next to steam button left = Tab
+//	    arrow next to steam button right = Escape
+//
+//
+//	    Axes:
+//	    Joystick = acts as Horizontal / Vertical by sending(Left, Right, Up, Down arrow keys)
+//	    pad left = acts as Mouse ScrollWheel axis
+//	    pad right = acts as Mouse X and Mouse Y
+
+        Debug.Log(Input.GetJoystickNames());
+        if (Input.GetKeyDown(KeyCode.Return))
+	    {
+	        Debug.Log("test");
+        }
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -163,7 +196,9 @@ public class Player: MonoBehaviour {
                     attackAction();
             }
             else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
-                || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+                || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)
+                || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)
+                || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 anim.SetBool("attacking", false);
                 anim.SetBool("moving", true);
@@ -175,25 +210,25 @@ public class Player: MonoBehaviour {
             }
 
 
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
                 anim.SetInteger("direction", 1);
 
                 rb2d.velocity = new Vector2(0, moveY * maxSpeed);
             }
-            else if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
                 anim.SetInteger("direction", 3);
 
                 rb2d.velocity = new Vector2(0, moveY * maxSpeed);
             }
-            else if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 anim.SetInteger("direction", 2);
 
                 rb2d.velocity = new Vector2(moveX * maxSpeed, 0);
             }
-            else if (Input.GetKey(KeyCode.A))
+            else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 anim.SetInteger("direction", 4);
 
