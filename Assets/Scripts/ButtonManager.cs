@@ -43,6 +43,6 @@ public class ButtonManager : MonoBehaviour {
         float fadeTime = myFading.BeginFade(1);
         yield return new WaitForSeconds(fadeTime);
         */
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
