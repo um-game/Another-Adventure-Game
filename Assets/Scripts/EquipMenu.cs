@@ -68,7 +68,7 @@ public class EquipMenu : MonoBehaviour {
 
         myCanvas.UpdateLists();
 	}
-		
+
 	void cancelAction(){ 
 		equipMenu.SetActive (false);
 	}

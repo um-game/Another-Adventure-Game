@@ -106,31 +106,35 @@ public class Enemy : MonoBehaviour {
         Player myPlayer = collision.gameObject.GetComponent<Player>();
         triggerDelay = 20; // after x frames trigger this again if still colliding
 
-        if (myPlayer.isAttacking)
-        {
-            int damage = defense - myPlayer.attack;
-            if (damage > 0)
-                damage = 0;
-            health += damage;
-            Debug.Log("HIT ENEMY: " + health);
-        }
-        else
-        {
-            int damage = myPlayer.defense - attack;
-            if (damage > 0)
-                damage = 0;
-            myPlayer.health += damage;
-            Debug.Log("HIT PLAYER: " + myPlayer.health);
-            if (myPlayer.health == 0)
-                Debug.Log("PLAYER DIED!");
-        }
+	    if (myPlayer != null)
+	    {
+            if (myPlayer.isAttacking)
+            {
+                int damage = defense - myPlayer.attack;
+                if (damage > 0)
+                    damage = 0;
+                health += damage;
+                Debug.Log("HIT ENEMY: " + health);
+            }
+            else
+            {
+                int damage = myPlayer.defense - attack;
+                if (damage > 0)
+                    damage = 0;
+                myPlayer.health += damage;
+                Debug.Log("HIT PLAYER: " + myPlayer.health);
+                if (myPlayer.health == 0)
+                    Debug.Log("PLAYER DIED!");
+            }
         
-        if (health <= 0)
-        {
-            this.gameObject.SetActive(false);
-            dying = true;
-            Destroy(this.gameObject);
-        }
+            if (health <= 0)
+            {
+                this.gameObject.SetActive(false);
+                dying = true;
+                Destroy(this.gameObject);
+            }
+	    }
+
 	}
 
     private void OnTriggerStay2D(Collider2D collision)
