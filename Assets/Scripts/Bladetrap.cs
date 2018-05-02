@@ -23,6 +23,8 @@ public class Bladetrap : MonoBehaviour
         rb2d.drag = deceleration;
         rb2d.gravityScale = 0;
 
+        attack = 11;
+
         if (acceleration == 0)
         {
             rb2d.constraints = RigidbodyConstraints2D.FreezeAll;

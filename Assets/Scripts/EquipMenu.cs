@@ -70,7 +70,7 @@ public class EquipMenu : MonoBehaviour {
 		Debug.Log ("clicked drop button");
 		Destroy (obj);
 		deactivate();
-	}
+    }
 
 	void cancelAction(){ 
 		equipMenu.SetActive (false);
