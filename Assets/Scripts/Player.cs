@@ -18,6 +18,7 @@ public class Player: MonoBehaviour {
 	Rigidbody2D rb2d;
     Renderer rend;
 
+    public Tutorial tutorial;
 	public Inventory inv;
 	public Equipment equipment;
 	public PickupMenu pickupMenu;
@@ -63,6 +64,7 @@ public class Player: MonoBehaviour {
 			pickupMenu = GetComponent<PickupMenu>();
             myManager = GameObject.Find("ButtonManager").GetComponent<ButtonManager>();
 
+            tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
 			equipment = GameObject.Find ("Equipment").GetComponent<Equipment>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
             syn = GameObject.Find ("Synergy").GetComponent<Synergy> ();
@@ -116,10 +118,16 @@ public class Player: MonoBehaviour {
 		// Toggle the inventory(if aother menu isnt already open
 		if (Input.GetKeyDown (KeyCode.I) || Input.GetKeyDown(KeyCode.PageDown)) {
 			toggleInventory ();
+            tutorial.learnInventory();
             Debug.Log("OPEN INVENTORY");
 		}
 
-		if (Input.GetMouseButtonDown(0) && !GetComponent<EquipMenu>().isActiveAndEnabled) {
+	    if (Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.PageUp))
+	    {
+	        tutorial.toggle();
+	    }
+
+        if (Input.GetMouseButtonDown(0) && !GetComponent<EquipMenu>().isActiveAndEnabled) {
 			GetComponent<EquipMenu> ().deactivate ();
 			inv.GetComponent<ItemMenu> ().deactivate ();
 		}
@@ -155,12 +163,6 @@ public class Player: MonoBehaviour {
 //	    pad left = acts as Mouse ScrollWheel axis
 //	    pad right = acts as Mouse X and Mouse Y
 
-        Debug.Log(Input.GetJoystickNames());
-        if (Input.GetKeyDown(KeyCode.Return))
-	    {
-	        Debug.Log("test");
-        }
-
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
@@ -193,7 +195,11 @@ public class Player: MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 if (!swimming)
+                {
                     attackAction();
+                    tutorial.learnAttack();
+                }
+
             }
             else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
                 || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)
@@ -202,6 +208,7 @@ public class Player: MonoBehaviour {
             {
                 anim.SetBool("attacking", false);
                 anim.SetBool("moving", true);
+                tutorial.learnMovement();
             }
             else
             {

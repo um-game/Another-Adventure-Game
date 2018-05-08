@@ -14,6 +14,7 @@ public class GlobalControl : MonoBehaviour
 	public static Equipment equip;
 	public static EquipMenu equipMenu;
     public static GameObject statusCanvas;
+    public static Tutorial tutorial;
 
     void Awake()
     {
@@ -23,6 +24,7 @@ public class GlobalControl : MonoBehaviour
 			equipMenu = GameObject.Find("PopupCanvas").GetComponent<EquipMenu>();
             statusCanvas = GameObject.Find("StatusCanvas");
 
+            tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
             inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 			syn = GameObject.Find("Synergy").GetComponent<Synergy>();
 			equip = GameObject.Find("Equipment").GetComponent<Equipment>();
@@ -33,6 +35,7 @@ public class GlobalControl : MonoBehaviour
             DontDestroyOnLoad(inv);
 			DontDestroyOnLoad (equip);
 			DontDestroyOnLoad(syn);
+            DontDestroyOnLoad(tutorial);
 
             /*
             DontDestroyOnLoad(itemDB);

@@ -7,6 +7,7 @@ TagManager:
   - big_potion
   - warp
   - water
+  - tutorial
   layers:
   - Default
   - TransparentFX
