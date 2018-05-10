@@ -197,7 +197,6 @@ public class Player: MonoBehaviour {
                 if (!swimming)
                 {
                     attackAction();
-                    tutorial.learnAttack();
                 }
 
             }

@@ -125,7 +125,7 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator moveAround()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
         showMovement();
     }
 
@@ -177,7 +177,7 @@ public class Tutorial : MonoBehaviour
         TutorialText.SetActive(false);
     }
 
-    void showInventory()
+    public void showInventory()
     {
         if (isEnabled && learnedInventory == false)
         {
@@ -198,7 +198,7 @@ public class Tutorial : MonoBehaviour
         TutorialText.SetActive(false);
     }
 
-    void showAttack()
+    public void showAttack()
     {
         if (isEnabled)
         {

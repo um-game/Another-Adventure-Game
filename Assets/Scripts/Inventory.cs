@@ -9,7 +9,8 @@ using UnityEngine.UI;
 // itemID,numItems
 public class Inventory : MonoBehaviour {
 
-	GameObject inventoryPanel; // Holds slot panel
+    public Tutorial tutorial;
+    GameObject inventoryPanel; // Holds slot panel
 	GameObject slotPanel; // Holds slots
 	public GameObject inventorySlot; // Prefab instance of an inventory slot
 	public GameObject inventoryItem; // Prefab instance of an inventory item
@@ -30,6 +31,7 @@ public class Inventory : MonoBehaviour {
 	
         if (myInventory == null)
         {
+            tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
             allItems = new List<AdventureItem>();
             allSlots = new List<GameObject>();
 			uids = new List<int> ();
@@ -98,7 +100,9 @@ public class Inventory : MonoBehaviour {
 
     }
 
-	public void addItem(int id) {
+	public void addItem(int id)
+	{
+	    tutorial.showInventory();
 		AdventureItem itemToAdd = itemDB.getItem (id);
 
 		if (itemToAdd.IsStackable && itemAlreadyExists(itemToAdd)) {

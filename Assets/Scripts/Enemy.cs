@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour {
 	int maxSpeed = 1;           // Speed of Enemy
 	int range = 2;              // If player is within range, enemy will attack
 	int attRange = 1;
-	Transform target;           // Hold transform of player, used to calculate movement direction
+    Tutorial tutorial;
+    Transform target;           // Hold transform of player, used to calculate movement direction
 	int facing = 0;
 	Animator anim;
 	Vector3 currentPosition, lastPosition;  // Used for sprite flipping
@@ -32,8 +33,9 @@ public class Enemy : MonoBehaviour {
 
 		RigidBodyEnemy = GetComponent<Rigidbody2D>();
 		target = GameObject.Find("player").transform;
+	    tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
 
-		currentPosition = transform.position;
+        currentPosition = transform.position;
 		lastPosition = currentPosition;
 
 		anim = GetComponent<Animator>();
@@ -72,6 +74,8 @@ public class Enemy : MonoBehaviour {
 
 			// Move towards player
 			RigidBodyEnemy.velocity = new Vector2(diff.x * maxSpeed, diff.y * maxSpeed);
+		    tutorial.showAttack();
+
 		}
 		else
 		{
@@ -132,6 +136,7 @@ public class Enemy : MonoBehaviour {
                 this.gameObject.SetActive(false);
                 dying = true;
                 Destroy(this.gameObject);
+                tutorial.learnAttack();
             }
 	    }
 
