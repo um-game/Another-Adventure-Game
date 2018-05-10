@@ -158,7 +158,7 @@ public class Tutorial : MonoBehaviour
 
     void showTutorial()
     {
-        if (!learnedTutorial)
+        if (!learnedTutorial && learnedTutorial == false)
         {
             displayTutorial = true;
             SteamX.SetActive(true);
@@ -200,7 +200,7 @@ public class Tutorial : MonoBehaviour
 
     public void showAttack()
     {
-        if (isEnabled)
+        if (isEnabled && learnedAttack == false)
         {
             displayAttack = true;
             SteamRT.SetActive(true);
